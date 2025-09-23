@@ -1,5 +1,3 @@
-// lib/guitar_fretboard.dart
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/note.dart';
 
@@ -13,18 +11,6 @@ class GuitarFretboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb) {
-      // 웹 환경에서는 Expanded를 사용하여 공간을 균등 분배
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: List.generate(fretboardData.length, (index) {
-          return Expanded(
-            child: Fret(fretNumber: index + 5, notes: fretboardData[index]),
-          );
-        }),
-      );
-    }
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
