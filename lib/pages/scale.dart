@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/select.dart';
+import 'package:my_app/widgets/fretboard.dart';
 
 class ScalePage extends StatefulWidget {
   const ScalePage({super.key});
@@ -47,9 +48,10 @@ class _ScalePageState extends State<ScalePage> {
     return Column(
       children: [
         const SizedBox(height: 20), // 위쪽 여백
-        const Spacer(), // 아래쪽으로 공간을 밀어냄
-        const Text('여기에 다른 위젯이 들어갑니다'),
-        const Spacer(),
+        SizedBox(
+          height: 240, // 원하는 높이를 지정하세요
+          child: GuitarFretboard(),
+        ),
       ],
     );
   }
@@ -58,11 +60,22 @@ class _ScalePageState extends State<ScalePage> {
   Widget _buildLandscapeLayout() {
     return Row(
       children: [
+        // 기타 지판 위젯을 Expanded로 감싸서 남은 공간을 모두 차지하게 함
+        Expanded(child: GuitarFretboard()),
+      ],
+    );
+    /*
+    return Row(
+      children: [
         const SizedBox(width: 20), // 왼쪽 여백
         const Spacer(), // 오른쪽으로 공간을 밀어냄
+        SizedBox(
+          height: 240, // 원하는 높이를 지정하세요
+          child: GuitarFretboard(),
+        ),
         const Text('여기에 다른 위젯이 들어갑니다'),
         const Spacer(),
       ],
-    );
+    );*/
   }
 }
