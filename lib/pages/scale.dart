@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/select.dart';
 import 'package:my_app/widgets/fretboard.dart';
+import 'package:my_app/util/createscale.dart';
 
 class ScalePage extends StatefulWidget {
   const ScalePage({super.key});
@@ -38,30 +39,30 @@ class _ScalePageState extends State<ScalePage> {
       ),
       body:
           orientation == Orientation.portrait
-              ? _buildPortraitLayout() // 세로 모드일 때
-              : _buildLandscapeLayout(), // 가로 모드일 때
+              ? _buildPortraitLayout(chordMap(_selectedItem)) // 세로 모드일 때
+              : _buildLandscapeLayout(chordMap(_selectedItem)), // 가로 모드일 때
     );
   }
 
   // 세로 모드 UI를 빌드하는 메서드
-  Widget _buildPortraitLayout() {
+  Widget _buildPortraitLayout(int chord) {
     return Column(
       children: [
         const SizedBox(height: 20), // 위쪽 여백
         SizedBox(
           height: 240, // 원하는 높이를 지정하세요
-          child: GuitarFretboard(),
+          child: GuitarFretboard(chord: chord),
         ),
       ],
     );
   }
 
   // 가로 모드 UI를 빌드하는 메서드
-  Widget _buildLandscapeLayout() {
+  Widget _buildLandscapeLayout(int chord) {
     return Row(
       children: [
         // 기타 지판 위젯을 Expanded로 감싸서 남은 공간을 모두 차지하게 함
-        Expanded(child: GuitarFretboard()),
+        Expanded(child: GuitarFretboard(chord: chord)),
       ],
     );
     /*

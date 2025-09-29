@@ -7,6 +7,7 @@ class Fret extends StatelessWidget {
   final List<NoteData?> notes;
 
   const Fret({super.key, required this.fretNumber, required this.notes});
+
   static const List<int> _backgroundDotFrets = [
     3,
     5,
@@ -23,44 +24,45 @@ class Fret extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 50,
+      width: 60 - fretNumber * 1,
       child: Stack(
         children: [
           // 프렛의 세로 선
           Container(
-            width: 50,
+            width: 60 - fretNumber * 1,
             color: Colors.black,
             margin: const EdgeInsets.only(right: 2),
           ),
           if (_backgroundDotFrets.contains(fretNumber))
-            Center(
-              child:
-                  fretNumber % 12 == 0
-                      ? // 12번 프렛일 때
-                      const Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          NoteDot(
-                            noteData: NoteData(text: '', color: Colors.white),
-                          ),
-                          NoteDot(
-                            noteData: NoteData(text: '', color: Colors.white),
-                          ),
-                        ],
-                      )
-                      : // 12번이 아닌 다른 프렛일 때
-                      const NoteDot(
-                        noteData: NoteData(text: '', color: Colors.white),
-                      ),
+            Transform.translate(
+              offset: const Offset(0, 12.5),
+              child: Center(
+                child:
+                    fretNumber % 12 == 0
+                        ? // 12번 프렛일 때
+                        const Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            NoteDot(
+                              noteData: NoteData(
+                                text: ' ',
+                                color: Colors.white,
+                              ),
+                            ),
+                            NoteDot(
+                              noteData: NoteData(
+                                text: ' ',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )
+                        : // 12번이 아닌 다른 프렛일 때
+                        const NoteDot(
+                          noteData: NoteData(text: ' ', color: Colors.white),
+                        ),
+              ),
             ),
-
-          // 현을 나타내는 가로 선
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(6, (index) {
-              return Container(height: 2, color: Colors.grey[400]);
-            }),
-          ),
           // 프렛 번호와 점들을 표시
           Column(
             children: [
@@ -70,35 +72,33 @@ class Fret extends StatelessWidget {
                   '$fretNumber',
                   style: const TextStyle(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 167, 167, 167),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children:
                       List.generate(notes.length, (index) {
                         final note = notes[index];
-                        if (note != null) {
-                          return Column(
-                            children: [
-                              NoteDot(noteData: note),
-                              const SizedBox(height: 10), // 노트 아래에 고정 간격 추가
-                            ],
-                          );
-                        }
-                        // 노트가 없는 현에 투명한 점 추가
-                        return Column(
+
+                        return Stack(
+                          alignment: Alignment.center,
                           children: [
-                            NoteDot(
-                              noteData: NoteData(
-                                text: '',
-                                color: Colors.transparent,
+                            // 가로선
+                            Container(height: 2, color: Colors.grey[400]),
+                            // 노트 점 (줄의 중앙에 위치)
+                            if (note != null)
+                              NoteDot(noteData: note)
+                            else
+                              const NoteDot(
+                                noteData: NoteData(
+                                  text: '',
+                                  color: Colors.transparent,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 10), // 노트 아래에 고정 간격 추가
                           ],
                         );
                       }).reversed.toList(),

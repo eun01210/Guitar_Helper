@@ -9,8 +9,8 @@ class NoteDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 28,
-      height: 28,
+      width: noteData.text != ' ' ? 30 : 27, // 배경 점 크기 조절
+      height: noteData.text != ' ' ? 30 : 27,
       decoration: BoxDecoration(
         color: noteData.color,
         shape: BoxShape.circle,
@@ -23,7 +23,7 @@ class NoteDot extends StatelessWidget {
       child: Text(
         noteData.text,
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontWeight: FontWeight.bold,
           fontSize: 14,
         ), // 흰색 텍스트

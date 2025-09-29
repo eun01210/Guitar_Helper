@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/title.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  // 1. 위젯 바인딩 초기화 보장
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 2. 화면 방향을 가로모드로 강제 고정합니다.
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft, // 왼쪽으로 기울인 가로
+    DeviceOrientation.landscapeRight, // 오른쪽으로 기울인 가로
+  ]).then((value) => runApp(const MyApp())); // 방향 설정이 완료된 후 앱을 실행합니다.
 }
 
 class MyApp extends StatelessWidget {
