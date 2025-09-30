@@ -23,20 +23,20 @@ class TitleScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ChordPage()),
+                    MaterialPageRoute(builder: (context) => const ScalePage()),
                   );
                 },
-                child: const Text('Chords'),
+                child: const Text('Scale'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ScalePage()),
+                    MaterialPageRoute(builder: (context) => const ChordPage()),
                   );
                 },
-                child: const Text('Scale'),
+                child: const Text('Chords'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(onPressed: () {}, child: const Text('Button 3')),

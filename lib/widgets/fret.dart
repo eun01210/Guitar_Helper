@@ -24,14 +24,14 @@ class Fret extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 60 - fretNumber * 1,
+      width: (fretNumber == 0) ? 40 : 60 - fretNumber * 1,
       child: Stack(
         children: [
           // 프렛의 세로 선
           Container(
             width: 60 - fretNumber * 1,
-            color: Colors.black,
-            margin: const EdgeInsets.only(right: 2),
+            color: (fretNumber == 0) ? Colors.transparent : Colors.black,
+            margin: EdgeInsets.only(left: 2),
           ),
           if (_backgroundDotFrets.contains(fretNumber))
             Transform.translate(

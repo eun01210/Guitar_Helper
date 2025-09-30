@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/fretboard.dart'; // NoteData를 위해 추가
 
+int accidental(bool? sharp, bool? flat) {
+  if (sharp == true) return 1;
+  if (flat == true) return -1;
+  return 0;
+}
+
 int chordMap(String? chord) {
   const Map<String, int> chords = {
     'C': 0, // C를 기준으로 0
