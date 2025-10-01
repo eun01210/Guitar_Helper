@@ -18,7 +18,7 @@ class NoteDot extends StatelessWidget {
           color: noteData.text != '' ? Colors.black : Colors.transparent,
           width: 1.5,
         ),
-      ), // 검은 원 모양
+      ),
       alignment: Alignment.center,
       child: Text(
         noteData.text,
@@ -26,7 +26,7 @@ class NoteDot extends StatelessWidget {
           color: Colors.black,
           fontWeight: FontWeight.bold,
           fontSize: 14,
-        ), // 흰색 텍스트
+        ),
       ),
     );
   }

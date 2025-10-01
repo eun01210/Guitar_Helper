@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/select.dart';
 
 class ChordPage extends StatefulWidget {
   const ChordPage({super.key});
@@ -9,8 +8,6 @@ class ChordPage extends StatefulWidget {
 }
 
 class _ChordPageState extends State<ChordPage> {
-  String? _selectedItem = 'C'; // 초기값을 'C'로 설정
-
   @override
   Widget build(BuildContext context) {
     // 현재 기기 방향을 감지
@@ -22,15 +19,6 @@ class _ChordPageState extends State<ChordPage> {
           children: [
             const Text('Chord Diagram'),
             const SizedBox(width: 10), // 제목과 콤보박스 사이 간격
-            ChordSelectBox(
-              selectedItem: _selectedItem, // 현재 값 전달
-              onChanged: (newValue) {
-                // 콜백을 통해 받은 새 값을 setState로 업데이트
-                setState(() {
-                  _selectedItem = newValue;
-                });
-              },
-            ),
           ],
         ),
         // 뒤로가기 버튼은 자동으로 생성됩니다.

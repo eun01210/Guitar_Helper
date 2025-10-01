@@ -4,14 +4,14 @@ class ChordSelectBox extends StatelessWidget {
   // 1. 외부에서 전달받을 값과 콜백 함수를 정의합니다.
   final String? selectedItem;
   final ValueChanged<String?> onChanged;
+  final List<String> items;
 
   const ChordSelectBox({
     super.key,
     required this.selectedItem,
     required this.onChanged,
+    required this.items,
   });
-
-  static const List<String> _items = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class ChordSelectBox extends StatelessWidget {
       child: DropdownButton<String>(
         value: selectedItem, // 외부에서 전달받은 값 사용
         items:
-            _items.map<DropdownMenuItem<String>>((String value) {
+            items.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(value: value, child: Text(value));
             }).toList(),
         onChanged: onChanged, // 외부에서 전달받은 콜백 함수 사용
