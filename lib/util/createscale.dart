@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/fretboard.dart'; // NoteData를 위해 추가
 
+const Map<String, int> scales = {
+  'Penta Major': 0,
+  'Penta Minor': 1,
+  'Blues Major': 2,
+  'Blues Minor': 3,
+  'harmonic Major': 4,
+  'harmonic Minor': 5,
+};
+
 int accidental(bool? sharp, bool? flat) {
   if (sharp == true) return 1;
   if (flat == true) return -1;
@@ -27,15 +36,6 @@ int chordMap(String? chord) {
 }
 
 int scaleMap(String? scale) {
-  const Map<String, int> scales = {
-    'Penta Major': 0,
-    'Penta Minor': 1,
-    'Blues Major': 2,
-    'Blues Minor': 3,
-    'harmonic Major': 4,
-    'harmonic Minor': 5,
-  };
-
   return scales[scale] ?? -1;
 }
 
@@ -80,7 +80,7 @@ List<int> scaleCheck(List<int> scale, int chord) {
 }
 
 List<List<NoteData?>> makeFretBoard(int chord, int scale) {
-  // 스케일 하나 추가 시, 위쪽의 scale map, scale 페이지의 selectBox를 수정해야 함.
+  // 스케일 하나 추가 시, 위쪽의 scale map을 수정해야 함.
 
   const majorPenta = [
     [0, 2, 4, 7, 9],

@@ -24,89 +24,102 @@ class Fret extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: (fretNumber == 0) ? 40 : 60 - fretNumber * 1,
-      child: Stack(
-        children: [
-          // 프렛의 세로 선
-          Container(
-            width: 60 - fretNumber * 1,
-            color: (fretNumber == 0) ? Colors.transparent : Colors.black,
-            margin: EdgeInsets.only(left: 2),
-          ),
-          if (_backgroundDotFrets.contains(fretNumber))
-            Transform.translate(
-              offset: const Offset(0, 12.5),
-              child: Center(
-                child:
-                    fretNumber % 12 == 0
-                        ? // 12번 프렛일 때
-                        const Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            NoteDot(
-                              noteData: NoteData(
-                                text: ' ',
-                                color: Colors.white,
-                              ),
-                            ),
-                            NoteDot(
-                              noteData: NoteData(
-                                text: ' ',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        )
-                        : // 12번이 아닌 다른 프렛일 때
-                        const NoteDot(
-                          noteData: NoteData(text: ' ', color: Colors.white),
-                        ),
-              ),
-            ),
-          // 프렛 번호와 점들을 표시
-          Column(
+      width: (fretNumber == 0) ? 24 : 36 - fretNumber * 0.6,
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: SizedBox(
+          width: double.infinity,
+          height: 150,
+          child: Stack(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 2.0),
-                child: Text(
-                  '$fretNumber',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Color.fromARGB(255, 167, 167, 167),
-                    fontWeight: FontWeight.bold,
+              // 프렛의 세로 선
+              Container(
+                width: 36 - fretNumber * 0.6,
+                color: (fretNumber == 0) ? Colors.transparent : Colors.black,
+                margin:
+                    (fretNumber == 0)
+                        ? EdgeInsets.zero
+                        : EdgeInsets.only(left: 1),
+              ),
+              if (_backgroundDotFrets.contains(fretNumber))
+                Transform.translate(
+                  offset: const Offset(0, 7.5),
+                  child: Center(
+                    child:
+                        fretNumber % 12 == 0
+                            ? // 12번 프렛일 때
+                            const Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                NoteDot(
+                                  noteData: NoteData(
+                                    text: ' ',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                NoteDot(
+                                  noteData: NoteData(
+                                    text: ' ',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            )
+                            : // 12번이 아닌 다른 프렛일 때
+                            const NoteDot(
+                              noteData: NoteData(
+                                text: ' ',
+                                color: Colors.white,
+                              ),
+                            ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children:
-                      List.generate(notes.length, (index) {
-                        final note = notes[index];
+              // 프렛 번호와 점들을 표시
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1.0),
+                    child: Text(
+                      '$fretNumber',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Color.fromARGB(255, 167, 167, 167),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children:
+                          List.generate(notes.length, (index) {
+                            final note = notes[index];
 
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // 가로선
-                            Container(height: 2, color: Colors.grey[400]),
-                            // 노트 점 (줄의 중앙에 위치)
-                            if (note != null)
-                              NoteDot(noteData: note)
-                            else
-                              const NoteDot(
-                                noteData: NoteData(
-                                  text: '',
-                                  color: Colors.transparent,
-                                ),
-                              ),
-                          ],
-                        );
-                      }).reversed.toList(),
-                ),
+                            return Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                // 가로선
+                                Container(height: 1, color: Colors.grey[400]),
+                                // 노트 점 (줄의 중앙에 위치)
+                                if (note != null)
+                                  NoteDot(noteData: note)
+                                else
+                                  const NoteDot(
+                                    noteData: NoteData(
+                                      text: '',
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                              ],
+                            );
+                          }).reversed.toList(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

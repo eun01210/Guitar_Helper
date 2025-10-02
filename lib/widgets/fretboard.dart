@@ -42,9 +42,9 @@ class GuitarFretboard extends StatelessWidget {
       ),
     );*/
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(width: 50),
+        SizedBox(width: 25),
         // 프렛 번호와 개방현을 위한 공간
         ...List.generate(25, (index) {
           final fretNumber = index;

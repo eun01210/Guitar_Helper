@@ -9,14 +9,14 @@ class NoteDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: noteData.text != ' ' ? 30 : 27, // 배경 점 크기 조절
-      height: noteData.text != ' ' ? 30 : 27,
+      width: noteData.text != ' ' ? 18 : 15, // 배경 점 크기 조절
+      height: noteData.text != ' ' ? 18 : 15,
       decoration: BoxDecoration(
         color: noteData.color,
         shape: BoxShape.circle,
         border: Border.all(
           color: noteData.text != '' ? Colors.black : Colors.transparent,
-          width: 1.5,
+          width: 1.0,
         ),
       ),
       alignment: Alignment.center,
@@ -25,7 +25,7 @@ class NoteDot extends StatelessWidget {
         style: TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.bold,
-          fontSize: 14,
+          fontSize: 10,
         ),
       ),
     );
