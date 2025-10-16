@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/fretboard.dart';
+
+// 노트 데이터를 담을 클래스 정의
+class NoteData {
+  final String text;
+  final Color color;
+
+  const NoteData({required this.text, required this.color});
+}
 
 class NoteDot extends StatelessWidget {
   final NoteData noteData;

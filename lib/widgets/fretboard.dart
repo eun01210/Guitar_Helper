@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/fret.dart';
-import 'package:my_app/util/createscale.dart';
-
-// 노트 데이터를 담을 클래스 정의
-class NoteData {
-  final String text;
-  final Color color;
-
-  const NoteData({required this.text, required this.color});
-}
+import 'package:my_app/widgets/note.dart';
 
 class GuitarFretboard extends StatelessWidget {
-  final int chord;
-  final ScaleDefinition scale;
+  final List<List<NoteData?>> fretboardData;
 
-  const GuitarFretboard({super.key, required this.chord, required this.scale});
+  const GuitarFretboard({super.key, required this.fretboardData});
 
   @override
   Widget build(BuildContext context) {
-    final List<List<NoteData?>> fretboardData = makeFretBoard(
-      chord,
-      scale,
-    ); // 이제 scale은 ScaleDefinition 객체입니다.
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

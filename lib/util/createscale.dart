@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/fretboard.dart'; // NoteData를 위해 추가
+import 'package:my_app/widgets/note.dart'; // NoteData를 위해 추가
 
 // 스케일의 구성 정보를 담는 클래스
 class ScaleDefinition {
@@ -125,7 +125,7 @@ const minorHarmonic = ScaleDefinition(
   colors: [0, 1, 1, 1, 1, 3, 1],
 );
 
-List<List<NoteData?>> makeFretBoard(int chord, ScaleDefinition scale) {
+List<List<NoteData?>> makeScaleFret(int chord, ScaleDefinition scale) {
   return List.generate(25, (index) {
     return makeFret(
       index,

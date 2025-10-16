@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/widgets/select.dart';
+import 'package:my_app/widgets/check.dart';
+import 'package:my_app/widgets/note.dart';
+import 'package:my_app/util/createchord.dart';
+import 'package:my_app/widgets/fretbox.dart';
 
 class ChordPage extends StatefulWidget {
   const ChordPage({super.key});
@@ -8,6 +13,45 @@ class ChordPage extends StatefulWidget {
 }
 
 class _ChordPageState extends State<ChordPage> {
+  String? _selChord = 'C'; // 코드 초기값
+  bool _isSharp = false; // # 온오프
+  bool _isFlat = false; // b 온오프
+
+  // 계산된 프렛보드 데이터를 저장할 상태 변수
+  late List<List<NoteData?>> _fretboardData;
+
+  @override
+  void initState() {
+    super.initState();
+    // 위젯이 처음 생성될 때 초기 데이터 계산
+    _updateFretboardData();
+  }
+
+  // #과 b의 체크박스 관리. 하나가 활성화되면 하나를 제거
+  void _handleAccidentalChange(bool? value, bool accidental) {
+    // accidental이 true면 #, false면 b
+    if (value == true) {
+      setState(() {
+        _isSharp = (accidental) ? true : false;
+        _isFlat = (accidental) ? false : true;
+        _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+      });
+    } else {
+      setState(() {
+        _isSharp = (accidental) ? false : _isSharp;
+        _isFlat = (accidental) ? _isFlat : false;
+        _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+      });
+    }
+  }
+
+  // 프렛보드 데이터를 계산하고 상태를 업데이트하는 메서드
+  void _updateFretboardData() {
+    _fretboardData = makeChordFret(
+      chordMap(_selChord) + accidental(_isSharp, _isFlat),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // 현재 기기 방향을 감지
@@ -17,28 +61,49 @@ class _ChordPageState extends State<ChordPage> {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text('Chord Diagram'),
-            const SizedBox(width: 10), // 제목과 콤보박스 사이 간격
+            const Text(
+              'Scale Diagram',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(width: 10),
+            ChordSelectBox(
+              selectedItem: _selChord,
+              onChanged: (newValue) {
+                setState(() {
+                  _selChord = newValue;
+                  _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+                });
+              },
+              items: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+            ),
+            const SizedBox(width: 10),
+            Check(
+              isChecked: _isSharp,
+              text: "#",
+              onChanged: (newValue) {
+                _handleAccidentalChange(newValue, true);
+              },
+            ),
+            Check(
+              isChecked: _isFlat,
+              text: "b",
+              onChanged: (newValue) {
+                _handleAccidentalChange(newValue, false);
+              },
+            ),
           ],
         ),
-        // 뒤로가기 버튼은 자동으로 생성됩니다.
+        // 뒤로가기 버튼은 Appbar에서 자동 생성
       ),
-      body:
-          orientation == Orientation.portrait
-              ? _buildPortraitLayout() // 세로 모드일 때
-              : _buildLandscapeLayout(), // 가로 모드일 때
-    );
-  }
-
-  // 세로 모드 UI를 빌드하는 메서드
-  Widget _buildPortraitLayout() {
-    return Column(
-      children: [
-        const SizedBox(height: 20), // 위쪽 여백
-        const Spacer(), // 아래쪽으로 공간을 밀어냄
-        const Text('여기에 다른 위젯이 들어갑니다'),
-        const Spacer(),
-      ],
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 0.0),
+        child:
+            orientation ==
+                    Orientation
+                        .portrait // UI 빌드 부분은 계산된 데이터를 사용
+                ? _buildPortraitLayout() // 세로 모드일 때
+                : _buildLandscapeLayout(), // 가로 모드일 때
+      ),
     );
   }
 
@@ -46,11 +111,16 @@ class _ChordPageState extends State<ChordPage> {
   Widget _buildLandscapeLayout() {
     return Row(
       children: [
-        const SizedBox(width: 20), // 왼쪽 여백
-        const Spacer(), // 오른쪽으로 공간을 밀어냄
-        const Text('여기에 다른 위젯이 들어갑니다'),
-        const Spacer(),
+        // 기타 지판 위젯을 Expanded로 감싸서 남은 공간을 모두 차지하게 함
+        Expanded(child: GuitarFretBox(fretboardData: _fretboardData)),
       ],
+    );
+  }
+
+  // 세로 모드 UI를 빌드하는 메서드 (제작 예정)
+  Widget _buildPortraitLayout() {
+    return Row(
+      children: [Expanded(child: GuitarFretBox(fretboardData: _fretboardData))],
     );
   }
 }
