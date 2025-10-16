@@ -32,15 +32,14 @@ class Fret extends StatelessWidget {
           height: 150,
           child: Stack(
             children: [
-              // 프렛의 세로 선
-              Container(
-                width: 36 - fretNumber * 0.6,
-                color: (fretNumber == 0) ? Colors.transparent : Colors.black,
-                margin:
-                    (fretNumber == 0)
-                        ? EdgeInsets.zero
-                        : EdgeInsets.only(left: 1),
-              ),
+              // 프렛보드 배경색
+              if (fretNumber > 0) Container(color: Colors.black),
+              // 프렛의 세로 선 (너비 1px)
+              if (fretNumber > 0)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(width: 1, color: Colors.white),
+                ),
               if (_backgroundDotFrets.contains(fretNumber))
                 Transform.translate(
                   offset: const Offset(0, 7.5),
@@ -83,7 +82,7 @@ class Fret extends StatelessWidget {
                       '$fretNumber',
                       style: const TextStyle(
                         fontSize: 10,
-                        color: Color.fromARGB(255, 167, 167, 167),
+                        color: Colors.grey,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -99,7 +98,7 @@ class Fret extends StatelessWidget {
                               alignment: Alignment.center,
                               children: [
                                 // 가로선
-                                Container(height: 1, color: Colors.grey[400]),
+                                Container(height: 1, color: Colors.grey[700]),
                                 // 노트 점 (줄의 중앙에 위치)
                                 if (note != null)
                                   NoteDot(noteData: note)

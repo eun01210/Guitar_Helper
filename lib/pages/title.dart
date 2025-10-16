@@ -13,33 +13,49 @@ class TitleScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              const Spacer(flex: 2),
               const Text(
                 'Guitar Chord',
                 style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ScalePage()),
-                  );
-                },
-                child: const Text('Scale'),
+              const Spacer(flex: 2),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 120.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ScalePage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Scale'),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ChordPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Chords'),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Button 3'),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ChordPage()),
-                  );
-                },
-                child: const Text('Chords'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(onPressed: () {}, child: const Text('Button 3')),
+              const Spacer(flex: 3),
             ],
           ),
         ),

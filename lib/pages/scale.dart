@@ -20,26 +20,29 @@ class _ScalePageState extends State<ScalePage> {
   // 여기부터는 확대/축소 관리용 controller 설정
   late final TransformationController _transformationController; // 컨트롤러 선언
   double _currentScaleDisplay = 1.0; // 현재 확대 값
+  double _viewerWidth = 0.0; // InteractiveViewer의 너비를 저장할 변수
+  double _viewerHeight = 0.0; // InteractiveViewer의 높이를 저장할 변수
+  bool _initialScaleSet = false; // 초기 배율 설정 여부 플래그
 
+  // Controller 초기화
   @override
   void initState() {
     super.initState();
-    // Controller 초기화
     _transformationController = TransformationController();
     _transformationController.addListener(_onTransformationChanged);
   }
 
+  // Controller 해제
   @override
   void dispose() {
-    // Controller 해제
     _transformationController.removeListener(_onTransformationChanged);
     _transformationController.dispose();
     super.dispose();
   }
 
   void _onTransformationChanged() {
-    centerFretboardVertically();
-    /*    만약 상호작용 중에도 실시간으로 적용하고 싶다면 이 분기는 제거합니다.
+    clampFretboardPosition();
+    /* 주석처리를 해제하면 상호작용 중일때는 작동하지 않음.
     if (!_transformationController.value.isIdentity()) {
     }*/
   }
@@ -50,22 +53,37 @@ class _ScalePageState extends State<ScalePage> {
     return _transformationController.value.entry(0, 0);
   }
 
-  // 프렛이 화면을 벗어나지 않게 확대/드래그 가능
-  void centerFretboardVertically() {
-    // 현재 x, y값을 가져오며, x값은 유지
+  // 프렛보드가 화면 밖으로 벗어나지 않도록 위치를 보정하는 메서드
+  void clampFretboardPosition() {
     final Matrix4 currentMatrix = Matrix4.copy(_transformationController.value);
     final double currentTranslationX = currentMatrix.entry(0, 3);
     final double currentTranslationY = currentMatrix.entry(1, 3);
-    currentMatrix.setEntry(0, 3, currentTranslationX); // X축 값 유지
 
-    // 250(expanding 범위) - 150(프렛 높이) * 비율로 위로 드래그 할 수 있는 기준 설정 %%%(명확한 범위 설정 필요.)
-    final double outRange = 250 - 150 * _currentScaleDisplay;
-    final double standardY = (outRange > 0) ? 0 : outRange;
-    // 범위를 벗어나면 기준으로 설정, 아니면 그대로
-    final double valueY =
-        (standardY > currentTranslationY) ? standardY : currentTranslationY;
+    // --- Y축 경계 처리 ---
+    // 상단 경계 (더 위로 못 올라가게)
+    final double liveScale = currentZoomScale; // 실시간 배율 가져오기
+    final double topBoundary =
+        (_viewerHeight > 150 * liveScale) ? 0 : _viewerHeight - 150 * liveScale;
+    double clampedY =
+        (currentTranslationY < topBoundary) ? topBoundary : currentTranslationY;
+    // 하단 경계 (더 아래로 못 내려가게)
+    clampedY = (clampedY > 0) ? 0 : clampedY;
 
-    currentMatrix.setEntry(1, 3, valueY); // Y축 값 덮어씌우기
+    // --- X축 경계 처리 ---
+    // 왼쪽 경계 (더 왼쪽으로 못 가게)
+    final double leftBoundary =
+        (_viewerWidth > 758.0 * liveScale)
+            ? 0
+            : _viewerWidth - 758.0 * liveScale;
+    double clampedX =
+        (currentTranslationX < leftBoundary)
+            ? leftBoundary
+            : currentTranslationX;
+    // 오른쪽 경계 (더 오른쪽으로 못 가게)
+    clampedX = (clampedX > 0) ? 0 : clampedX;
+
+    currentMatrix.setEntry(0, 3, clampedX); // 보정된 X축 값 설정
+    currentMatrix.setEntry(1, 3, clampedY); // 보정된 Y축 값 설정
     _transformationController.value = currentMatrix;
   }
 
@@ -100,11 +118,10 @@ class _ScalePageState extends State<ScalePage> {
               'Scale Diagram',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(width: 10), // 제목과 콤보박스 사이 간격
+            const SizedBox(width: 10),
             ChordSelectBox(
-              selectedItem: _selChord, // 현재 값 전달
+              selectedItem: _selChord,
               onChanged: (newValue) {
-                // 콜백을 통해 받은 새 값을 setState로 업데이트
                 setState(() {
                   _selChord = newValue;
                 });
@@ -126,11 +143,10 @@ class _ScalePageState extends State<ScalePage> {
                 _handleAccidentalChange(newValue, false);
               },
             ),
-            const SizedBox(width: 10), // 체크 박스 간격
+            const SizedBox(width: 10),
             ChordSelectBox(
-              selectedItem: _selScale, // 현재 값 전달
+              selectedItem: _selScale,
               onChanged: (newValue) {
-                // 콜백을 통해 받은 새 값을 setState로 업데이트
                 setState(() {
                   _selScale = newValue;
                 });
@@ -139,10 +155,10 @@ class _ScalePageState extends State<ScalePage> {
             ),
           ],
         ),
-        // 뒤로가기 버튼은 자동으로 생성됩니다.
+        // 뒤로가기 버튼은 Appbar에서 자동 생성
       ),
       body: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
+        padding: const EdgeInsets.only(bottom: 0.0),
         child:
             orientation == Orientation.portrait
                 ? _buildPortraitLayout(chordMap(_selChord)) // 세로 모드일 때
@@ -157,89 +173,128 @@ class _ScalePageState extends State<ScalePage> {
       children: [
         // 기타 지판 위젯을 Expanded로 감싸서 남은 공간을 모두 차지하게 함
         Expanded(
-          child: InteractiveViewer(
-            transformationController: _transformationController,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              // LayoutBuilder를 통해 얻은 최대 높이를 상태에 저장
+              _viewerWidth = constraints.maxWidth;
+              _viewerHeight = constraints.maxHeight;
 
-            onInteractionEnd: (details) {
-              // 2. setState를 호출하여 화면을 다시 그립니다.
-              setState(() {
-                // 3. ✨ 이때 TransformationController의 최신 값을 가져와 상태 변수를 업데이트합니다.
-                _currentScaleDisplay = currentZoomScale;
-              });
+              // 위젯이 빌드된 후, 딱 한 번만 실행하여 초기 배율을 설정
+              if (!_initialScaleSet && _viewerWidth > 0) {
+                _initialScaleSet = true;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted) {
+                    final double minScale = _viewerWidth / 758.0;
+                    final Matrix4 matrix =
+                        Matrix4.copy(_transformationController.value)
+                          ..setEntry(0, 0, minScale)
+                          ..setEntry(1, 1, minScale);
+                    _transformationController.value = matrix;
+                    setState(() {
+                      _currentScaleDisplay = minScale;
+                    });
+                  }
+                });
+              }
+
+              final double minScale =
+                  (_viewerWidth > 0) ? _viewerWidth / 758.0 : 1.0;
+
+              return InteractiveViewer(
+                transformationController: _transformationController,
+
+                // 상호작용(스크롤)이 끝나면 현재 배율을 저장
+                onInteractionEnd: (details) {
+                  setState(() {
+                    _currentScaleDisplay = currentZoomScale;
+                  });
+                },
+
+                boundaryMargin: EdgeInsets.zero,
+                // 화면 너비보다 작게 축소되지 않도록 minScale 설정 (758.0은 프렛보드 전체 너비)
+                minScale: minScale,
+                maxScale: 3.0, // 최대 확대 배율
+                panEnabled:
+                    _currentScaleDisplay > minScale, // 최소 배율보다 클 때만 스크롤 활성화
+                panAxis:
+                    (_viewerHeight > 0 &&
+                            _currentScaleDisplay <= _viewerHeight / 150)
+                        ? PanAxis
+                            .horizontal // 세로가 화면에 맞을 때 수평 스크롤만
+                        : PanAxis.free, // 자유 스크롤
+
+                child: GuitarFretboard(
+                  chord: chord + accidental(_isSharp, _isFlat),
+                  scale:
+                      scales[_selScale]!, // 선택된 스케일 이름으로 ScaleDefinition 객체를 찾아 전달
+                ),
+              );
             },
-
-            boundaryMargin: EdgeInsets.zero,
-            minScale: 1.0, // 최소 축소 배율 (원래 크기의 30%)
-            maxScale: 3.0, // 최대 확대 배율 (원래 크기의 300%)
-
-            panAxis:
-                (_currentScaleDisplay < 1.6) // %%%명확한 배율 기준 필요
-                    ? PanAxis.horizontal
-                    : PanAxis.free,
-
-            child: GuitarFretboard(
-              chord: chord + accidental(_isSharp, _isFlat),
-              scale: scaleMap(_selScale),
-            ),
           ),
         ),
       ],
     );
   }
 
-  // 세로 모드 UI를 빌드하는 메서드 (@수정 안 함)
+  // 세로 모드 UI를 빌드하는 메서드
   Widget _buildPortraitLayout(int chord) {
-    return Column(
-      /*
+    return Row(
       children: [
-        const SizedBox(height: 20), // 위쪽 여백
-        SizedBox(
-          height: 240, // 원하는 높이를 지정하세요
-          child: GuitarFretboard(chord: chord),
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              _viewerWidth = constraints.maxWidth;
+              _viewerHeight = constraints.maxHeight;
+
+              // 위젯이 빌드된 후, 딱 한 번만 실행하여 초기 배율을 설정
+              if (!_initialScaleSet && _viewerWidth > 0) {
+                _initialScaleSet = true;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted) {
+                    final double minScale = _viewerWidth / 758.0;
+                    final Matrix4 matrix =
+                        Matrix4.copy(_transformationController.value)
+                          ..setEntry(0, 0, minScale)
+                          ..setEntry(1, 1, minScale);
+                    _transformationController.value = matrix;
+                    setState(() {
+                      _currentScaleDisplay = minScale;
+                    });
+                  }
+                });
+              }
+
+              final double minScale =
+                  (_viewerWidth > 0) ? _viewerWidth / 758.0 : 1.0;
+
+              return InteractiveViewer(
+                transformationController: _transformationController,
+                onInteractionEnd: (details) {
+                  setState(() {
+                    _currentScaleDisplay = currentZoomScale;
+                  });
+                },
+                boundaryMargin: EdgeInsets.zero,
+                minScale: minScale,
+                maxScale: 3.0,
+                panEnabled:
+                    _currentScaleDisplay > minScale, // 최소 배율보다 클 때만 스크롤 활성화
+                panAxis:
+                    (_viewerHeight > 0 &&
+                            _currentScaleDisplay <= _viewerHeight / 150)
+                        ? PanAxis
+                            .horizontal // 세로가 화면에 맞을 때 수평 스크롤만
+                        : PanAxis.free, // 자유 스크롤
+                child: GuitarFretboard(
+                  chord: chord + accidental(_isSharp, _isFlat),
+                  scale:
+                      scales[_selScale]!, // 선택된 스케일 이름으로 ScaleDefinition 객체를 찾아 전달
+                ),
+              );
+            },
+          ),
         ),
-      ],*/
+      ],
     );
   }
 }
-
-/* 이걸 기준으로 확대 만들기? 아니면 현재 비율을 기준으로 고정하기?
-return LayoutBuilder(
-    builder: (context, constraints) {
-      final double screenWidth = constraints.maxWidth;
-      // 지판 전체 너비: 24프렛 + 0번프렛 + 좌측 여백 = 1300.0px 가정
-      const double fretboardFullWidth = 1300.0; 
-      
-      // 화면 너비에 딱 맞게 축소될 비율을 계산합니다.
-      final double scaleFactor = screenWidth / fretboardFullWidth;
-      
-      return Column(
-        children: [
-          // 프렛보드가 차지할 공간에 대한 제약
-          SizedBox(
-            // 높이는 고정값, 너비는 화면 전체를 사용합니다.
-            height: 250, // GuitarFretboard의 실제 높이보다 약간 크게 설정
-            width: screenWidth, 
-            child: Transform.scale(
-              scale: scaleFactor, 
-              // ✨ 좌측 상단(0,0) 기준으로 축소되도록 설정
-              alignment: Alignment.topLeft, 
-              
-              child: SizedBox(
-                // 축소 후 원래 크기를 유지하여 내용물이 잘리지 않게 합니다.
-                width: fretboardFullWidth,
-                height: 250 / scaleFactor, // 비율에 맞춰 높이 확장
-                
-                child: GuitarFretboard(
-                  chord: chord + accidental(_isSharp, _isFlat),
-                  scale: scaleMap(_selScale),
-                ),
-              ),
-            ),
-          ),
-          // 나머지 공간을 Spacer로 채워 아래쪽 여백 제거
-          const Spacer(),
-        ],
-      );
-    },
-  );
-  */

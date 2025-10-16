@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ChordSelectBox extends StatelessWidget {
-  // 1. 외부에서 전달받을 값과 콜백 함수를 정의합니다.
   final String? selectedItem;
   final ValueChanged<String?> onChanged;
   final List<String> items;

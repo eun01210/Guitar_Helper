@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/fretboard.dart'; // NoteData를 위해 추가
 
-const Map<String, int> scales = {
-  'Penta Major': 0,
-  'Penta Minor': 1,
-  'Blues Major': 2,
-  'Blues Minor': 3,
-  'harmonic Major': 4,
-  'harmonic Minor': 5,
+// 스케일의 구성 정보를 담는 클래스
+class ScaleDefinition {
+  final List<int> intervals;
+  final List<String> degrees;
+  final List<int> colors;
+
+  const ScaleDefinition({
+    required this.intervals,
+    required this.degrees,
+    required this.colors,
+  });
+}
+
+// 각 스케일의 이름과 ScaleDefinition 객체를 매핑
+const Map<String, ScaleDefinition> scales = {
+  'Penta Major': majorPenta,
+  'Penta Minor': minorPenta,
+  'Blues Major': majorBlues,
+  'Blues Minor': minorBlues,
+  'harmonic Major': majorHarmonic,
+  'harmonic Minor': minorHarmonic,
 };
 
 int accidental(bool? sharp, bool? flat) {
@@ -33,10 +47,6 @@ int chordMap(String? chord) {
   };
 
   return chords[chord] ?? -1;
-}
-
-int scaleMap(String? scale) {
-  return scales[scale] ?? -1;
 }
 
 NoteData? check(
@@ -79,60 +89,49 @@ List<int> scaleCheck(List<int> scale, int chord) {
   });
 }
 
-List<List<NoteData?>> makeFretBoard(int chord, int scale) {
-  // 스케일 하나 추가 시, 위쪽의 scale map을 수정해야 함.
+const majorPenta = ScaleDefinition(
+  intervals: [0, 2, 4, 7, 9],
+  degrees: ['R', '2', '3', '5', '6'],
+  colors: [0, 1, 1, 1, 1],
+);
 
-  const majorPenta = [
-    [0, 2, 4, 7, 9],
-    ['R', '2', '3', '5', '6'],
-    [0, 1, 1, 1, 1],
-  ];
+const minorPenta = ScaleDefinition(
+  intervals: [0, 3, 5, 7, 10],
+  degrees: ['R', 'b3', '4', '5', 'b7'],
+  colors: [0, 1, 1, 1, 1],
+);
 
-  const minorPenta = [
-    [0, 3, 5, 7, 10],
-    ['R', 'b3', '4', '5', 'b7'],
-    [0, 1, 1, 1, 1],
-  ];
+const majorBlues = ScaleDefinition(
+  intervals: [0, 2, 3, 4, 7, 9],
+  degrees: ['R', '2', 'b3', '3', '5', '6'],
+  colors: [0, 1, 2, 1, 1, 1],
+);
 
-  const majorBlues = [
-    [0, 2, 3, 4, 7, 9],
-    ['R', '2', 'b3', '3', '5', '6'],
-    [0, 1, 2, 1, 1, 1],
-  ];
+const minorBlues = ScaleDefinition(
+  intervals: [0, 3, 5, 6, 7, 10],
+  degrees: ['R', 'b3', '4', 'b5', '5', 'b7'],
+  colors: [0, 1, 1, 2, 1, 1],
+);
 
-  const minorBlues = [
-    [0, 3, 5, 6, 7, 10],
-    ['R', 'b3', '4', 'b5', '5', 'b7'],
-    [0, 1, 1, 2, 1, 1],
-  ];
+const majorHarmonic = ScaleDefinition(
+  intervals: [0, 2, 4, 5, 7, 8, 11],
+  degrees: ['R', '2', '3', '4', '5', 'b6', '7'],
+  colors: [0, 1, 1, 1, 1, 3, 1],
+);
 
-  const majorHarmonic = [
-    [0, 2, 4, 5, 7, 8, 11],
-    ['R', '2', '3', '4', '5', 'b6', '7'],
-    [0, 1, 1, 1, 1, 3, 1],
-  ];
+const minorHarmonic = ScaleDefinition(
+  intervals: [0, 2, 3, 5, 7, 8, 11],
+  degrees: ['R', '2', 'b3', '4', '5', 'b6', '7'],
+  colors: [0, 1, 1, 1, 1, 3, 1],
+);
 
-  const minorHarmonic = [
-    [0, 2, 3, 5, 7, 8, 11],
-    ['R', '2', 'b3', '4', '5', 'b6', '7'],
-    [0, 1, 1, 1, 1, 3, 1],
-  ];
-
-  const scales = [
-    majorPenta,
-    minorPenta,
-    majorBlues,
-    minorBlues,
-    majorHarmonic,
-    minorHarmonic,
-  ];
-
+List<List<NoteData?>> makeFretBoard(int chord, ScaleDefinition scale) {
   return List.generate(25, (index) {
     return makeFret(
       index,
-      scaleCheck(scales[scale][0] as List<int>, chord),
-      scales[scale][1] as List<String>,
-      scales[scale][2] as List<int>,
+      scaleCheck(scale.intervals, chord),
+      scale.degrees,
+      scale.colors,
     );
   });
 }
