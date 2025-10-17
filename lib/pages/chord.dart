@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:my_app/widgets/select.dart';
 import 'package:my_app/widgets/check.dart';
 import 'package:my_app/widgets/note.dart';
-import 'package:my_app/util/createchord.dart';
 import 'package:my_app/widgets/fretbox.dart';
+import 'package:my_app/util/createchord.dart';
+import 'package:my_app/util/keychanger.dart';
 
 class ChordPage extends StatefulWidget {
   const ChordPage({super.key});
@@ -14,8 +15,11 @@ class ChordPage extends StatefulWidget {
 
 class _ChordPageState extends State<ChordPage> {
   String? _selChord = 'C'; // 코드 초기값
+  String? _selExt = ' '; // 코드 초기값
+  int _form = 0; // 손가락 폼
   bool _isSharp = false; // # 온오프
   bool _isFlat = false; // b 온오프
+  bool _isFinger = false; // 손가락 온오프
 
   // 계산된 프렛보드 데이터를 저장할 상태 변수
   late List<List<NoteData?>> _fretboardData;
@@ -34,13 +38,34 @@ class _ChordPageState extends State<ChordPage> {
       setState(() {
         _isSharp = (accidental) ? true : false;
         _isFlat = (accidental) ? false : true;
+        _form = 0;
         _updateFretboardData(); // 상태 변경 시 데이터 업데이트
       });
     } else {
       setState(() {
         _isSharp = (accidental) ? false : _isSharp;
         _isFlat = (accidental) ? _isFlat : false;
+        _form = 0;
         _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+      });
+    }
+  }
+
+  void _handleFormChange(int value, int max) {
+    if (value + _form >= max) {
+      setState(() {
+        _form = 0;
+        _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+      });
+    } else if (value + _form < 0) {
+      setState(() {
+        _form = max - 1;
+        _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+      });
+    } else {
+      setState(() {
+        _form += value;
+        _updateFretboardData();
       });
     }
   }
@@ -48,7 +73,11 @@ class _ChordPageState extends State<ChordPage> {
   // 프렛보드 데이터를 계산하고 상태를 업데이트하는 메서드
   void _updateFretboardData() {
     _fretboardData = makeChordFret(
-      chordMap(_selChord) + accidental(_isSharp, _isFlat),
+      chordMap(_selChord),
+      accidental(_isSharp, _isFlat),
+      _selExt,
+      _form,
+      _isFinger,
     );
   }
 
@@ -62,7 +91,7 @@ class _ChordPageState extends State<ChordPage> {
         title: Row(
           children: [
             const Text(
-              'Scale Diagram',
+              'Chord Diagram',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 10),
@@ -70,6 +99,7 @@ class _ChordPageState extends State<ChordPage> {
               selectedItem: _selChord,
               onChanged: (newValue) {
                 setState(() {
+                  _form = 0;
                   _selChord = newValue;
                   _updateFretboardData(); // 상태 변경 시 데이터 업데이트
                 });
@@ -91,19 +121,51 @@ class _ChordPageState extends State<ChordPage> {
                 _handleAccidentalChange(newValue, false);
               },
             ),
+            ChordSelectBox(
+              selectedItem: _selExt,
+              onChanged: (newValue) {
+                setState(() {
+                  _form = 0;
+                  _selExt = newValue;
+                  _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+                });
+              },
+              items: [' ', '7', 'm', 'm7', 'M7', 'sus4'],
+            ),
+            const SizedBox(width: 10),
+            Check(
+              isChecked: _isFinger,
+              text: "Fingering",
+              onChanged: (newValue) {
+                setState(() {
+                  _isFinger = newValue ?? false;
+                  _updateFretboardData();
+                });
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.arrow_left),
+              onPressed: () {
+                _handleFormChange(-1, 5);
+              },
+            ),
+            Text('${_form + 1}'),
+            IconButton(
+              icon: const Icon(Icons.arrow_right),
+              onPressed: () {
+                _handleFormChange(1, 5);
+              },
+            ),
           ],
         ),
         // 뒤로가기 버튼은 Appbar에서 자동 생성
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 0.0),
-        child:
-            orientation ==
-                    Orientation
-                        .portrait // UI 빌드 부분은 계산된 데이터를 사용
-                ? _buildPortraitLayout() // 세로 모드일 때
-                : _buildLandscapeLayout(), // 가로 모드일 때
-      ),
+      body:
+          orientation ==
+                  Orientation
+                      .portrait // UI 빌드 부분은 계산된 데이터를 사용
+              ? _buildPortraitLayout() // 세로 모드일 때
+              : _buildLandscapeLayout(), // 가로 모드일 때
     );
   }
 

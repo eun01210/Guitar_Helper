@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/note.dart'; // NoteData를 위해 추가
 
-int accidental(bool? sharp, bool? flat) {
-  if (sharp == true) return 1;
-  if (flat == true) return -1;
-  return 0;
-}
+const colorTable = [
+  Color.fromARGB(255, 255, 94, 0),
+  Colors.orange,
+  Colors.blueGrey,
+  Colors.deepPurple,
+];
 
-int chordMap(String? chord) {
-  const Map<String, int> chords = {
-    'C': 0, // C를 기준으로 0
-    'C#': 1,
-    'D': 2,
-    'D#': 3,
-    'E': 4,
-    'F': 5,
-    'F#': 6,
-    'G': 7,
-    'G#': 8,
-    'A': 9,
-    'A#': 10,
-    'B': 11,
-  };
-
-  return chords[chord] ?? -1;
-}
-
-List<List<NoteData?>> makeChordFret(int chord) {
+List<List<NoteData?>> makeChordFret(
+  int chord, // 코드, C->0, D->1 ... chordMap 참고
+  int accident, // 올림 내림 여부, 0->x, 1->#, -1->b
+  String? ext, // 익스텐션 코드 변경 여부, m, m7, M7 ...
+  int form, // 폼, 해당 코드의 폼 (C를 잡는 방식에도 여러 방법이 있음)
+  bool finger, // 도 표시 / 손가락 표시 변경
+) {
   return List.generate(25, (index) {
-    return [];
+    return [null, null, null, null, null, null];
   });
 }

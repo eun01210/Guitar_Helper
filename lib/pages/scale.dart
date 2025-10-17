@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_app/widgets/select.dart';
 import 'package:my_app/widgets/check.dart';
 import 'package:my_app/widgets/note.dart';
-import 'package:my_app/util/createscale.dart';
 import 'package:my_app/widgets/fretbox.dart';
+import 'package:my_app/util/createscale.dart';
+import 'package:my_app/util/keychanger.dart';
+import 'package:my_app/datas/scales.dart';
 
 class ScalePage extends StatefulWidget {
   const ScalePage({super.key});
@@ -108,15 +110,12 @@ class _ScalePageState extends State<ScalePage> {
         ),
         // 뒤로가기 버튼은 Appbar에서 자동 생성
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 0.0),
-        child:
-            orientation ==
-                    Orientation
-                        .portrait // UI 빌드 부분은 계산된 데이터를 사용
-                ? _buildPortraitLayout() // 세로 모드일 때
-                : _buildLandscapeLayout(), // 가로 모드일 때
-      ),
+      body:
+          orientation ==
+                  Orientation
+                      .portrait // UI 빌드 부분은 계산된 데이터를 사용
+              ? _buildPortraitLayout() // 세로 모드일 때
+              : _buildLandscapeLayout(), // 가로 모드일 때
     );
   }
 

@@ -39,6 +39,7 @@ class Fret extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Container(width: 1, color: Colors.white),
                 ),
+              // 프렛 배경 흰색 점
               if (_backgroundDotFrets.contains(fretNumber))
                 Transform.translate(
                   offset: const Offset(0, 7.5),
@@ -77,12 +78,14 @@ class Fret extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 1.0),
-                    child: Text(
-                      '$fretNumber',
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
+                    child: Center(
+                      child: Text(
+                        '$fretNumber',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
