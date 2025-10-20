@@ -12,20 +12,27 @@ class ChordDefinition {
   });
 }
 
-const cmaj1 = ChordDefinition(
-  fret: [0, 1, 0, 2, 3, -1],
-  degrees: ['3', 'R', '5', '3', 'R', 'X'],
-  fingering: [0, 1, 0, 2, 3, 4],
+const c0maj1 = ChordDefinition(
+  fret: [-1, 3, 2, 0, 1, 0],
+  degrees: ['X', 'R', '3', '5', 'R', '3'],
+  fingering: [4, 3, 2, 0, 1, 0],
   colors: [1, 0, 1, 1, 0, 1],
 );
 
-const cmaj2 = ChordDefinition(
-  fret: [3, 5, 5, 5, 3, -1],
-  degrees: ['5', '3', 'R', '5', 'R', 'X'],
-  fingering: [1, 4, 3, 2, 1, 0],
-  colors: [1, 1, 0, 1, 0, 1],
+const c0maj2 = ChordDefinition(
+  fret: [-1, 3, 5, 5, 5, 3],
+  degrees: ['X', 'R', '5', 'R', '3', '5'],
+  fingering: [0, 1, 2, 3, 4, 1],
+  colors: [1, 0, 1, 0, 1, 1],
 );
 
-const cmajs = [cmaj1, cmaj2];
+const c0maj3 = ChordDefinition(
+  fret: [-1, -1, 5, 5, 5, 8],
+  degrees: ['X', 'X', '5', 'R', '3', 'R'],
+  fingering: [0, 0, 1, 1, 1, 4],
+  colors: [1, 1, 1, 0, 1, 0],
+);
 
-const Map<String, List<ChordDefinition>> scales = {'cmaj': cmajs};
+const c0majs = [c0maj1, c0maj2, c0maj3];
+
+const Map<String, List<ChordDefinition>> chords = {'C0maj': c0majs};

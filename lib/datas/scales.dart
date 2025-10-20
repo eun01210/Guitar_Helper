@@ -1,4 +1,15 @@
-import 'package:my_app/util/createscale.dart';
+// 스케일의 구성 정보를 담는 클래스
+class ScaleDefinition {
+  final List<int> intervals;
+  final List<String> degrees;
+  final List<int> colors;
+
+  const ScaleDefinition({
+    required this.intervals,
+    required this.degrees,
+    required this.colors,
+  });
+}
 
 const majorPenta = ScaleDefinition(
   intervals: [0, 2, 4, 7, 9],

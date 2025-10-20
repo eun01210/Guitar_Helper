@@ -15,7 +15,7 @@ class ChordPage extends StatefulWidget {
 
 class _ChordPageState extends State<ChordPage> {
   String? _selChord = 'C'; // 코드 초기값
-  String? _selExt = ' '; // 코드 초기값
+  String? _selExt = 'maj'; // 코드 초기값
   int _form = 0; // 손가락 폼
   bool _isSharp = false; // # 온오프
   bool _isFlat = false; // b 온오프
@@ -51,6 +51,16 @@ class _ChordPageState extends State<ChordPage> {
     }
   }
 
+  int maxForm() {
+    int forms =
+        chordCheck(_selChord, accidental(_isSharp, _isFlat), _selExt).length;
+    if (forms > 0) {
+      return forms;
+    } else {
+      return 1;
+    }
+  }
+
   void _handleFormChange(int value, int max) {
     if (value + _form >= max) {
       setState(() {
@@ -73,7 +83,7 @@ class _ChordPageState extends State<ChordPage> {
   // 프렛보드 데이터를 계산하고 상태를 업데이트하는 메서드
   void _updateFretboardData() {
     _fretboardData = makeChordFret(
-      chordMap(_selChord),
+      _selChord,
       accidental(_isSharp, _isFlat),
       _selExt,
       _form,
@@ -130,7 +140,7 @@ class _ChordPageState extends State<ChordPage> {
                   _updateFretboardData(); // 상태 변경 시 데이터 업데이트
                 });
               },
-              items: [' ', '7', 'm', 'm7', 'M7', 'sus4'],
+              items: ['maj', '7', 'm', 'm7', 'M7', 'sus4'],
             ),
             const SizedBox(width: 10),
             Check(
@@ -146,14 +156,14 @@ class _ChordPageState extends State<ChordPage> {
             IconButton(
               icon: const Icon(Icons.arrow_left),
               onPressed: () {
-                _handleFormChange(-1, 5);
+                _handleFormChange(-1, maxForm());
               },
             ),
             Text('${_form + 1}'),
             IconButton(
               icon: const Icon(Icons.arrow_right),
               onPressed: () {
-                _handleFormChange(1, 5);
+                _handleFormChange(1, maxForm());
               },
             ),
           ],

@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/note.dart'; // NoteData를 위해 추가
-
-// 스케일의 구성 정보를 담는 클래스
-class ScaleDefinition {
-  final List<int> intervals;
-  final List<String> degrees;
-  final List<int> colors;
-
-  const ScaleDefinition({
-    required this.intervals,
-    required this.degrees,
-    required this.colors,
-  });
-}
+import 'package:my_app/datas/scales.dart';
 
 NoteData? check(
   int data,
@@ -36,7 +24,7 @@ NoteData? check(
 }
 
 List<NoteData?> makeFret(
-  int fretnumber,
+  int fretNumber,
   List<int> scale,
   List<String> texts,
   List<int> colors,
@@ -44,7 +32,7 @@ List<NoteData?> makeFret(
   const standard = [4, 9, 2, 7, 11, 4]; // 정튜닝, 도가 0일 때 기준, C->0, E->4
 
   return List.generate(6, (index) {
-    return check((standard[index] + fretnumber) % 12, scale, texts, colors);
+    return check((standard[index] + fretNumber) % 12, scale, texts, colors);
   });
 }
 
