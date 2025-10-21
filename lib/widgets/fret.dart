@@ -73,6 +73,10 @@ class Fret extends StatelessWidget {
                             ),
                   ),
                 ),
+
+              // 바레 코드 연결선 그리기 (노트 뒤에 위치하도록)
+              ..._buildBarreConnections(),
+
               // 프렛 번호와 점들을 표시
               Column(
                 children: [
@@ -123,5 +127,73 @@ class Fret extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// 바레 코드 연결선 생성
+  List<Widget> _buildBarreConnections() {
+    final List<Widget> barreWidgets = []; // 모든 바레 위젯을 저장
+    final Map<String, List<int>> fingerGroups = {}; // 손가락 번호에 해당하는 프렛들을 담는 map
+
+    // 손가락 번호 기준으로 노트들을 그룹화하여 map에 저장
+    for (int i = 0; i < notes.length; i++) {
+      final note = notes[i];
+      if (note != null) {
+        // 손가락 번호가 '0'이 아니고, 숫자로 변환 가능한 경우만 처리
+        final fingerNumber = int.tryParse(note.text);
+        if (fingerNumber != null && fingerNumber > 0) {
+          fingerGroups.putIfAbsent(note.text, () => []).add(i);
+        }
+      }
+    }
+
+    // 2개 이상의 노트를 포함하는 map에 대해 연결선을 그림
+    fingerGroups.forEach((finger, stringIndices) {
+      if (stringIndices.length > 1) {
+        // 시작점, 끝점 파악
+        stringIndices.sort();
+        final int startStringIndex = stringIndices.first;
+        final int endStringIndex = stringIndices.last;
+        final NoteData? startNote = notes[startStringIndex];
+
+        if (startNote != null) {
+          // Column은 reversed 되므로, 줄 인덱스 변환
+          // 6번줄(index 0) -> index 5
+          // 1번줄(index 5) -> index 0
+          final double visualTopStringIndex = (5 - endStringIndex).toDouble();
+          final double visualBottomStringIndex =
+              (5 - startStringIndex).toDouble();
+
+          // 노트 점의 위치와 크기를 고려하여 바레의 top과 height를 계산
+          // 각 줄의 간격은 약 25px, 노트 점의 높이는 18px
+          // 15(프렛 번호) + 노트 크기 + 여백 고려
+          final double topOffset =
+              15 + visualTopStringIndex * 25 + (25 - 18) / 2;
+          final double bottomOffset =
+              visualBottomStringIndex * 25 + (25 + 18) / 2;
+          final double height = bottomOffset - topOffset;
+
+          barreWidgets.add(
+            Positioned(
+              top: topOffset,
+              height: height,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  width: 18, // NoteDot의 너비와 동일하게 설정
+                  decoration: BoxDecoration(
+                    color: Colors.orange, // 바레 시작 노트의 색상 사용
+                    borderRadius: BorderRadius.circular(9), // 끝을 둥글게 처리
+                    border: Border.all(color: Colors.black, width: 1),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+      }
+    });
+
+    return barreWidgets;
   }
 }
