@@ -4,8 +4,13 @@ import 'package:my_app/widgets/note.dart';
 
 class GuitarFretboard extends StatelessWidget {
   final List<List<NoteData?>> fretboardData;
+  final bool showBarreConnections;
 
-  const GuitarFretboard({super.key, required this.fretboardData});
+  const GuitarFretboard({
+    super.key,
+    required this.fretboardData,
+    this.showBarreConnections = true, // Default to true
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,11 @@ class GuitarFretboard extends StatelessWidget {
               index < fretboardData.length
                   ? fretboardData[index]
                   : [null, null, null, null, null, null];
-          return Fret(fretNumber: fretNumber, notes: fretData);
+          return Fret(
+            fretNumber: fretNumber,
+            notes: fretData,
+            showBarreConnections: showBarreConnections,
+          );
         }),
         const SizedBox(width: 25),
       ],

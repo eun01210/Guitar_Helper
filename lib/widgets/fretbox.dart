@@ -5,8 +5,13 @@ import 'package:my_app/widgets/note.dart';
 // 스크롤이 가능한 박스 위젯
 class GuitarFretBox extends StatefulWidget {
   final List<List<NoteData?>> fretboardData;
+  final bool showBarreConnections;
 
-  const GuitarFretBox({super.key, required this.fretboardData});
+  const GuitarFretBox({
+    super.key,
+    required this.fretboardData,
+    this.showBarreConnections = true, // Default to true
+  });
 
   @override
   State<GuitarFretBox> createState() => _InteractiveFretboardState();
@@ -113,7 +118,10 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
                       _currentScaleDisplay <= _viewerHeight / 150) // 150은 프렛 높이
                   ? PanAxis.horizontal
                   : PanAxis.free,
-          child: GuitarFretboard(fretboardData: widget.fretboardData),
+          child: GuitarFretboard(
+            fretboardData: widget.fretboardData,
+            showBarreConnections: widget.showBarreConnections,
+          ),
         );
       },
     );

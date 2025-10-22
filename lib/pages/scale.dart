@@ -123,8 +123,12 @@ class _ScalePageState extends State<ScalePage> {
   Widget _buildLandscapeLayout() {
     return Row(
       children: [
-        // 기타 지판 위젯을 Expanded로 감싸서 남은 공간을 모두 차지하게 함
-        Expanded(child: GuitarFretBox(fretboardData: _fretboardData)),
+        Expanded(
+          child: GuitarFretBox(
+            fretboardData: _fretboardData,
+            showBarreConnections: false, // 스케일 페이지에서는 바레를 표시하지 않음
+          ),
+        ),
       ],
     );
   }
@@ -132,7 +136,14 @@ class _ScalePageState extends State<ScalePage> {
   // 세로 모드 UI를 빌드하는 메서드 (제작 예정)
   Widget _buildPortraitLayout() {
     return Row(
-      children: [Expanded(child: GuitarFretBox(fretboardData: _fretboardData))],
+      children: [
+        Expanded(
+          child: GuitarFretBox(
+            fretboardData: _fretboardData,
+            showBarreConnections: false, // 스케일 페이지에서는 바레를 표시하지 않음
+          ),
+        ),
+      ],
     );
   }
 }

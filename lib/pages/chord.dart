@@ -183,8 +183,12 @@ class _ChordPageState extends State<ChordPage> {
   Widget _buildLandscapeLayout() {
     return Row(
       children: [
-        // 기타 지판 위젯을 Expanded로 감싸서 남은 공간을 모두 차지하게 함
-        Expanded(child: GuitarFretBox(fretboardData: _fretboardData)),
+        Expanded(
+          child: GuitarFretBox(
+            fretboardData: _fretboardData,
+            showBarreConnections: true, // 코드 페이지에서는 바레를 표시함
+          ),
+        ),
       ],
     );
   }
@@ -192,7 +196,14 @@ class _ChordPageState extends State<ChordPage> {
   // 세로 모드 UI를 빌드하는 메서드 (제작 예정)
   Widget _buildPortraitLayout() {
     return Row(
-      children: [Expanded(child: GuitarFretBox(fretboardData: _fretboardData))],
+      children: [
+        Expanded(
+          child: GuitarFretBox(
+            fretboardData: _fretboardData,
+            showBarreConnections: true, // 코드 페이지에서는 바레를 표시함
+          ),
+        ),
+      ],
     );
   }
 }

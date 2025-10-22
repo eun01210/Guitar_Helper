@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/chord.dart';
 import 'package:my_app/pages/scale.dart';
+import 'package:my_app/pages/tuner.dart';
 
 class TitleScreen extends StatelessWidget {
   const TitleScreen({super.key});
@@ -29,6 +30,18 @@ class TitleScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
+                            builder: (context) => const ChordPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Chords'),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
                             builder: (context) => const ScalePage(),
                           ),
                         );
@@ -41,16 +54,11 @@ class TitleScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ChordPage(),
+                            builder: (context) => const TunerPage(),
                           ),
                         );
                       },
-                      child: const Text('Chords'),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Button 3'),
+                      child: const Text('Tuner'),
                     ),
                   ],
                 ),

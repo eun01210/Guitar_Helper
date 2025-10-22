@@ -4,8 +4,14 @@ import 'package:my_app/widgets/note.dart'; // NoteData를 위해 추가
 class Fret extends StatelessWidget {
   final int fretNumber;
   final List<NoteData?> notes;
+  final bool showBarreConnections;
 
-  const Fret({super.key, required this.fretNumber, required this.notes});
+  const Fret({
+    super.key,
+    required this.fretNumber,
+    required this.notes,
+    this.showBarreConnections = true, // Default to true for chords
+  });
 
   static const List<int> _backgroundDotFrets = [
     3,
@@ -74,8 +80,7 @@ class Fret extends StatelessWidget {
                   ),
                 ),
 
-              // 바레 코드 연결선 그리기 (노트 뒤에 위치하도록)
-              ..._buildBarreConnections(),
+              if (showBarreConnections) ..._buildBarreConnections(),
 
               // 프렛 번호와 점들을 표시
               Column(
