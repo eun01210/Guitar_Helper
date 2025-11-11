@@ -36,3 +36,26 @@ const b0maj5 = ChordDefinition(
 );
 
 const b0majs = [b0maj1, b0maj2, b0maj3, b0maj4, b0maj5];
+
+const b0m1 = ChordDefinition(
+  fret: [-1, 2, 4, 4, 3, 2],
+  degrees: ['X', 'R', '5', 'R', 'b3', '5'],
+  fingering: [0, 1, 3, 4, 2, 1],
+  colors: [1, 0, 1, 0, 1, 1],
+);
+
+const b0m2 = ChordDefinition(
+  fret: [7, 9, 9, 7, 7, 7],
+  degrees: ['R', '5', 'R', 'b3', '5', 'R'],
+  fingering: [1, 3, 4, 1, 1, 1],
+  colors: [0, 1, 0, 1, 1, 0],
+);
+
+const b0m3 = ChordDefinition(
+  fret: [-1, -1, 9, 11, 12, 10],
+  degrees: ['X', 'X', 'R', '5', 'R', 'b3'],
+  fingering: [0, 0, 1, 3, 4, 2],
+  colors: [1, 1, 0, 1, 0, 1],
+);
+
+const b0ms = [b0m1, b0m2, b0m3];

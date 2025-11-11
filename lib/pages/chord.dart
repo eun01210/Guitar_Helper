@@ -19,7 +19,7 @@ class _ChordPageState extends State<ChordPage> {
   int _form = 0; // 손가락 폼
   bool _isSharp = false; // # 온오프
   bool _isFlat = false; // b 온오프
-  bool _isFinger = false; // 손가락 온오프
+  bool _isFinger = true; // 손가락 온오프
 
   // 계산된 프렛보드 데이터를 저장할 상태 변수
   late List<List<NoteData?>> _fretboardData;
