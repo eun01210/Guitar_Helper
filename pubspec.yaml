@@ -34,7 +34,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  permission_handler: ^11.3.1
+  pitch_detector_dart: ^0.0.7
+  permission_handler: ^11.4.0 # record 패키지가 내부적으로 사용하지만, 명시적으로 두어도 괜찮습니다.
+  record: ^6.1.2 # 최신 버전으로 변경
+  flutter_bloc: ^8.1.6 # 상태 관리를 위해 추가
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

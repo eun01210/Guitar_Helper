@@ -41,7 +41,7 @@ const c0majs = [c0maj1, c0maj2, c0maj3, c0maj4, c0maj5];
 const c0m1 = ChordDefinition(
   fret: [-1, 3, 1, 0, 1, 3],
   degrees: ['X', 'R', 'b3', '5', 'R', '5'],
-  fingering: [3, 1, 0, 2, 4],
+  fingering: [0, 3, 1, 0, 2, 4],
   colors: [1, 0, 1, 1, 0, 1],
 );
 
