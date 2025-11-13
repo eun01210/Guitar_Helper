@@ -19,7 +19,8 @@ class GuitarFretboard extends StatelessWidget {
       children: [
         SizedBox(width: 25),
         // 프렛 번호와 개방현을 위한 공간
-        ...List.generate(25, (index) {
+        // ChordPage(showBarreConnections: true)일 때는 15프렛까지만 표시
+        ...List.generate(showBarreConnections ? 16 : 25, (index) {
           final fretNumber = index;
           final fretData =
               index < fretboardData.length

@@ -10,7 +10,7 @@ class Fret extends StatelessWidget {
     super.key,
     required this.fretNumber,
     required this.notes,
-    this.showBarreConnections = true, // Default to true for chords
+    this.showBarreConnections = true, // 기본 값은 표시(코드 페이지 기준)
   });
 
   static const List<int> _backgroundDotFrets = [
@@ -29,7 +29,12 @@ class Fret extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: (fretNumber == 0) ? 24 : 36 - fretNumber * 0.6,
+      // ChordPage(showBarreConnections: true)일 때 프렛 너비를 더 넓게 설정
+      width:
+          showBarreConnections
+              // 코드 페이지 프렛 너비 조정 (기존: 36, 54 -> 수정: 34, 52)
+              ? ((fretNumber == 0) ? 34 : 52 - fretNumber * 0.9)
+              : ((fretNumber == 0) ? 24 : 36 - fretNumber * 0.6),
       child: Align(
         alignment: Alignment.topLeft,
         child: SizedBox(
@@ -38,7 +43,13 @@ class Fret extends StatelessWidget {
           child: Stack(
             children: [
               // 프렛보드 배경색
-              if (fretNumber > 0) Container(color: Colors.black),
+              if (fretNumber > 0)
+                Container(
+                  color:
+                      (showBarreConnections)
+                          ? const Color.fromARGB(255, 59, 42, 36)
+                          : Colors.black,
+                ),
               // 프렛의 세로 선 (너비 1px)
               if (fretNumber > 0)
                 Align(

@@ -25,6 +25,15 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
   double _viewerHeight = 0.0; // 기기 세로 길이
   bool _initialScaleSet = false; // 초기 길이 설정 여부
 
+  // 프렛보드 너비를 미리 계산하여 상수로 사용
+  static const double _chordFretboardWidth = 756.0; // ChordPage 프렛보드 너비
+  static const double _scaleFretboardWidth = 758.0; // ScalePage 프렛보드 너비
+  static const double _fretHeight = 150.0; // 프렛 세로 길이
+
+  // 현재 페이지에 맞는 프렛보드 너비
+  double get _fretWidth =>
+      widget.showBarreConnections ? _chordFretboardWidth : _scaleFretboardWidth;
+
   // 컨트롤러 사용
   @override
   void initState() {
@@ -58,15 +67,17 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
     final double liveScale = currentZoomScale;
 
     final double topBoundary =
-        (_viewerHeight > 150 * liveScale) ? 0 : _viewerHeight - 150 * liveScale;
+        (_viewerHeight > _fretHeight * liveScale)
+            ? 0
+            : _viewerHeight - _fretHeight * liveScale;
     double clampedY =
         (currentTranslationY < topBoundary) ? topBoundary : currentTranslationY;
     clampedY = (clampedY > 0) ? 0 : clampedY;
 
     final double leftBoundary =
-        (_viewerWidth > 758.0 * liveScale)
+        (_viewerWidth > _fretWidth * liveScale)
             ? 0
-            : _viewerWidth - 758.0 * liveScale;
+            : _viewerWidth - _fretWidth * liveScale;
     double clampedX =
         (currentTranslationX < leftBoundary)
             ? leftBoundary
@@ -90,7 +101,7 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
           _initialScaleSet = true;
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
-              final double minScale = _viewerWidth / 758.0; // 758은 프렛 총 길이
+              final double minScale = _viewerWidth / _fretWidth; // 758은 프렛 총 길이
               final Matrix4 matrix =
                   Matrix4.copy(_transformationController.value)
                     ..setEntry(0, 0, minScale)
@@ -102,7 +113,8 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
         }
 
         // 최소 배율 제한
-        final double minScale = (_viewerWidth > 0) ? _viewerWidth / 758.0 : 1.0;
+        final double minScale =
+            (_viewerWidth > 0) ? _viewerWidth / _fretWidth : 1.0;
 
         return InteractiveViewer(
           transformationController: _transformationController,
@@ -115,7 +127,8 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
           panEnabled: _currentScaleDisplay > minScale,
           panAxis:
               (_viewerHeight > 0 &&
-                      _currentScaleDisplay <= _viewerHeight / 150) // 150은 프렛 높이
+                      _currentScaleDisplay <=
+                          _viewerHeight / _fretHeight) // 150은 프렛 높이
                   ? PanAxis.horizontal
                   : PanAxis.free,
           child: GuitarFretboard(
