@@ -1,61 +1,41 @@
-import 'package:my_app/datas/chords.dart';
+import 'package:my_app/datas/chords/basic_form.dart';
 
-const f1maj1 = ChordDefinition(
-  fret: [2, 4, 4, 3, 2, 2],
-  degrees: ['R', '5', 'R', '3', '5', 'R'],
-  fingering: [1, 3, 4, 2, 1, 1],
-  colors: [0, 1, 0, 1, 1, 0],
-);
+final f1maj1 = keyUp(maj4, 1);
+final f1maj2 = keyUp(maj5, 3);
+final f1maj3 = keyUp(maj1, 5);
+final f1maj4 = keyUp(maj2, 8);
+final f1maj5 = keyUp(maj3, 10);
 
-const f1maj2 = ChordDefinition(
-  fret: [-1, -1, 4, 6, 7, 6],
-  degrees: ['X', 'X', 'R', '5', 'R', '3'],
-  fingering: [0, 0, 1, 2, 4, 3],
-  colors: [1, 1, 0, 1, 0, 1],
-);
+final f1majs = [f1maj1, f1maj2, f1maj3, f1maj4, f1maj5];
 
-const f1maj3 = ChordDefinition(
-  fret: [-1, 9, 8, 6, 7, 6],
-  degrees: ['X', 'R', '3', '5', 'R', '3'],
-  fingering: [0, 4, 3, 1, 2, 1],
-  colors: [1, 0, 1, 1, 0, 1],
-);
+final f1m1 = keyUp(m2, 1);
+final f1m2 = keyUp(m1, 3);
+final f1m3 = keyUp(m3, 8);
 
-const f1maj4 = ChordDefinition(
-  fret: [-1, 9, 11, 11, 11, 9],
-  degrees: ['X', 'R', '5', 'R', '3', '5'],
-  fingering: [0, 1, 2, 3, 4, 1],
-  colors: [1, 0, 1, 0, 1, 1],
-);
+final f1ms = [f1m1, f1m2, f1m3];
 
-const f1maj5 = ChordDefinition(
-  fret: [-1, -1, 11, 11, 11, 14],
-  degrees: ['X', 'X', '5', 'R', '3', 'R'],
-  fingering: [0, 0, 1, 1, 1, 4],
-  colors: [1, 1, 1, 0, 1, 0],
-);
+final f171 = keyUp(d74, 1);
+final f172 = keyUp(d76, 1);
+final f173 = keyUp(d75, 1);
+final f174 = keyUp(d73, 3);
+final f175 = keyUp(d72, 6);
+final f176 = keyUp(d71, 6);
+final f177 = keyUp(d78, 8);
+final f178 = keyUp(d77, 10);
+final f179 = keyUp(d74, 13);
+final f1710 = keyUp(d76, 13);
+final f1711 = keyUp(d75, 13);
 
-const f1majs = [f1maj1, f1maj2, f1maj3, f1maj4, f1maj5];
-
-const f1m1 = ChordDefinition(
-  fret: [2, 4, 4, 2, 2, 2],
-  degrees: ['R', '5', 'R', 'b3', '5', 'R'],
-  fingering: [1, 3, 4, 1, 1, 1],
-  colors: [0, 1, 0, 1, 1, 0],
-);
-
-const f1m2 = ChordDefinition(
-  fret: [-1, -1, 4, 6, 7, 5],
-  degrees: ['X', 'X', 'R', '5', 'R', 'b3'],
-  fingering: [0, 0, 1, 3, 4, 2],
-  colors: [1, 1, 0, 1, 0, 1],
-);
-
-const f1m3 = ChordDefinition(
-  fret: [-1, 9, 11, 11, 10, 9],
-  degrees: ['X', 'R', '5', 'R', 'b3', '5'],
-  fingering: [0, 1, 3, 4, 2, 1],
-  colors: [1, 0, 1, 0, 1, 1],
-);
-
-const f1ms = [f1m1, f1m2, f1m3];
+final f17s = [
+  f171,
+  f172,
+  f173,
+  f174,
+  f175,
+  f176,
+  f177,
+  f178,
+  f179,
+  f1710,
+  f1711,
+];

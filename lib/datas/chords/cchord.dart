@@ -1,69 +1,62 @@
 import 'package:my_app/datas/chords.dart';
+import 'package:my_app/datas/chords/basic_form.dart';
 
 // 6번줄부터 표시
-const c0maj1 = ChordDefinition(
+final c0maj1 = ChordDefinition(
   fret: [-1, 3, 2, 0, 1, 0],
   degrees: ['X', 'R', '3', '5', 'R', '3'],
   fingering: [4, 3, 2, 0, 1, 0],
   colors: [1, 0, 1, 1, 0, 1],
 );
 
-const c0maj2 = ChordDefinition(
-  fret: [-1, 3, 5, 5, 5, 3],
-  degrees: ['X', 'R', '5', 'R', '3', '5'],
-  fingering: [0, 1, 2, 3, 4, 1],
-  colors: [1, 0, 1, 0, 1, 1],
-);
+final c0maj2 = keyUp(maj2, 2);
+final c0maj3 = keyUp(maj3, 4);
+final c0maj4 = keyUp(maj4, 7);
+final c0maj5 = keyUp(maj5, 9);
 
-const c0maj3 = ChordDefinition(
-  fret: [-1, -1, 5, 5, 5, 8],
-  degrees: ['X', 'X', '5', 'R', '3', 'R'],
-  fingering: [0, 0, 1, 1, 1, 4],
-  colors: [1, 1, 1, 0, 1, 0],
-);
+final c0majs = [c0maj1, c0maj2, c0maj3, c0maj4, c0maj5];
 
-const c0maj4 = ChordDefinition(
-  fret: [8, 10, 10, 9, 8, 8],
-  degrees: ['R', '5', 'R', '3', '5', 'R'],
-  fingering: [1, 3, 4, 2, 1, 1],
-  colors: [0, 1, 0, 1, 1, 0],
-);
-
-const c0maj5 = ChordDefinition(
-  fret: [-1, -1, 10, 12, 13, 12],
-  degrees: ['X', 'X', 'R', '5', 'R', '3'],
-  fingering: [0, 0, 1, 2, 4, 3],
-  colors: [1, 1, 0, 1, 0, 0],
-);
-
-const c0majs = [c0maj1, c0maj2, c0maj3, c0maj4, c0maj5];
-
-const c0m1 = ChordDefinition(
+final c0m1 = ChordDefinition(
   fret: [-1, 3, 1, 0, 1, 3],
   degrees: ['X', 'R', 'b3', '5', 'R', '5'],
   fingering: [0, 3, 1, 0, 2, 4],
   colors: [1, 0, 1, 1, 0, 1],
 );
 
-const c0m2 = ChordDefinition(
-  fret: [-1, 3, 5, 5, 4, 3],
-  degrees: ['X', 'R', '5', 'R', 'b3', '5'],
-  fingering: [0, 1, 3, 4, 2, 1],
-  colors: [1, 0, 1, 0, 1, 1],
+final c0m2 = keyUp(m3, 2);
+final c0m3 = keyUp(m2, 7);
+final c0m4 = keyUp(m1, 9);
+
+final c0ms = [c0m1, c0m2, c0m3, c0m4];
+
+final c071 = ChordDefinition(
+  fret: [-1, 3, 2, 3, 1, 0],
+  degrees: ['X', 'R', '3', 'b7', 'R', '3'],
+  fingering: [0, 3, 2, 4, 1, 0],
+  colors: [1, 0, 1, 1, 0, 1],
 );
 
-const c0m3 = ChordDefinition(
-  fret: [8, 10, 10, 8, 8, 8],
-  degrees: ['R', '5', 'R', 'b3', '5', 'R'],
-  fingering: [1, 3, 4, 1, 1, 1],
-  colors: [0, 1, 0, 1, 1, 0],
-);
+final c072 = keyUp(d72, 0);
+final c073 = keyUp(d71, 0);
+final c074 = keyUp(d78, 2);
+final c075 = keyUp(d77, 4);
+final c076 = keyUp(d74, 7);
+final c077 = keyUp(d76, 7);
+final c078 = keyUp(d75, 7);
+final c079 = keyUp(d73, 9);
+final c0710 = keyUp(d71, 12);
+final c0711 = keyUp(d72, 12);
 
-const c0m4 = ChordDefinition(
-  fret: [-1, -1, 10, 12, 13, 11],
-  degrees: ['X', 'X', 'R', '5', 'R', 'b3'],
-  fingering: [0, 0, 1, 3, 4, 2],
-  colors: [1, 1, 0, 1, 0, 1],
-);
-
-const c0ms = [c0m1, c0m2, c0m3, c0m4];
+final c07s = [
+  c071,
+  c072,
+  c073,
+  c074,
+  c075,
+  c076,
+  c077,
+  c078,
+  c079,
+  c0710,
+  c0711,
+];

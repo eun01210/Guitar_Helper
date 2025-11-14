@@ -1,61 +1,26 @@
-import 'package:my_app/datas/chords.dart';
+import 'package:my_app/datas/chords/basic_form.dart';
 
-const c1maj1 = ChordDefinition(
-  fret: [-1, 4, 3, 1, 2, 1],
-  degrees: ['X', 'R', '3', '5', 'R', '3'],
-  fingering: [0, 4, 3, 1, 2, 1],
-  colors: [1, 0, 1, 1, 0, 1],
-);
+final c1maj1 = keyUp(maj1, 0);
+final c1maj2 = keyUp(maj2, 3);
+final c1maj3 = keyUp(maj3, 5);
+final c1maj4 = keyUp(maj4, 8);
+final c1maj5 = keyUp(maj5, 10);
 
-const c1maj2 = ChordDefinition(
-  fret: [-1, 4, 6, 6, 6, 4],
-  degrees: ['X', 'R', '5', 'R', '3', '5'],
-  fingering: [0, 1, 2, 3, 4, 1],
-  colors: [1, 0, 1, 0, 1, 1],
-);
+final c1majs = [c1maj1, c1maj2, c1maj3, c1maj4, c1maj5];
 
-const c1maj3 = ChordDefinition(
-  fret: [-1, -1, 6, 6, 6, 9],
-  degrees: ['X', 'X', '5', 'R', '3', 'R'],
-  fingering: [0, 0, 1, 1, 1, 4],
-  colors: [1, 1, 1, 0, 1, 0],
-);
+final c1m1 = keyUp(m3, 3);
+final c1m2 = keyUp(m2, 8);
+final c1m3 = keyUp(m1, 10);
 
-const c1maj4 = ChordDefinition(
-  fret: [9, 11, 11, 10, 9, 9],
-  degrees: ['R', '5', 'R', '3', '5', 'R'],
-  fingering: [1, 3, 4, 2, 1, 1],
-  colors: [0, 1, 0, 1, 1, 0],
-);
+final c1ms = [c1m1, c1m2, c1m3];
 
-const c1maj5 = ChordDefinition(
-  fret: [-1, -1, 11, 13, 14, 13],
-  degrees: ['X', 'X', 'R', '5', 'R', '3'],
-  fingering: [0, 0, 1, 2, 4, 3],
-  colors: [1, 1, 0, 1, 0, 1],
-);
+final c171 = keyUp(d72, 1);
+final c172 = keyUp(d71, 1);
+final c173 = keyUp(d78, 3);
+final c174 = keyUp(d77, 5);
+final c175 = keyUp(d74, 8);
+final c176 = keyUp(d76, 8);
+final c177 = keyUp(d75, 8);
+final c178 = keyUp(d73, 10);
 
-const c1majs = [c1maj1, c1maj2, c1maj3, c1maj4, c1maj5];
-
-const c1m1 = ChordDefinition(
-  fret: [-1, 4, 6, 6, 5, 4],
-  degrees: ['X', 'R', '5', 'R', 'b3', '5'],
-  fingering: [0, 1, 3, 4, 2, 1],
-  colors: [1, 0, 1, 0, 1, 1],
-);
-
-const c1m2 = ChordDefinition(
-  fret: [9, 11, 11, 9, 9, 9],
-  degrees: ['R', '5', 'R', 'b3', '5', 'R'],
-  fingering: [1, 3, 4, 1, 1, 1],
-  colors: [0, 1, 0, 1, 1, 0],
-);
-
-const c1m3 = ChordDefinition(
-  fret: [-1, -1, 11, 13, 14, 12],
-  degrees: ['X', 'X', 'R', '5', 'R', 'b3'],
-  fingering: [0, 0, 1, 3, 4, 2],
-  colors: [1, 1, 0, 1, 0, 1],
-);
-
-const c1ms = [c1m1, c1m2, c1m3];
+final c17s = [c171, c172, c173, c174, c175, c176, c177, c178];

@@ -1,61 +1,27 @@
-import 'package:my_app/datas/chords.dart';
+import 'package:my_app/datas/chords/basic_form.dart';
 
-const g1maj1 = ChordDefinition(
-  fret: [-1, -1, 1, 1, 1, 4],
-  degrees: ['X', 'X', '5', 'R', '3', 'R'],
-  fingering: [0, 0, 1, 1, 1, 4],
-  colors: [1, 1, 1, 0, 1, 0],
-);
+final g1maj1 = keyUp(maj3, 0);
+final g1maj2 = keyUp(maj4, 3);
+final g1maj3 = keyUp(maj5, 5);
+final g1maj4 = keyUp(maj1, 7);
+final g1maj5 = keyUp(maj2, 10);
 
-const g1maj2 = ChordDefinition(
-  fret: [4, 6, 6, 5, 4, 4],
-  degrees: ['R', '5', 'R', '3', '5', 'R'],
-  fingering: [1, 3, 4, 2, 1, 1],
-  colors: [0, 1, 0, 1, 1, 0],
-);
+final g1majs = [g1maj1, g1maj2, g1maj3, g1maj4, g1maj5];
 
-const g1maj3 = ChordDefinition(
-  fret: [-1, -1, 6, 8, 9, 8],
-  degrees: ['X', 'X', 'R', '5', 'R', '3'],
-  fingering: [0, 0, 1, 2, 4, 3],
-  colors: [1, 1, 0, 1, 0, 1],
-);
+final g1m1 = keyUp(m2, 3);
+final g1m2 = keyUp(m1, 5);
+final g1m3 = keyUp(m3, 10);
 
-const g1maj4 = ChordDefinition(
-  fret: [-1, 11, 10, 8, 9, 8],
-  degrees: ['X', 'R', '3', '5', 'R', '3'],
-  fingering: [0, 4, 3, 1, 2, 1],
-  colors: [1, 0, 1, 1, 0, 1],
-);
+final g1ms = [g1m1, g1m2, g1m3];
 
-const g1maj5 = ChordDefinition(
-  fret: [-1, 11, 13, 13, 13, 11],
-  degrees: ['X', 'R', '5', 'R', '3', '5'],
-  fingering: [0, 1, 2, 3, 4, 1],
-  colors: [1, 0, 1, 0, 1, 1],
-);
+final g171 = keyUp(d77, 0);
+final g172 = keyUp(d74, 3);
+final g173 = keyUp(d76, 3);
+final g174 = keyUp(d75, 3);
+final g175 = keyUp(d73, 5);
+final g176 = keyUp(d72, 8);
+final g177 = keyUp(d71, 8);
+final g178 = keyUp(d78, 10);
+final g179 = keyUp(d77, 12);
 
-const g1majs = [g1maj1, g1maj2, g1maj3, g1maj4, g1maj5];
-
-const g1m1 = ChordDefinition(
-  fret: [4, 6, 6, 4, 4, 4],
-  degrees: ['R', '5', 'R', 'b3', '5', 'R'],
-  fingering: [1, 3, 4, 1, 1, 1],
-  colors: [0, 1, 0, 1, 1, 0],
-);
-
-const g1m2 = ChordDefinition(
-  fret: [-1, -1, 6, 8, 9, 7],
-  degrees: ['X', 'X', 'R', '5', 'R', 'b3'],
-  fingering: [0, 0, 1, 3, 4, 2],
-  colors: [1, 1, 0, 1, 0, 1],
-);
-
-const g1m3 = ChordDefinition(
-  fret: [-1, 11, 13, 13, 12, 11],
-  degrees: ['X', 'R', '5', 'R', 'b3', '5'],
-  fingering: [0, 1, 3, 4, 2, 1],
-  colors: [1, 0, 1, 0, 1, 1],
-);
-
-const g1ms = [g1m1, g1m2, g1m3];
+final g17s = [g171, g172, g173, g174, g175, g176, g177, g178, g179];

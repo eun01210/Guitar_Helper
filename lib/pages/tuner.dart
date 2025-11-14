@@ -150,12 +150,11 @@ class _TunerPageState extends State<TunerPage> {
                 ),
               ),
             ),
-            /*
             const SizedBox(height: 20),
             Text(
               'Pitch: ${_pitch.toStringAsFixed(2)} Hz',
               style: const TextStyle(fontSize: 16),
-            ),*/
+            ),
           ],
         ),
       ),

@@ -25,7 +25,7 @@ class ChordDefinition {
   });
 }
 
-const Map<String, List<ChordDefinition>> chords = {
+final Map<String, List<ChordDefinition>> chords = {
   // 메이저
   'C-1maj': b0majs,
   'C0maj': c0majs,
@@ -83,4 +83,33 @@ const Map<String, List<ChordDefinition>> chords = {
   'B-1m': a1ms,
   'B0m': b0ms,
   'B1m': c0ms,
+
+  // 도미넌트 세븐스
+  'C-17': b07s,
+  'C07': c07s,
+  'C17': c17s,
+
+  'D-17': c17s,
+  'D07': d07s,
+  'D17': d17s,
+
+  'E-17': d17s,
+  'E07': e07s,
+  'E17': f07s,
+
+  'F-17': e07s,
+  'F07': f07s,
+  'F17': f17s,
+
+  'G-17': f17s,
+  'G07': g07s,
+  'G17': g17s,
+
+  'A-17': g17s,
+  'A07': a07s,
+  'A17': a17s,
+
+  'B-17': a17s,
+  'B07': b07s,
+  'B17': c07s,
 };
