@@ -60,3 +60,27 @@ final c07s = [
   c0710,
   c0711,
 ];
+
+final c0m71 = keyUp(m71, 0);
+final c0m72 = keyUp(m72, 0);
+final c0m73 = keyUp(m78, 2);
+final c0m74 = keyUp(m77, 3);
+final c0m75 = keyUp(m74, 7);
+final c0m76 = keyUp(m75, 7);
+final c0m77 = keyUp(m76, 7);
+final c0m78 = keyUp(m73, 9);
+final c0m79 = keyUp(m71, 12);
+final c0m710 = keyUp(m72, 12);
+
+final c0m7s = [
+  c0m71,
+  c0m72,
+  c0m73,
+  c0m74,
+  c0m75,
+  c0m76,
+  c0m77,
+  c0m78,
+  c0m79,
+  c0m710,
+];

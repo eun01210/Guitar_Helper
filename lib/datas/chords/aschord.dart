@@ -27,3 +27,15 @@ final a178 = keyUp(d72, 10);
 final a179 = keyUp(d78, 12);
 
 final a17s = [a171, a172, a173, a174, a175, a176, a177, a178, a179];
+
+final a1m71 = keyUp(m78, 0);
+final a1m72 = keyUp(m77, 1);
+final a1m73 = keyUp(m74, 5);
+final a1m74 = keyUp(m75, 5);
+final a1m75 = keyUp(m76, 5);
+final a1m76 = keyUp(m73, 7);
+final a1m77 = keyUp(m71, 10);
+final a1m78 = keyUp(m72, 10);
+final a1m79 = keyUp(m78, 12);
+
+final a1m7s = [a1m71, a1m72, a1m73, a1m74, a1m75, a1m76, a1m77, a1m78, a1m79];

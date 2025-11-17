@@ -42,3 +42,14 @@ final g079 = keyUp(d78, 9);
 final g0710 = keyUp(d77, 11);
 
 final g07s = [g071, g072, g073, g074, g075, g076, g077, g078, g079, g0710];
+
+final g0m71 = keyUp(m74, 2);
+final g0m72 = keyUp(m75, 2);
+final g0m73 = keyUp(m76, 2);
+final g0m74 = keyUp(m73, 4);
+final g0m75 = keyUp(m71, 7);
+final g0m76 = keyUp(m72, 7);
+final g0m77 = keyUp(m78, 9);
+final g0m78 = keyUp(m77, 10);
+
+final g0m7s = [g0m71, g0m72, g0m73, g0m74, g0m75, g0m76, g0m77, g0m78];

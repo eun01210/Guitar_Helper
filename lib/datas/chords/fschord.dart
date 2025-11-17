@@ -39,3 +39,27 @@ final f17s = [
   f1710,
   f1711,
 ];
+
+final f1m71 = keyUp(m74, 1);
+final f1m72 = keyUp(m75, 1);
+final f1m73 = keyUp(m76, 1);
+final f1m74 = keyUp(m73, 3);
+final f1m75 = keyUp(m71, 6);
+final f1m76 = keyUp(m72, 6);
+final f1m77 = keyUp(m78, 8);
+final f1m78 = keyUp(m77, 9);
+final f1m79 = keyUp(m75, 13);
+final f1m710 = keyUp(m76, 13);
+
+final f1m7s = [
+  f1m71,
+  f1m72,
+  f1m73,
+  f1m74,
+  f1m75,
+  f1m76,
+  f1m77,
+  f1m78,
+  f1m79,
+  f1m710,
+];

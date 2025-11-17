@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/pages/chord.dart';
 import 'package:my_app/pages/scale.dart';
 import 'package:my_app/pages/tuner.dart';
+import 'package:my_app/pages/metronome.dart';
 
 class TitleScreen extends StatelessWidget {
   const TitleScreen({super.key});
@@ -23,7 +24,7 @@ class TitleScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 120.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ElevatedButton(
                       onPressed: () {
@@ -34,9 +35,9 @@ class TitleScreen extends StatelessWidget {
                           ),
                         );
                       },
-                      child: const Text('Chords'),
+                      child: const Text('Chord'),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -48,7 +49,7 @@ class TitleScreen extends StatelessWidget {
                       },
                       child: const Text('Scale'),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -59,6 +60,18 @@ class TitleScreen extends StatelessWidget {
                         );
                       },
                       child: const Text('Tuner'),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MetronomePage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Metronome'),
                     ),
                   ],
                 ),

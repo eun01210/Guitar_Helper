@@ -35,9 +35,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   pitch_detector_dart: ^0.0.7
-  permission_handler: ^11.4.0 # record 패키지가 내부적으로 사용하지만, 명시적으로 두어도 괜찮습니다.
-  record: ^6.1.2 # 최신 버전으로 변경
+  permission_handler: ^11.4.0 # record 패키지가 내부적으로 사용, 단순 명시
+  record: ^6.1.2 # 음성 받아오기
   flutter_bloc: ^8.1.6 # 상태 관리를 위해 추가
+  audioplayers: ^6.0.0 # 음성 재생
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -66,6 +67,8 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

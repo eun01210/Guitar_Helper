@@ -58,3 +58,20 @@ final b07s = [
   b0710,
   b0711,
 ];
+
+final b0m71 = ChordDefinition(
+  fret: [-1, 0, 0, 2, 0, 2],
+  degrees: ['X', 'b7', 'b3', 'b7', 'R', '5'],
+  fingering: [0, 0, 0, 1, 0, 2],
+  colors: [1, 1, 1, 1, 0, 1],
+);
+final b0m72 = keyUp(m78, 1);
+final b0m73 = keyUp(m77, 2);
+final b0m74 = keyUp(m74, 6);
+final b0m75 = keyUp(m75, 6);
+final b0m76 = keyUp(m76, 6);
+final b0m77 = keyUp(m73, 8);
+final b0m78 = keyUp(m71, 11);
+final b0m79 = keyUp(m72, 11);
+
+final b0m7s = [b0m71, b0m72, b0m73, b0m74, b0m75, b0m76, b0m77, b0m78, b0m79];

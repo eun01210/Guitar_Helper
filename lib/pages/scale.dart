@@ -65,11 +65,8 @@ class _ScalePageState extends State<ScalePage> {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text(
-              'Scale Diagram',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(width: 10),
+            const Text('Scale', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(width: 20),
             ChordSelectBox(
               selectedItem: _selChord,
               onChanged: (newValue) {

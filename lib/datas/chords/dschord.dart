@@ -25,3 +25,15 @@ final d178 = keyUp(d75, 10);
 final d179 = keyUp(d73, 12);
 
 final d17s = [d171, d172, d173, d174, d175, d176, d177, d178, d179];
+
+final d1m71 = keyUp(m73, 0);
+final d1m72 = keyUp(m71, 3);
+final d1m73 = keyUp(m72, 3);
+final d1m74 = keyUp(m78, 5);
+final d1m75 = keyUp(m77, 6);
+final d1m76 = keyUp(m74, 10);
+final d1m77 = keyUp(m75, 10);
+final d1m78 = keyUp(m76, 10);
+final d1m79 = keyUp(m73, 12);
+
+final d1m7s = [d1m71, d1m72, d1m73, d1m74, d1m75, d1m76, d1m77, d1m78, d1m79];

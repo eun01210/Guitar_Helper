@@ -1,3 +1,4 @@
+import 'package:my_app/datas/chords.dart';
 import 'package:my_app/datas/chords/basic_form.dart';
 
 final g1maj1 = keyUp(maj3, 0);
@@ -25,3 +26,21 @@ final g178 = keyUp(d78, 10);
 final g179 = keyUp(d77, 12);
 
 final g17s = [g171, g172, g173, g174, g175, g176, g177, g178, g179];
+
+// Am7 1번폼
+final g1m71 = ChordDefinition(
+  fret: [-1, -1, 1, 1, 0, 2],
+  degrees: ['X', 'X', '5', 'R', 'b3', 'b7'],
+  fingering: [0, 0, 1, 2, 0, 4],
+  colors: [1, 1, 1, 0, 1, 1],
+);
+final g1m72 = keyUp(m74, 3);
+final g1m73 = keyUp(m75, 3);
+final g1m74 = keyUp(m76, 3);
+final g1m75 = keyUp(m73, 5);
+final g1m76 = keyUp(m71, 8);
+final g1m77 = keyUp(m72, 8);
+final g1m78 = keyUp(m78, 10);
+final g1m79 = keyUp(m77, 11);
+
+final g1m7s = [g1m71, g1m72, g1m73, g1m74, g1m75, g1m76, g1m77, g1m78, g1m79];

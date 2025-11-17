@@ -100,11 +100,8 @@ class _ChordPageState extends State<ChordPage> {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text(
-              'Chord Diagram',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(width: 10),
+            const Text('Chord', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(width: 20),
             ChordSelectBox(
               selectedItem: _selChord,
               onChanged: (newValue) {
@@ -131,16 +128,18 @@ class _ChordPageState extends State<ChordPage> {
                 _handleAccidentalChange(newValue, false);
               },
             ),
-            ChordSelectBox(
-              selectedItem: _selExt,
-              onChanged: (newValue) {
-                setState(() {
-                  _form = 0;
-                  _selExt = newValue;
-                  _updateFretboardData(); // 상태 변경 시 데이터 업데이트
-                });
-              },
-              items: ['maj', '7', 'm', 'm7', 'M7', 'sus4'],
+            SizedBox(
+              child: ChordSelectBox(
+                selectedItem: _selExt,
+                onChanged: (newValue) {
+                  setState(() {
+                    _form = 0;
+                    _selExt = newValue;
+                    _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+                  });
+                },
+                items: const ['maj', '7', 'm', 'm7', 'M7', 'sus4'],
+              ),
             ),
             const SizedBox(width: 10),
             Check(

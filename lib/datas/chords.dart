@@ -112,4 +112,33 @@ final Map<String, List<ChordDefinition>> chords = {
   'B-17': a17s,
   'B07': b07s,
   'B17': c07s,
+
+  // 마이너 세븐스
+  'C-1m7': b0m7s,
+  'C0m7': c0m7s,
+  'C1m7': c1m7s,
+
+  'D-1m7': c1m7s,
+  'D0m7': d0m7s,
+  'D1m7': d1m7s,
+
+  'E-1m7': d1m7s,
+  'E0m7': e0m7s,
+  'E1m7': f0m7s,
+
+  'F-1m7': e0m7s,
+  'F0m7': f0m7s,
+  'F1m7': f1m7s,
+
+  'G-1m7': f1m7s,
+  'G0m7': g0m7s,
+  'G1m7': g1m7s,
+
+  'A-1m7': g1m7s,
+  'A0m7': a0m7s,
+  'A1m7': a1m7s,
+
+  'B-1m7': a1m7s,
+  'B0m7': b0m7s,
+  'B1m7': c0m7s,
 };
