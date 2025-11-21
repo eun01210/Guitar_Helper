@@ -37,3 +37,35 @@ final d1m78 = keyUp(m76, 10);
 final d1m79 = keyUp(m73, 12);
 
 final d1m7s = [d1m71, d1m72, d1m73, d1m74, d1m75, d1m76, d1m77, d1m78, d1m79];
+
+final d1maj71 = keyUp(maj73, 0);
+final d1maj72 = keyUp(maj72, 2);
+final d1maj73 = keyUp(maj71, 3);
+final d1maj74 = keyUp(maj78, 5);
+final d1maj75 = keyUp(maj79, 5);
+final d1maj76 = keyUp(maj77, 7);
+final d1maj77 = keyUp(maj76, 9);
+final d1maj78 = keyUp(maj710, 10);
+final d1maj79 = keyUp(maj74, 10);
+final d1maj710 = keyUp(maj75, 10);
+final d1maj711 = keyUp(maj73, 12);
+
+final d1maj7s = [
+  d1maj71,
+  d1maj72,
+  d1maj73,
+  d1maj74,
+  d1maj75,
+  d1maj76,
+  d1maj77,
+  d1maj78,
+  d1maj79,
+  d1maj710,
+  d1maj711,
+];
+
+final d1sus741 = keyUp(sus741, 0);
+final d1sus742 = keyUp(sus743, 5);
+final d1sus743 = keyUp(sus742, 10);
+
+final d1sus74s = [d1sus741, d1sus742, d1sus743];

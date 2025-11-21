@@ -194,7 +194,7 @@ const m75 = ChordDefinition(
 const m76 = ChordDefinition(
   fret: [1, -1, 1, 1, 1, -1],
   degrees: ['R', 'X', 'b7', 'b3', '5', 'X'],
-  fingering: [1, 0, 2, 3, 4, 1],
+  fingering: [1, 0, 2, 3, 4, 0],
   colors: [0, 1, 1, 1, 1, 1],
 );
 
@@ -211,5 +211,113 @@ const m78 = ChordDefinition(
   fret: [-1, 1, 3, 1, 2, 1],
   degrees: ['X', 'R', '5', 'b7', 'b3', '5'],
   fingering: [0, 1, 3, 1, 2, 1],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+
+// M7 ========================================
+
+// CM7 1번폼
+const maj71 = ChordDefinition(
+  fret: [-1, -1, 2, 4, 1, 3],
+  degrees: ['X', 'X', '3', '7', 'R', '5'],
+  fingering: [0, 0, 2, 4, 1, 3],
+  colors: [1, 1, 1, 1, 0, 1],
+);
+
+// C#M7 1번폼
+const maj72 = ChordDefinition(
+  fret: [1, 4, 3, 1, 1, 1],
+  degrees: ['3', 'R', '3', '5', '7', '3'],
+  fingering: [1, 4, 3, 1, 1, 1],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+
+// D#M7 1번폼
+const maj73 = ChordDefinition(
+  fret: [-1, -1, 1, 3, 3, 3],
+  degrees: ['X', 'X', 'R', '5', '7', '3'],
+  fingering: [0, 0, 1, 3, 3, 3],
+  colors: [1, 1, 0, 1, 1, 1],
+);
+
+// FM7 2번폼
+const maj74 = ChordDefinition(
+  fret: [1, -1, 2, 2, 1, -1],
+  degrees: ['R', 'X', '7', '3', '5', 'X'],
+  fingering: [1, 0, 3, 4, 2, 0],
+  colors: [0, 1, 1, 1, 1, 1],
+);
+
+// FM7 3번폼
+const maj75 = ChordDefinition(
+  fret: [1, 3, 2, 2, 1, 1],
+  degrees: ['R', '5', '7', '3', '5', 'R'],
+  fingering: [1, 4, 2, 3, 1, 1],
+  colors: [0, 1, 1, 1, 1, 0],
+);
+
+// F#M7 1번폼
+const maj76 = ChordDefinition(
+  fret: [-1, -1, 4, 3, 2, 1],
+  degrees: ['X', 'X', 'R', '3', '5', '7'],
+  fingering: [0, 0, 4, 3, 2, 1],
+  colors: [1, 1, 0, 1, 1, 1],
+);
+
+// G#M7 1번폼
+const maj77 = ChordDefinition(
+  fret: [-1, 3, 1, 1, 1, 3],
+  degrees: ['X', '3', '5', 'R', '3', '7'],
+  fingering: [0, 3, 1, 1, 1, 4],
+  colors: [1, 1, 1, 0, 1, 1],
+);
+
+// A#M7 1번폼
+const maj78 = ChordDefinition(
+  fret: [-1, 1, 3, 2, 3, 1],
+  degrees: ['X', 'R', '5', '7', '3', '5'],
+  fingering: [0, 1, 3, 2, 4, 1],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+
+// A#M7 2번폼
+const maj79 = ChordDefinition(
+  fret: [1, 1, 3, 2, 3, 1],
+  degrees: ['5', 'R', '5', '7', '3', '5'],
+  fingering: [1, 1, 3, 2, 4, 1],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+
+// FM7 X번폼
+const maj710 = ChordDefinition(
+  fret: [-1, -1, 2, 2, 1, 1],
+  degrees: ['X', 'X', '7', '3', '5', 'R'],
+  fingering: [0, 0, 2, 3, 1, 1],
+  colors: [1, 1, 1, 1, 1, 0],
+);
+
+// 7sus4 =======================================
+
+// D#7sus4 1번폼
+const sus741 = ChordDefinition(
+  fret: [-1, -1, 1, 3, 2, 4],
+  degrees: ['X', 'X', 'R', '5', 'b7', '4'],
+  fingering: [0, 0, 1, 3, 2, 4],
+  colors: [1, 1, 0, 1, 1, 1],
+);
+
+// F7sus4 1번폼
+const sus742 = ChordDefinition(
+  fret: [1, 3, 1, 3, 1, 1],
+  degrees: ['R', '5', 'b7', '4', '5', 'R'],
+  fingering: [1, 4, 2, 3, 1, 1],
+  colors: [0, 1, 1, 1, 1, 0],
+);
+
+// A#7sus4 1번폼
+const sus743 = ChordDefinition(
+  fret: [-1, 1, 3, 1, 4, 1],
+  degrees: ['X', 'R', '5', 'b7', '4', '5'],
+  fingering: [0, 1, 3, 1, 4, 1],
   colors: [1, 0, 1, 1, 1, 1],
 );

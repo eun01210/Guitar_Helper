@@ -108,3 +108,60 @@ final e0m7s = [
   e0m710,
   e0m711,
 ];
+
+final e0maj71 = ChordDefinition(
+  fret: [-1, -1, 1, 1, 0, 0],
+  degrees: ['X', 'X', '7', '3', '5', 'R'],
+  fingering: [0, 0, 2, 3, 0, 0],
+  colors: [1, 1, 1, 1, 1, 0],
+);
+final e0maj72 = ChordDefinition(
+  fret: [0, -1, 1, 1, 0, -1],
+  degrees: ['R', 'X', '7', '3', '5', 'X'],
+  fingering: [0, 0, 2, 3, 0, 0],
+  colors: [0, 1, 1, 1, 1, 1],
+);
+final e0maj73 = ChordDefinition(
+  fret: [0, 2, 1, 1, 0, 0],
+  degrees: ['R', '5', '7', '3', '5', 'R'],
+  fingering: [0, 3, 1, 2, 0, 0],
+  colors: [0, 1, 1, 1, 1, 0],
+);
+final e0maj74 = keyUp(maj73, 1);
+final e0maj75 = keyUp(maj72, 3);
+final e0maj76 = keyUp(maj71, 4);
+final e0maj77 = keyUp(maj78, 6);
+final e0maj78 = keyUp(maj79, 6);
+final e0maj79 = keyUp(maj77, 8);
+final e0maj710 = keyUp(maj76, 10);
+final e0maj711 = keyUp(maj710, 11);
+final e0maj712 = keyUp(maj74, 11);
+final e0maj713 = keyUp(maj75, 11);
+
+final e0maj7s = [
+  e0maj71,
+  e0maj72,
+  e0maj73,
+  e0maj74,
+  e0maj75,
+  e0maj76,
+  e0maj77,
+  e0maj78,
+  e0maj79,
+  e0maj710,
+  e0maj711,
+  e0maj712,
+  e0maj713,
+];
+
+final e0sus741 = ChordDefinition(
+  fret: [0, 2, 0, 2, 0, 0],
+  degrees: ['R', '5', 'b7', '4', '5', 'R'],
+  fingering: [0, 1, 0, 2, 0, 0],
+  colors: [0, 1, 1, 1, 1, 0],
+);
+final e0sus742 = keyUp(sus741, 1);
+final e0sus743 = keyUp(sus743, 6);
+final e0sus744 = keyUp(sus742, 11);
+
+final e0sus74s = [e0sus741, e0sus742, e0sus743, e0sus744];

@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:metronome/metronome.dart';
 
 class MetronomePage extends StatefulWidget {
   const MetronomePage({super.key});
@@ -13,18 +12,33 @@ class MetronomePage extends StatefulWidget {
 class _MetronomePageState extends State<MetronomePage> {
   int _bpm = 120; // 현재 bpm
   bool _isPlaying = false; // 실행중 여부
-  Timer? _timer; // Timer 기능으로 특정 시간 경과마다 소리를 냄
-
   int _beatCount = 0; // 현재 박자
+
   int _beatsPerMeasure = 4; // 박자 체크
   DateTime? _lastTapTime; // 탭 템포 마지막 클릭 시간
   Timer? _tapTempoTimer; // 탭 템포 초기화 타이머
+  final metronome = Metronome();
 
-  // 오디오 플레이어를 stop 상태로 초기화
   @override
   void initState() {
     super.initState();
-    // initState는 비워두거나 다른 초기화 로직을 추가할 수 있습니다.
+    // 메트로놈 초기화
+    metronome.init(
+      'assets/metro1.wav', // 보조 박자 사운드
+      accentedPath: 'assets/metro2.wav', // 주 박자 사운드
+      bpm: _bpm,
+      volume: 100,
+      timeSignature: _beatsPerMeasure,
+      enableTickCallback: true,
+      sampleRate: 44100,
+    );
+    metronome.tickStream.listen((int tick) {
+      if (mounted) {
+        setState(() {
+          _beatCount = tick + 1;
+        });
+      }
+    });
   }
 
   // 메트로놈 재생/종료 설정
@@ -34,45 +48,12 @@ class _MetronomePageState extends State<MetronomePage> {
 
       if (_isPlaying) {
         // 메트로놈이 시작, 타이머 설정
-        _playBeat();
-        _startTimer();
+        metronome.play();
       } else {
         // 타이머 및 카운트 초기화
-        _timer?.cancel();
+        metronome.pause();
         _beatCount = 0;
       }
-    });
-  }
-
-  // 박자를 세고, 해당하는 소리를 재생
-  void _playBeat() {
-    // 위젯이 화면에 없을 때 setState가 호출되는 것을 방지
-    if (!mounted) return;
-
-    setState(() {
-      _beatCount = (_beatCount % _beatsPerMeasure) + 1;
-    });
-
-    // 매번 새로운 플레이어를 생성하여 상태 충돌을 원천적으로 방지합니다.
-    final player = AudioPlayer();
-    player.setPlayerMode(PlayerMode.lowLatency);
-
-    // 박자에 맞는 소스를 선택하여 재생합니다.
-    final source = AssetSource(_beatCount == 1 ? 'metro1.wav' : 'metro2.wav');
-    player.play(source);
-
-    // 재생이 완료되면 플레이어 리소스를 자동으로 해제합니다.
-    player.onPlayerComplete.listen((event) {
-      player.dispose();
-    });
-  }
-
-  // 타이머 설정 (간격을 bpm에 맞게) 후 박자 세기 시작
-  void _startTimer() {
-    _timer = Timer.periodic(Duration(milliseconds: (60000 / _bpm).round()), (
-      timer,
-    ) {
-      _playBeat();
     });
   }
 
@@ -82,10 +63,7 @@ class _MetronomePageState extends State<MetronomePage> {
       _bpm = value.round();
     });
 
-    if (_isPlaying) {
-      _timer?.cancel();
-      _startTimer();
-    }
+    metronome.setBPM(_bpm);
   }
 
   // 박자 변경 함수
@@ -94,7 +72,7 @@ class _MetronomePageState extends State<MetronomePage> {
       setState(() {
         // 박자 변경 후, 카운트 초기화
         _beatsPerMeasure = newValue;
-        _beatCount = 0;
+        metronome.setTimeSignature(_beatsPerMeasure);
       });
     }
   }
@@ -132,7 +110,7 @@ class _MetronomePageState extends State<MetronomePage> {
   // 타이머 및 오디오 플레이어 사용 중지
   @override
   void dispose() {
-    _timer?.cancel();
+    metronome.destroy();
     _tapTempoTimer?.cancel();
     super.dispose();
   }
@@ -155,14 +133,11 @@ class _MetronomePageState extends State<MetronomePage> {
                 children: <Widget>[
                   const Spacer(flex: 2),
                   Text(
-                    _isPlaying && _beatCount > 0 ? '$_beatCount' : '',
+                    _isPlaying ? '$_beatCount' : '',
                     style: TextStyle(
                       fontSize: beatCountFontSize,
                       fontWeight: FontWeight.bold,
-                      color:
-                          _beatCount == 1
-                              ? Theme.of(context).colorScheme.primary
-                              : const Color.fromARGB(255, 71, 71, 71),
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   const Spacer(flex: 1),

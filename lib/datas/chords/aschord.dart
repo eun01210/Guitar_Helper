@@ -39,3 +39,37 @@ final a1m78 = keyUp(m72, 10);
 final a1m79 = keyUp(m78, 12);
 
 final a1m7s = [a1m71, a1m72, a1m73, a1m74, a1m75, a1m76, a1m77, a1m78, a1m79];
+
+final a1maj71 = keyUp(maj78, 0);
+final a1maj72 = keyUp(maj79, 0);
+final a1maj73 = keyUp(maj77, 2);
+final a1maj74 = keyUp(maj76, 4);
+final a1maj75 = keyUp(maj710, 5);
+final a1maj76 = keyUp(maj74, 5);
+final a1maj77 = keyUp(maj75, 5);
+final a1maj78 = keyUp(maj73, 7);
+final a1maj79 = keyUp(maj72, 9);
+final a1maj710 = keyUp(maj71, 10);
+final a1maj711 = keyUp(maj78, 12);
+final a1maj712 = keyUp(maj79, 12);
+
+final a1maj7s = [
+  a1maj71,
+  a1maj72,
+  a1maj73,
+  a1maj74,
+  a1maj75,
+  a1maj76,
+  a1maj77,
+  a1maj78,
+  a1maj79,
+  a1maj710,
+  a1maj711,
+  a1maj712,
+];
+
+final a1sus741 = keyUp(sus743, 0);
+final a1sus742 = keyUp(sus742, 5);
+final a1sus743 = keyUp(sus741, 7);
+
+final a1sus74s = [a1sus741, a1sus742, a1sus743];

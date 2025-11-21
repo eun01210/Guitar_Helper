@@ -17,7 +17,7 @@ class TitleScreen extends StatelessWidget {
             children: [
               const Spacer(flex: 2),
               const Text(
-                'Guitar Chord',
+                'Guitar Helper',
                 style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               ),
               const Spacer(flex: 2),
@@ -72,6 +72,14 @@ class TitleScreen extends StatelessWidget {
                         );
                       },
                       child: const Text('Metronome'),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Eun, Hwangbo. All rights reserved.',
+                      style: TextStyle(
+                        fontSize: 9,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),

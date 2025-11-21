@@ -141,4 +141,62 @@ final Map<String, List<ChordDefinition>> chords = {
   'B-1m7': a1m7s,
   'B0m7': b0m7s,
   'B1m7': c0m7s,
+
+  // 메이저 세븐스
+  'C-1M7': b0maj7s,
+  'C0M7': c0maj7s,
+  'C1M7': c1maj7s,
+
+  'D-1M7': c1maj7s,
+  'D0M7': d0maj7s,
+  'D1M7': d1maj7s,
+
+  'E-1M7': d1maj7s,
+  'E0M7': e0maj7s,
+  'E1M7': f0maj7s,
+
+  'F-1M7': e0maj7s,
+  'F0M7': f0maj7s,
+  'F1M7': f1maj7s,
+
+  'G-1M7': f1maj7s,
+  'G0M7': g0maj7s,
+  'G1M7': g1maj7s,
+
+  'A-1M7': g1maj7s,
+  'A0M7': a0maj7s,
+  'A1M7': a1maj7s,
+
+  'B-1M7': a1maj7s,
+  'B0M7': b0maj7s,
+  'B1M7': c0maj7s,
+
+  // 세븐스서스포
+  'C-17sus4': b0sus74s,
+  'C07sus4': c0sus74s,
+  'C17sus4': c1sus74s,
+
+  'D-17sus4': c1sus74s,
+  'D07sus4': d0sus74s,
+  'D17sus4': d1sus74s,
+
+  'E-17sus4': d1sus74s,
+  'E07sus4': e0sus74s,
+  'E17sus4': f0sus74s,
+
+  'F-17sus4': e0sus74s,
+  'F07sus4': f0sus74s,
+  'F17sus4': f1sus74s,
+
+  'G-17sus4': f1sus74s,
+  'G07sus4': g0sus74s,
+  'G17sus4': g1sus74s,
+
+  'A-17sus4': g1sus74s,
+  'A07sus4': a0sus74s,
+  'A17sus4': a1sus74s,
+
+  'B-17sus4': a1sus74s,
+  'B07sus4': b0sus74s,
+  'B17sus4': c0sus74s,
 };

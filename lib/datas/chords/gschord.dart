@@ -27,7 +27,6 @@ final g179 = keyUp(d77, 12);
 
 final g17s = [g171, g172, g173, g174, g175, g176, g177, g178, g179];
 
-// Am7 1번폼
 final g1m71 = ChordDefinition(
   fret: [-1, -1, 1, 1, 0, 2],
   degrees: ['X', 'X', '5', 'R', 'b3', 'b7'],
@@ -44,3 +43,35 @@ final g1m78 = keyUp(m78, 10);
 final g1m79 = keyUp(m77, 11);
 
 final g1m7s = [g1m71, g1m72, g1m73, g1m74, g1m75, g1m76, g1m77, g1m78, g1m79];
+
+final g1maj71 = keyUp(maj77, 0);
+final g1maj72 = keyUp(maj76, 2);
+final g1maj73 = keyUp(maj710, 3);
+final g1maj74 = keyUp(maj74, 3);
+final g1maj75 = keyUp(maj75, 3);
+final g1maj76 = keyUp(maj73, 5);
+final g1maj77 = keyUp(maj72, 7);
+final g1maj78 = keyUp(maj71, 8);
+final g1maj79 = keyUp(maj78, 10);
+final g1maj710 = keyUp(maj79, 10);
+final g1maj711 = keyUp(maj77, 12);
+
+final g1maj7s = [
+  g1maj71,
+  g1maj72,
+  g1maj73,
+  g1maj74,
+  g1maj75,
+  g1maj76,
+  g1maj77,
+  g1maj78,
+  g1maj79,
+  g1maj710,
+  g1maj711,
+];
+
+final g1sus741 = keyUp(sus742, 3);
+final g1sus742 = keyUp(sus741, 5);
+final g1sus743 = keyUp(sus743, 10);
+
+final g1sus74s = [g1sus741, g1sus742, g1sus743];

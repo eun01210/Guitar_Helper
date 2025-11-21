@@ -1,14 +1,12 @@
 import 'package:my_app/datas/chords.dart';
 import 'package:my_app/datas/chords/basic_form.dart';
 
-// 6번줄부터 표시
 final c0maj1 = ChordDefinition(
   fret: [-1, 3, 2, 0, 1, 0],
   degrees: ['X', 'R', '3', '5', 'R', '3'],
-  fingering: [4, 3, 2, 0, 1, 0],
+  fingering: [0, 3, 2, 0, 1, 0],
   colors: [1, 0, 1, 1, 0, 1],
 );
-
 final c0maj2 = keyUp(maj2, 2);
 final c0maj3 = keyUp(maj3, 4);
 final c0maj4 = keyUp(maj4, 7);
@@ -22,7 +20,6 @@ final c0m1 = ChordDefinition(
   fingering: [0, 3, 1, 0, 2, 4],
   colors: [1, 0, 1, 1, 0, 1],
 );
-
 final c0m2 = keyUp(m3, 2);
 final c0m3 = keyUp(m2, 7);
 final c0m4 = keyUp(m1, 9);
@@ -35,7 +32,6 @@ final c071 = ChordDefinition(
   fingering: [0, 3, 2, 4, 1, 0],
   colors: [1, 0, 1, 1, 0, 1],
 );
-
 final c072 = keyUp(d72, 0);
 final c073 = keyUp(d71, 0);
 final c074 = keyUp(d78, 2);
@@ -84,3 +80,40 @@ final c0m7s = [
   c0m79,
   c0m710,
 ];
+
+final c0maj71 = ChordDefinition(
+  fret: [0, 3, 2, 0, 0, 0],
+  degrees: ['3', 'R', '3', '5', '7', '3'],
+  fingering: [0, 3, 2, 0, 0, 0],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+final c0maj72 = keyUp(maj71, 0);
+final c0maj73 = keyUp(maj78, 2);
+final c0maj74 = keyUp(maj79, 2);
+final c0maj75 = keyUp(maj77, 4);
+final c0maj76 = keyUp(maj76, 6);
+final c0maj77 = keyUp(maj710, 7);
+final c0maj78 = keyUp(maj74, 7);
+final c0maj79 = keyUp(maj75, 7);
+final c0maj710 = keyUp(maj73, 9);
+final c0maj711 = keyUp(maj72, 11);
+
+final c0maj7s = [
+  c0maj71,
+  c0maj72,
+  c0maj73,
+  c0maj74,
+  c0maj75,
+  c0maj76,
+  c0maj77,
+  c0maj78,
+  c0maj79,
+  c0maj710,
+  c0maj711,
+];
+
+final c0sus741 = keyUp(sus743, 2);
+final c0sus742 = keyUp(sus742, 7);
+final c0sus743 = keyUp(sus741, 9);
+
+final c0sus74s = [c0sus741, c0sus742, c0sus743];

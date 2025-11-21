@@ -138,7 +138,7 @@ class _ChordPageState extends State<ChordPage> {
                     _updateFretboardData(); // 상태 변경 시 데이터 업데이트
                   });
                 },
-                items: const ['maj', '7', 'm', 'm7', 'M7', 'sus4'],
+                items: const ['maj', '7', 'm', 'm7', 'M7', '7sus4'],
               ),
             ),
             const SizedBox(width: 10),
