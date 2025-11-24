@@ -1,94 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:my_app/pages/designs/title_view.dart';
 import 'package:my_app/pages/chord.dart';
 import 'package:my_app/pages/scale.dart';
 import 'package:my_app/pages/tuner.dart';
 import 'package:my_app/pages/metronome.dart';
 
-class TitleScreen extends StatelessWidget {
+class TitleScreen extends StatefulWidget {
   const TitleScreen({super.key});
 
   @override
+  State<TitleScreen> createState() => _TitleScreenState();
+}
+
+class _TitleScreenState extends State<TitleScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // 세로 모드로 고정
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Spacer(flex: 2),
-              const Text(
-                'Guitar Helper',
-                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-              ),
-              const Spacer(flex: 2),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 120.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ChordPage(),
-                          ),
-                        );
-                      },
-                      child: const Text('Chord'),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ScalePage(),
-                          ),
-                        );
-                      },
-                      child: const Text('Scale'),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TunerPage(),
-                          ),
-                        );
-                      },
-                      child: const Text('Tuner'),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MetronomePage(),
-                          ),
-                        );
-                      },
-                      child: const Text('Metronome'),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Eun, Hwangbo. All rights reserved.',
-                      style: TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(flex: 3),
-            ],
-          ),
-        ),
-      ),
+    // 각 메뉴 탭 시 실행될 내비게이션 함수
+    void navigateTo(Widget page) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    }
+
+    // 설정 버튼 탭 시 (현재는 기능 없음)
+    void openSettings() {
+      // TODO: 설정 페이지 로직 구현
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Settings Tapped!')));
+    }
+
+    return TitleView(
+      onChordTap: () => navigateTo(const ChordPage()),
+      onScaleTap: () => navigateTo(const ScalePage()),
+      onTunerTap: () => navigateTo(const TunerPage()),
+      onMetronomeTap: () => navigateTo(const MetronomePage()),
+      onSettingsTap: openSettings,
     );
   }
 }

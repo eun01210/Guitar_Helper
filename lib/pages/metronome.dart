@@ -1,44 +1,57 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:metronome/metronome.dart';
+import 'package:my_app/pages/designs/metronome_view.dart';
 
 class MetronomePage extends StatefulWidget {
   const MetronomePage({super.key});
 
   @override
-  State<MetronomePage> createState() => _MetronomePageState();
+  State<MetronomePage> createState() => MetronomePageState();
 }
 
-class _MetronomePageState extends State<MetronomePage> {
-  int _bpm = 120; // 현재 bpm
+class MetronomePageState extends State<MetronomePage> {
+  // 기존 상태 변수
+  double _bpm = 120.0; // double로 변경하여 슬라이더와 호환
   bool _isPlaying = false; // 실행중 여부
-  int _beatCount = 0; // 현재 박자
+  // int _beatCount = 0; // 현재 박자
 
   int _beatsPerMeasure = 4; // 박자 체크
   DateTime? _lastTapTime; // 탭 템포 마지막 클릭 시간
   Timer? _tapTempoTimer; // 탭 템포 초기화 타이머
   final metronome = Metronome();
 
+  // 새 UI를 위한 상태 변수
+  late final List<String> _timeSignatures;
+  String get _currentTimeSignature => '$_beatsPerMeasure';
+
   @override
   void initState() {
     super.initState();
+    // 세로 모드로 고정
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     // 메트로놈 초기화
     metronome.init(
       'assets/metro1.wav', // 보조 박자 사운드
       accentedPath: 'assets/metro2.wav', // 주 박자 사운드
-      bpm: _bpm,
+      bpm: _bpm.toInt(),
       volume: 100,
       timeSignature: _beatsPerMeasure,
       enableTickCallback: true,
-      sampleRate: 44100,
     );
+    _timeSignatures = List.generate(12, (index) => (index + 1).toString());
+    /*
     metronome.tickStream.listen((int tick) {
       if (mounted) {
         setState(() {
           _beatCount = tick + 1;
         });
       }
-    });
+    });*/
   }
 
   // 메트로놈 재생/종료 설정
@@ -52,29 +65,45 @@ class _MetronomePageState extends State<MetronomePage> {
       } else {
         // 타이머 및 카운트 초기화
         metronome.pause();
-        _beatCount = 0;
+        // _beatCount = 0;
       }
     });
   }
 
   // bpm 변경 후 타이머 재설정
   void _onBpmChanged(double value) {
+    final newBpm = value.clamp(20.0, 500.0);
     setState(() {
-      _bpm = value.round();
+      _bpm = newBpm;
     });
-
-    metronome.setBPM(_bpm);
+    metronome.setBPM(newBpm.toInt());
   }
 
   // 박자 변경 함수
-  void _onBeatsPerMeasureChanged(int? newValue) {
-    if (newValue != null) {
-      setState(() {
-        // 박자 변경 후, 카운트 초기화
-        _beatsPerMeasure = newValue;
-        metronome.setTimeSignature(_beatsPerMeasure);
-      });
-    }
+  void _showTimeSignaturePicker() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 250,
+          child: ListView.builder(
+            itemCount: _timeSignatures.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Center(child: Text(_timeSignatures[index])),
+                onTap: () {
+                  setState(() {
+                    _beatsPerMeasure = int.parse(_timeSignatures[index]);
+                    metronome.setTimeSignature(_beatsPerMeasure);
+                  });
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 
   // 탭 템포 버튼으로 bpm 설정
@@ -87,7 +116,7 @@ class _MetronomePageState extends State<MetronomePage> {
       if (interval > 0) {
         // 밀리세컨드 단위 변환
         double newBpm = 60000 / interval;
-        // 20에서 500사이로 제한
+        // BPM 범위를 20-500으로 설정
         newBpm = newBpm.clamp(20.0, 500.0);
         _onBpmChanged(newBpm);
       }
@@ -112,100 +141,31 @@ class _MetronomePageState extends State<MetronomePage> {
   void dispose() {
     metronome.destroy();
     _tapTempoTimer?.cancel();
+    // 페이지를 벗어날 때 방향 제한 해제
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Metronome')),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // 화면의 높이에 비례하여 폰트 크기 및 아이콘 크기 계산
-          final double beatCountFontSize = constraints.maxHeight * 0.25;
-          final double iconSize = constraints.maxHeight * 0.2;
-
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Spacer(flex: 2),
-                  Text(
-                    _isPlaying ? '$_beatCount' : '',
-                    style: TextStyle(
-                      fontSize: beatCountFontSize,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  const Spacer(flex: 1),
-                  Column(
-                    children: [
-                      Text(
-                        '$_bpm BPM',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      Slider(
-                        value: _bpm.toDouble(),
-                        min: 20,
-                        max: 500,
-                        divisions: 480, // (500 - 20)
-                        label: _bpm.toString(),
-                        onChanged: _onBpmChanged,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        DropdownButton<int>(
-                          underline: const SizedBox(), // 기본 밑줄 제거
-                          value: _beatsPerMeasure,
-                          items: List.generate(12, (index) {
-                            final value = index + 1;
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Text('$value'),
-                            );
-                          }),
-                          onChanged: _onBeatsPerMeasureChanged,
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: Icon(
-                            _isPlaying ? Icons.pause : Icons.play_arrow,
-                          ),
-                          iconSize: iconSize,
-                          // 오디오가 로드되기 전에는 버튼을 비활성화합니다.
-                          onPressed: _toggleMetronome,
-                        ),
-                        const Spacer(),
-                        SizedBox(
-                          width: 80, // 버튼 너비 고정
-                          child: ElevatedButton(
-                            onPressed: _handleTapTempo,
-                            child: const Text(
-                              'Tap',
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(flex: 2),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+    return MetronomeView(
+      bpm: _bpm,
+      isPlaying: _isPlaying,
+      timeSignature: _currentTimeSignature,
+      onBpmChanged: _onBpmChanged,
+      onBpmIncrement: () => _onBpmChanged(_bpm + 1),
+      onBpmDecrement: () => _onBpmChanged(_bpm - 1),
+      onTogglePlay: _toggleMetronome,
+      onTapTempo: _handleTapTempo,
+      onTimeSignatureChange: _showTimeSignaturePicker,
+      onSettingsTap: () {
+        // TODO: 설정 페이지 이동 로직 구현
+      },
     );
   }
 }

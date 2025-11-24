@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'package:my_app/util/tunecheck.dart';
+import 'package:my_app/pages/designs/tuner_view.dart';
 import 'package:record/record.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
-import 'dart:math' as math;
 import 'dart:typed_data';
 
 class TunerPage extends StatefulWidget {
@@ -36,6 +37,11 @@ class _TunerPageState extends State<TunerPage> {
   @override
   void initState() {
     super.initState();
+    // 세로 모드로 고정
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     _startListening();
   }
 
@@ -114,50 +120,27 @@ class _TunerPageState extends State<TunerPage> {
   void dispose() {
     _recordSub?.cancel();
     _audioRecorder.dispose();
+    // 페이지를 벗어날 때 방향 제한 해제
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Tuner',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _note,
-              style: const TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Text(_status, style: const TextStyle(fontSize: 20)),
-            const SizedBox(height: 20),
-            Container(
-              width: 200,
-              height: 20,
-              color: Colors.grey[300],
-              child: Align(
-                alignment: Alignment(math.max(-1, math.min(1, _diff / 10)), 0),
-                child: Container(
-                  width: 4,
-                  height: 20,
-                  color: _status == 'In Tune' ? Colors.green : Colors.red,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Pitch: ${_pitch.toStringAsFixed(2)} Hz',
-              style: const TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
-      ),
+    // The state from this page is passed to the view
+    return TunerView(
+      note: _note,
+      status: _status,
+      pitch: _pitch,
+      diff: _diff,
+      onBack: () {
+        Navigator.of(context).pop();
+      },
     );
   }
 }

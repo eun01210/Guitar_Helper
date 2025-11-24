@@ -1,0 +1,258 @@
+import 'package:flutter/material.dart';
+import 'dart:math' as math;
+
+class TunerView extends StatelessWidget {
+  final String note;
+  final String status;
+  final double pitch;
+  final double diff;
+  final VoidCallback onBack;
+
+  const TunerView({
+    super.key,
+    required this.note,
+    required this.status,
+    required this.pitch,
+    required this.diff,
+    required this.onBack,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Design colors from HTML
+    const backgroundDark = Color(0xFF191022);
+    const textWhite = Colors.white;
+    const textZinc400 = Color(0xFFA1A1AA);
+    const textZinc500 = Color(0xFF71717A);
+    const textZinc600 = Color(0xFF52525B);
+    const bgZinc800 = Color(0xFF27272A);
+    const yellow500 = Color(0xFFEAB308);
+    const success = Color(0xFF34D399);
+
+    final bool isTuning = note.isNotEmpty;
+    final bool isInTune = status == 'In Tune';
+    final Color statusColor = isInTune ? success : yellow500;
+
+    return Scaffold(
+      backgroundColor: backgroundDark,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: textWhite),
+          onPressed: onBack,
+        ),
+        title: const Text(
+          'Tuner',
+          style: TextStyle(
+            color: textWhite,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings, color: textWhite),
+            onPressed: () {
+              // TODO: 설정 기능 구현
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text('Settings Tapped!')));
+            },
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Top Spacer
+            const SizedBox(height: 1),
+
+            // Center Content
+            Column(
+              children: [
+                Text(
+                  isTuning ? '${pitch.toStringAsFixed(1)} Hz' : ' ',
+                  style: const TextStyle(
+                    color: textZinc400,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                _buildNoteDisplay(isTuning, statusColor, textZinc600),
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: 32,
+                  child: Center(
+                    child: Text(
+                      isTuning ? status : 'Please make a sound',
+                      style: TextStyle(
+                        color: isTuning ? statusColor : textZinc400,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // Bottom Meter
+            _buildTuningMeter(
+              isTuning,
+              statusColor,
+              success,
+              bgZinc800,
+              textZinc500,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoteDisplay(
+    bool isTuning,
+    Color activeColor,
+    Color inactiveColor,
+  ) {
+    String mainNote = note.isNotEmpty ? note[0] : 'A';
+    String accidental = note.length > 1 ? note.substring(1) : '';
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Background inactive note
+        _NoteText(
+          mainNote: mainNote,
+          accidental: accidental,
+          color: inactiveColor,
+        ),
+        // Foreground active note (if tuning)
+        if (isTuning)
+          _NoteText(
+            mainNote: mainNote,
+            accidental: accidental,
+            color: activeColor,
+          ),
+      ],
+    );
+  }
+
+  Widget _buildTuningMeter(
+    bool isTuning,
+    Color statusColor,
+    Color successColor,
+    Color meterBgColor,
+    Color labelColor,
+  ) {
+    // diff는 -50 ~ +50 범위로 정규화 (기존 diff는 -10 ~ 10으로 가정)
+    final double normalizedDiff = math.max(-50, math.min(50, diff * 5));
+    // left 값은 0.0 ~ 1.0 범위
+    final double indicatorPosition = (normalizedDiff + 50) / 100;
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 32,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Meter background
+                  Container(
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: meterBgColor,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  // Center "in-tune" marker
+                  Positioned(
+                    child: Container(
+                      width: 4,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: successColor.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                  // Tuning indicator
+                  if (isTuning)
+                    Positioned(
+                      left: indicatorPosition * constraints.maxWidth,
+                      child: Container(
+                        width: 4,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: statusColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('-50', style: TextStyle(fontSize: 12, color: labelColor)),
+              Text('0', style: TextStyle(fontSize: 12, color: labelColor)),
+              Text('+50', style: TextStyle(fontSize: 12, color: labelColor)),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _NoteText extends StatelessWidget {
+  final String mainNote;
+  final String accidental;
+  final Color color;
+
+  const _NoteText({
+    required this.mainNote,
+    required this.accidental,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+          fontFamily: 'Inter',
+          fontWeight: FontWeight.bold,
+          color: color,
+        ),
+        children: [
+          TextSpan(
+            text: mainNote,
+            style: const TextStyle(fontSize: 96, letterSpacing: -4),
+          ),
+          if (accidental.isNotEmpty)
+            TextSpan(
+              text: accidental,
+              style: const TextStyle(
+                fontSize: 60,
+                fontFeatures: [FontFeature.superscripts()],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

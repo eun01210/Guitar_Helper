@@ -12,11 +12,7 @@ void main() {
     overlays: [], // 표시할 UI를 넣으면 나타남
   );
 
-  // 화면 방향을 가로모드로 강제 고정
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft, // 왼쪽으로 기울인 가로
-    DeviceOrientation.landscapeRight, // 오른쪽으로 기울인 가로
-  ]).then((value) => runApp(const MyApp())); // 방향 설정이 완료된 후 앱을 실행
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
