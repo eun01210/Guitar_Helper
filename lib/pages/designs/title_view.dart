@@ -153,7 +153,7 @@ class _MenuCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // HTML의 다크 모드 디자인 색상을 고정적으로 사용
     const Color cardColor = Color(0xFF1E1E1E);
-    const Color primaryColor = Color(0xFFFB923C);
+    const Color primaryColor = Color(0xFF13C8EC);
 
     return InkWell(
       onTap: onTap,

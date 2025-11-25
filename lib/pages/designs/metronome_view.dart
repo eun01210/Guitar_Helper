@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class MetronomeView extends StatelessWidget {
-  // Define colors from the design
   static const Color primaryColor = Color(0xFF13C8EC);
   static const Color backgroundLight = Color(0xFFF6F8F8);
   static const Color backgroundDark = Color(0xFF101F22);
@@ -18,6 +15,7 @@ class MetronomeView extends StatelessWidget {
   final VoidCallback onTapTempo;
   final VoidCallback onTimeSignatureChange;
   final VoidCallback onSettingsTap;
+  final VoidCallback onBack;
 
   const MetronomeView({
     super.key,
@@ -31,6 +29,7 @@ class MetronomeView extends StatelessWidget {
     required this.onTapTempo,
     required this.onTimeSignatureChange,
     required this.onSettingsTap,
+    required this.onBack,
   });
 
   @override
@@ -43,97 +42,116 @@ class MetronomeView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: bgColor,
-      body: Stack(
-        children: [
-          Center(
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Spacer(flex: 2),
-                    Text(
-                      'BPM',
-                      style: TextStyle(color: subTextColor, fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _buildBpmButton(
-                          Icons.remove,
-                          onBpmDecrement,
-                          buttonBgColor,
-                          buttonFgColor,
-                        ),
-                        SizedBox(
-                          width: 180, // 3자리 숫자를 기준으로 너비 고정
-                          child: Text(
-                            bpm.round().toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 88,
-                              fontWeight: FontWeight.bold,
-                              height: 1,
-                              letterSpacing: -4,
-                            ),
-                          ),
-                        ),
-                        _buildBpmButton(
-                          Icons.add,
-                          onBpmIncrement,
-                          buttonBgColor,
-                          buttonFgColor,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        children: [
-                          SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              trackHeight: 8.0,
-                              trackShape: const RoundedRectSliderTrackShape(),
-                              activeTrackColor: primaryColor,
-                              inactiveTrackColor: const Color(0xFF4B5563),
-                              thumbShape: const RoundSliderThumbShape(
-                                enabledThumbRadius: 12.0,
-                              ),
-                              thumbColor: primaryColor,
-                              overlayColor: const Color(0x2013C8EC),
-                              overlayShape: const RoundSliderOverlayShape(
-                                overlayRadius: 28.0,
-                              ),
-                            ),
-                            child: Slider(
-                              value: bpm,
-                              min: 20,
-                              max: 500,
-                              onChanged: onBpmChanged,
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          _buildTimeSignatureButton(context),
-                          const SizedBox(height: 24),
-                          _buildTapTempoButton(),
-                        ],
+      // Appbar 뒤로가기, 제목, 설정
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 24, color: textColor),
+          onPressed: onBack,
+        ),
+        title: Text(
+          'Metronome',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+          ),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings, size: 28, color: textColor),
+            onPressed: onSettingsTap,
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(flex: 2),
+              // BPM 텍스트
+              Text('BPM', style: TextStyle(color: subTextColor, fontSize: 16)),
+              const SizedBox(height: 8),
+              // BPM 숫자 & 증감버튼 표시
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildBpmButton(
+                    Icons.remove,
+                    onBpmDecrement,
+                    buttonBgColor,
+                    buttonFgColor,
+                  ),
+                  SizedBox(
+                    width: 180, // 3자리 숫자를 기준으로 너비 고정 (버튼 위치 고정)
+                    child: Text(
+                      bpm.round().toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 88,
+                        fontWeight: FontWeight.bold,
+                        height: 1,
+                        letterSpacing: -4,
                       ),
                     ),
-                    const Spacer(flex: 1),
-                    _buildPlayButton(),
-                    const Spacer(flex: 3),
+                  ),
+                  _buildBpmButton(
+                    Icons.add,
+                    onBpmIncrement,
+                    buttonBgColor,
+                    buttonFgColor,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    // BPM 슬라이더
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        trackHeight: 8.0,
+                        trackShape: const RoundedRectSliderTrackShape(),
+                        activeTrackColor: primaryColor,
+                        inactiveTrackColor: const Color(0xFF4B5563),
+                        thumbShape: const RoundSliderThumbShape(
+                          enabledThumbRadius: 12.0,
+                        ),
+                        thumbColor: primaryColor,
+                        overlayColor: const Color(0x2013C8EC),
+                        overlayShape: const RoundSliderOverlayShape(
+                          overlayRadius: 28.0,
+                        ),
+                      ),
+                      child: Slider(
+                        value: bpm,
+                        min: 20,
+                        max: 500,
+                        onChanged: onBpmChanged,
+                      ),
+                    ),
+                    // 박자 설정 리스트 & 탭 템포 버튼
+                    const SizedBox(height: 24),
+                    _buildTimeSignatureButton(context),
+                    const SizedBox(height: 24),
+                    _buildTapTempoButton(),
                   ],
                 ),
               ),
-            ),
+              // 재생 버튼
+              const Spacer(flex: 1),
+              _buildPlayButton(),
+              const Spacer(flex: 3),
+            ],
           ),
-          _buildAppBar(context, textColor),
-        ],
+        ),
       ),
     );
   }
@@ -203,26 +221,14 @@ class MetronomeView extends StatelessWidget {
             ),
           ],
         ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.touch_app,
-              color: primaryColor,
-              size: 28,
-              weight: 500,
-              fill: 1,
-            ),
-            SizedBox(height: 6),
-            Text(
-              '탭 템포',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -0.01,
-              ),
-            ),
-          ],
+        child: const Center(
+          child: Icon(
+            Icons.touch_app,
+            color: primaryColor,
+            size: 36, // 아이콘 크기를 조금 키워 허전함을 줄입니다.
+            weight: 500,
+            fill: 1,
+          ),
         ),
       ),
     );
@@ -253,52 +259,6 @@ class MetronomeView extends StatelessWidget {
             color: Colors.white,
             size: 56,
             fill: 1,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAppBar(BuildContext context, Color textColor) {
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: Container(
-            color: const Color(0xCC101F22),
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 4.0,
-                  vertical: 4.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, size: 24),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    Text(
-                      '메트로놈',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: textColor,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.settings, size: 28),
-                      onPressed: onSettingsTap,
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ),
         ),
       ),

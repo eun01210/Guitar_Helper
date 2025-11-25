@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:metronome/metronome.dart';
 import 'package:my_app/pages/designs/metronome_view.dart';
+import 'package:my_app/pages/setting.dart';
 
 class MetronomePage extends StatefulWidget {
   const MetronomePage({super.key});
@@ -13,27 +13,22 @@ class MetronomePage extends StatefulWidget {
 
 class MetronomePageState extends State<MetronomePage> {
   // 기존 상태 변수
-  double _bpm = 120.0; // double로 변경하여 슬라이더와 호환
+  double _bpm = 120.0; // double -> 슬라이더와 호환
   bool _isPlaying = false; // 실행중 여부
   // int _beatCount = 0; // 현재 박자
 
   int _beatsPerMeasure = 4; // 박자 체크
   DateTime? _lastTapTime; // 탭 템포 마지막 클릭 시간
   Timer? _tapTempoTimer; // 탭 템포 초기화 타이머
-  final metronome = Metronome();
+  final metronome = Metronome(); // 메트로놈 객체
 
-  // 새 UI를 위한 상태 변수
+  // UI를 위한 상태 변수
   late final List<String> _timeSignatures;
   String get _currentTimeSignature => '$_beatsPerMeasure';
 
   @override
   void initState() {
     super.initState();
-    // 세로 모드로 고정
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     // 메트로놈 초기화
     metronome.init(
       'assets/metro1.wav', // 보조 박자 사운드
@@ -141,13 +136,6 @@ class MetronomePageState extends State<MetronomePage> {
   void dispose() {
     metronome.destroy();
     _tapTempoTimer?.cancel();
-    // 페이지를 벗어날 때 방향 제한 해제
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
     super.dispose();
   }
 
@@ -164,7 +152,13 @@ class MetronomePageState extends State<MetronomePage> {
       onTapTempo: _handleTapTempo,
       onTimeSignatureChange: _showTimeSignaturePicker,
       onSettingsTap: () {
-        // TODO: 설정 페이지 이동 로직 구현
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SettingsPage()),
+        );
+      },
+      onBack: () {
+        Navigator.of(context).pop();
       },
     );
   }

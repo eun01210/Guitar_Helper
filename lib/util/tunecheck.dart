@@ -4,15 +4,9 @@ import 'dart:math' as math;
 class TuningResult {
   final String note;
   final String status;
-  final double diff; // Hz 차이
-  final double cents; // Cents 차이
+  final double cents; // Cents 차이 (1200cents -> Oct)
 
-  TuningResult({
-    required this.note,
-    required this.status,
-    required this.diff,
-    required this.cents,
-  });
+  TuningResult({required this.note, required this.status, required this.cents});
 }
 
 class TuningUtil {
@@ -63,7 +57,6 @@ class TuningUtil {
     });
 
     final targetFreq = _allNotes[closestNote]!;
-    final diff = pitch - targetFreq;
     final cents = 1200 * (math.log(pitch / targetFreq) / math.log(2));
 
     String status = 'In Tune';
@@ -74,7 +67,6 @@ class TuningUtil {
     return TuningResult(
       note: closestNote.replaceAll(RegExp(r'[0-9]'), ''),
       status: status,
-      diff: diff,
       cents: cents,
     );
   }

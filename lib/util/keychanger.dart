@@ -4,6 +4,12 @@ int accidental(bool? sharp, bool? flat) {
   return 0;
 }
 
+String accidentalName(bool? sharp, bool? flat) {
+  if (sharp == true) return '#';
+  if (flat == true) return '♭';
+  return '';
+}
+
 int chordMap(String? chord) {
   const Map<String, int> chords = {
     'C': 0, // C를 기준으로 0

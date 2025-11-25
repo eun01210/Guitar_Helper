@@ -5,16 +5,18 @@ class TunerView extends StatelessWidget {
   final String note;
   final String status;
   final double pitch;
-  final double diff;
+  final double cents;
   final VoidCallback onBack;
+  final VoidCallback onSettingsTap;
 
   const TunerView({
     super.key,
     required this.note,
     required this.status,
     required this.pitch,
-    required this.diff,
+    required this.cents,
     required this.onBack,
+    required this.onSettingsTap,
   });
 
   @override
@@ -35,11 +37,16 @@ class TunerView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundDark,
+      // Appbar 뒤로가기, 제목, 설정
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: textWhite),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            size: 24,
+            color: textWhite,
+          ),
           onPressed: onBack,
         ),
         title: const Text(
@@ -47,19 +54,14 @@ class TunerView extends StatelessWidget {
           style: TextStyle(
             color: textWhite,
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 24,
           ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.settings, color: textWhite),
-            onPressed: () {
-              // TODO: 설정 기능 구현
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text('Settings Tapped!')));
-            },
+            onPressed: onSettingsTap,
           ),
         ],
       ),
@@ -68,12 +70,10 @@ class TunerView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Top Spacer
             const SizedBox(height: 1),
-
-            // Center Content
             Column(
               children: [
+                // Hz 표시
                 Text(
                   isTuning ? '${pitch.toStringAsFixed(1)} Hz' : ' ',
                   style: const TextStyle(
@@ -82,9 +82,11 @@ class TunerView extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+                // 음정 표시
                 const SizedBox(height: 16),
                 _buildNoteDisplay(isTuning, statusColor, textZinc600),
                 const SizedBox(height: 16),
+                // 튜닝 상태 표시
                 SizedBox(
                   height: 32,
                   child: Center(
@@ -101,7 +103,7 @@ class TunerView extends StatelessWidget {
               ],
             ),
 
-            // Bottom Meter
+            // 튜닝 정도 표시
             _buildTuningMeter(
               isTuning,
               statusColor,
@@ -126,13 +128,11 @@ class TunerView extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        // Background inactive note
         _NoteText(
           mainNote: mainNote,
           accidental: accidental,
           color: inactiveColor,
         ),
-        // Foreground active note (if tuning)
         if (isTuning)
           _NoteText(
             mainNote: mainNote,
@@ -150,10 +150,10 @@ class TunerView extends StatelessWidget {
     Color meterBgColor,
     Color labelColor,
   ) {
-    // diff는 -50 ~ +50 범위로 정규화 (기존 diff는 -10 ~ 10으로 가정)
-    final double normalizedDiff = math.max(-50, math.min(50, diff * 5));
-    // left 값은 0.0 ~ 1.0 범위
-    final double indicatorPosition = (normalizedDiff + 50) / 100;
+    // cents 값을 -50~50으로 제한 (50이 넘어가면 음정이 바뀜)
+    final double clampedCents = math.max(-50, math.min(50, cents));
+    // 미터기 표시를 위해 정규화 (-1~1)
+    final double indicatorPosition = (clampedCents + 50) / 100;
 
     return Column(
       children: [
@@ -164,7 +164,6 @@ class TunerView extends StatelessWidget {
               return Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Meter background
                   Container(
                     height: 8,
                     decoration: BoxDecoration(
@@ -172,18 +171,16 @@ class TunerView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                  // Center "in-tune" marker
                   Positioned(
                     child: Container(
                       width: 4,
                       height: 16,
                       decoration: BoxDecoration(
-                        color: successColor.withOpacity(0.5),
+                        color: const Color(0x8034D399),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
                   ),
-                  // Tuning indicator
                   if (isTuning)
                     Positioned(
                       left: indicatorPosition * constraints.maxWidth,

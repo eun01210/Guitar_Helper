@@ -5,7 +5,7 @@ import 'package:my_app/pages/designs/tuner_view.dart';
 import 'package:record/record.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'dart:typed_data';
+import 'package:my_app/pages/setting.dart';
 
 class TunerPage extends StatefulWidget {
   const TunerPage({super.key});
@@ -32,16 +32,11 @@ class _TunerPageState extends State<TunerPage> {
   String _note = ''; // 감지된 음 이름
   String _status = 'Please make a sound'; // 상태 메시지
   double _pitch = 0.0; // 감지된 주파수
-  double _diff = 0.0; // 주파수 차이
+  double _cents = 0.0; // 센트(cents) 단위의 음정 차이
 
   @override
   void initState() {
     super.initState();
-    // 세로 모드로 고정
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     _startListening();
   }
 
@@ -105,7 +100,7 @@ class _TunerPageState extends State<TunerPage> {
     if (_pitch == 0.0) {
       _note = '';
       _status = 'Please make a sound';
-      _diff = 0.0;
+      _cents = 0.0;
       return;
     }
 
@@ -113,33 +108,31 @@ class _TunerPageState extends State<TunerPage> {
     final result = _tuningUtil.getTuningStatus(_pitch);
     _note = result.note;
     _status = result.status;
-    _diff = result.diff;
+    _cents = result.cents;
   }
 
   @override
   void dispose() {
     _recordSub?.cancel();
     _audioRecorder.dispose();
-    // 페이지를 벗어날 때 방향 제한 해제
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // The state from this page is passed to the view
     return TunerView(
       note: _note,
       status: _status,
       pitch: _pitch,
-      diff: _diff,
+      cents: _cents,
       onBack: () {
         Navigator.of(context).pop();
+      },
+      onSettingsTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SettingsPage()),
+        );
       },
     );
   }

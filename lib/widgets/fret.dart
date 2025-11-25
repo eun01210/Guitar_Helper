@@ -43,19 +43,12 @@ class Fret extends StatelessWidget {
           child: Stack(
             children: [
               // 프렛보드 배경색
-              if (fretNumber > 0)
-                Container(
-                  color:
-                      (showBarreConnections)
-                          ? const Color.fromARGB(255, 59, 42, 36)
-                          : Colors.black,
-                ),
+              if (fretNumber > 0) Container(color: Color(0xFF171717)),
               // 프렛의 세로 선 (너비 1px)
-              if (fretNumber > 0)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(width: 1, color: Colors.white),
-                ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(width: 1, color: Colors.white),
+              ),
               // 프렛 배경 흰색 점
               if (_backgroundDotFrets.contains(fretNumber))
                 Transform.translate(
