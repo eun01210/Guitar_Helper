@@ -5,13 +5,8 @@ import 'package:my_app/widgets/note.dart';
 // 스크롤이 가능한 박스 위젯
 class GuitarFretBox extends StatefulWidget {
   final List<List<NoteData?>> fretboardData;
-  final bool showBarreConnections;
 
-  const GuitarFretBox({
-    super.key,
-    required this.fretboardData,
-    this.showBarreConnections = true, // Default to true
-  });
+  const GuitarFretBox({super.key, required this.fretboardData});
 
   @override
   State<GuitarFretBox> createState() => _InteractiveFretboardState();
@@ -21,18 +16,13 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
   late final TransformationController
   _transformationController; // 컨트롤러(배율, 위치 등)
   double _currentScaleDisplay = 1.0; // 현재 배율 관리
-  double _viewerWidth = 0.0; // 기기 가로 길이
-  double _viewerHeight = 0.0; // 기기 세로 길이
+  double _viewerWidth = 0.0; // 부모 가로 길이
+  double _viewerHeight = 0.0; // 부모 세로 길이
   bool _initialScaleSet = false; // 초기 길이 설정 여부
 
-  // 프렛보드 너비를 미리 계산하여 상수로 사용
-  static const double _chordFretboardWidth = 756.0; // ChordPage 프렛보드 너비
-  static const double _scaleFretboardWidth = 758.0; // ScalePage 프렛보드 너비
-  static const double _fretHeight = 150.0; // 프렛 세로 길이
-
-  // 현재 페이지에 맞는 프렛보드 너비
-  double get _fretWidth =>
-      widget.showBarreConnections ? _chordFretboardWidth : _scaleFretboardWidth;
+  // 프렛보드 widget기준 크기, 실제로는 fitted로 달라짐
+  double _fretWidth = 708.0; // 프렛보드 너비, 실제 값은 다름
+  double _fretHeight = 150.0; // 프렛 세로 길이, 실제 값은 다름
 
   // 컨트롤러 사용
   @override
@@ -82,6 +72,7 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
         (currentTranslationX < leftBoundary)
             ? leftBoundary
             : currentTranslationX;
+
     clampedX = (clampedX > 0) ? 0 : clampedX;
 
     currentMatrix.setEntry(0, 3, clampedX);
@@ -99,22 +90,38 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
         // 초기 프렛 배율 설정 (최소 배율 설정)
         if (!_initialScaleSet && _viewerWidth > 0) {
           _initialScaleSet = true;
+
+          _fretHeight = _fretHeight * (_viewerWidth / _fretWidth);
+          _fretWidth = _viewerWidth;
+          print(
+            'vH: $_viewerHeight, vW: $_viewerWidth, fH: $_fretHeight, fW: $_fretWidth',
+          );
+          // 프렛보드 세로에 맞는 배율 설정
+          final double scaleY = _viewerHeight / _fretHeight;
+
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
-              final double minScale = _viewerWidth / _fretWidth; // 758은 프렛 총 길이
+              // Matrix4는 (0, 0) -> X 배율, (1, 1) -> Y 배율,
+              // (0, 3) -> X 위치, (1, 3) -> Y 위치 를 계산
               final Matrix4 matrix =
                   Matrix4.copy(_transformationController.value)
-                    ..setEntry(0, 0, minScale)
-                    ..setEntry(1, 1, minScale);
+                    ..setEntry(0, 0, scaleY)
+                    ..setEntry(1, 1, scaleY)
+                    ..setEntry(0, 3, 0) // 초기 위치를 (0,0)으로 설정
+                    ..setEntry(1, 3, 0);
               _transformationController.value = matrix;
-              setState(() => _currentScaleDisplay = minScale);
+              setState(() => _currentScaleDisplay = scaleY);
             }
           });
         }
-
-        // 최소 배율 제한
-        final double minScale =
+        /* 
+        // 최소 배율 제한 -> fittedBox를 사용함으로써 제거
+        final double scaleX =
             (_viewerWidth > 0) ? _viewerWidth / _fretWidth : 1.0;
+        final double scaleY =
+            (_viewerHeight > 0) ? _viewerHeight / _fretHeight : 1.0;
+        final double minScale = (scaleX < scaleY ? scaleX : scaleY);
+        */
 
         return InteractiveViewer(
           transformationController: _transformationController,
@@ -122,18 +129,18 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
             setState(() => _currentScaleDisplay = currentZoomScale);
           },
           boundaryMargin: EdgeInsets.zero,
-          minScale: minScale,
-          maxScale: 3.0,
-          panEnabled: _currentScaleDisplay > minScale,
+          minScale: 1.0, // minScale -> 1.0
+          maxScale: 10.0,
+          panEnabled: _currentScaleDisplay > 1.0, // minScale -> 1.0
           panAxis:
               (_viewerHeight > 0 &&
-                      _currentScaleDisplay <=
-                          _viewerHeight / _fretHeight) // 150은 프렛 높이
+                      _currentScaleDisplay <= _viewerHeight / _fretHeight)
                   ? PanAxis.horizontal
                   : PanAxis.free,
-          child: GuitarFretboard(
-            fretboardData: widget.fretboardData,
-            showBarreConnections: widget.showBarreConnections,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.topLeft,
+            child: GuitarFretboard(fretboardData: widget.fretboardData),
           ),
         );
       },

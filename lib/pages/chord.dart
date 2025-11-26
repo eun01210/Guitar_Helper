@@ -48,6 +48,7 @@ class _ChordPageState extends State<ChordPage> {
     });
   }
 
+  // 폼 개수 계산
   int maxForm() {
     int forms =
         chordCheck(_selChord, accidental(_isSharp, _isFlat), _selExt).length;
@@ -58,16 +59,17 @@ class _ChordPageState extends State<ChordPage> {
     }
   }
 
+  // 폼 변경
   void _handleFormChange(int value, int max) {
     if (value + _form >= max) {
       setState(() {
         _form = 0;
-        _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+        _updateFretboardData();
       });
     } else if (value + _form < 0) {
       setState(() {
         _form = max - 1;
-        _updateFretboardData(); // 상태 변경 시 데이터 업데이트
+        _updateFretboardData();
       });
     } else {
       setState(() {
@@ -77,7 +79,7 @@ class _ChordPageState extends State<ChordPage> {
     }
   }
 
-  // 프렛보드 데이터를 계산하고 상태를 업데이트하는 메서드
+  // 프렛보드 데이터 계산
   void _updateFretboardData() {
     _fretboardData = makeChordFret(
       _selChord,

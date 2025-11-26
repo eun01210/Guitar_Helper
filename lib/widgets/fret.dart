@@ -10,7 +10,7 @@ class Fret extends StatelessWidget {
     super.key,
     required this.fretNumber,
     required this.notes,
-    this.showBarreConnections = true, // 기본 값은 표시(코드 페이지 기준)
+    this.showBarreConnections = false,
   });
 
   static const List<int> _backgroundDotFrets = [
@@ -191,7 +191,7 @@ class Fret extends StatelessWidget {
                 child: Container(
                   width: 18, // NoteDot의 너비와 동일하게 설정
                   decoration: BoxDecoration(
-                    color: Colors.orange, // 바레 시작 노트의 색상 사용
+                    color: colorTable[1], // 기본 노트 색상 사용
                     borderRadius: BorderRadius.circular(9), // 끝을 둥글게 처리
                     border: Border.all(color: Colors.black, width: 1),
                   ),

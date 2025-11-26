@@ -56,6 +56,10 @@ class ChordFret extends StatelessWidget {
     if (minFret == 99 && maxFret == -1) {
       return (0, 4);
     }
+    // 최고 프렛이 4보다 작은 경우 기본 (0~3) 표시
+    if (maxFret < 4) {
+      return (0, 4);
+    }
 
     // 표시 범위가 3보다 작은 경우 3칸, 그 외는 범위 표시
     return (minFret, (maxFret - minFret < 3) ? minFret + 3 : maxFret + 1);

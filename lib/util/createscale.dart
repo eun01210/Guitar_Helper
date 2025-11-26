@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:my_app/widgets/note.dart'; // NoteData를 위해 추가
 import 'package:my_app/datas/scales.dart';
 
@@ -9,13 +8,6 @@ NoteData? check(
   List<int> colors,
 ) {
   final idx = scale.indexOf(data);
-
-  const colorTable = [
-    Color.fromARGB(255, 255, 94, 0),
-    Colors.orange,
-    Colors.blueGrey,
-    Colors.deepPurple,
-  ];
 
   if (idx > -1) {
     return NoteData(text: texts[idx], color: colorTable[colors[idx]]);

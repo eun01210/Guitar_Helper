@@ -1,40 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/note.dart';
-import 'package:my_app/widgets/chordfret.dart';
+import 'package:my_app/widgets/fretbox.dart';
+import 'package:my_app/datas/scales.dart';
 
-class ChordView extends StatelessWidget {
+class ScaleView extends StatelessWidget {
   final String selectedRootNote;
   final String selectedAccidental;
-  final String selectedChordType;
-  final String fullChordName;
-  final bool isFingerMode;
+  final String selectedScaleType;
+  final String fullScaleName;
   final List<List<NoteData?>> fretboardData;
 
   final VoidCallback onBack;
   final VoidCallback onSettings;
-  final VoidCallback onFormPrevious;
-  final VoidCallback onFormNext;
-  final ValueChanged<bool> onFingerModeChanged;
+  final VoidCallback onFullScreenTap;
   final ValueChanged<String> onRootNoteSelected;
   final ValueChanged<String> onAccidentalSelected;
-  final ValueChanged<String?> onChordTypeSelected;
+  final ValueChanged<String?> onScaleTypeSelected;
 
-  const ChordView({
+  const ScaleView({
     super.key,
     required this.selectedRootNote,
     required this.selectedAccidental,
-    required this.selectedChordType,
-    required this.fullChordName,
-    required this.isFingerMode,
+    required this.selectedScaleType,
+    required this.fullScaleName,
     required this.fretboardData,
     required this.onBack,
     required this.onSettings,
-    required this.onFormPrevious,
-    required this.onFormNext,
-    required this.onFingerModeChanged,
+    required this.onFullScreenTap,
     required this.onRootNoteSelected,
     required this.onAccidentalSelected,
-    required this.onChordTypeSelected,
+    required this.onScaleTypeSelected,
   });
 
   @override
@@ -50,12 +45,11 @@ class ChordView extends StatelessWidget {
 
     final List<String> rootNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     final List<String> accidentals = ['♭', '♮', '♯'];
-    final List<String> chordTypes = ['maj', 'm', '7', 'm7', 'M7', '7sus4'];
+    final List<String> scaleTypes = scales.keys.toList();
 
     return Scaffold(
       backgroundColor: backgroundDark,
       extendBodyBehindAppBar: true,
-      // Appbar 뒤로가기, 제목, 설정
       appBar: AppBar(
         backgroundColor: const Color(0xCC101F22),
         elevation: 0,
@@ -68,7 +62,7 @@ class ChordView extends StatelessWidget {
           onPressed: onBack,
         ),
         title: const Text(
-          'Chord',
+          'Scale',
           style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.bold,
@@ -91,14 +85,13 @@ class ChordView extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 448),
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  // FittedBox -> 화면이 깨지지 않게 사이즈 조절
                   return FittedBox(
                     fit: BoxFit.contain,
                     child: SizedBox(
                       width: constraints.maxWidth,
                       child: Column(
                         children: [
-                          // 프렛 박스 (코드, 폼 표시 등)
+                          // 프렛 박스 (스케일, 이름 표시 등)
                           Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
@@ -116,7 +109,7 @@ class ChordView extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // 기본 코드 표시 (C, D, ...)
+                                        // 기본 스케일 표시 (C, D, ...)
                                         Text(
                                           selectedRootNote +
                                               ((selectedAccidental == '♮')
@@ -128,9 +121,9 @@ class ChordView extends StatelessWidget {
                                             color: textColor,
                                           ),
                                         ),
-                                        // 코드 풀네임 표시 (C, Cm7, ...)
+                                        // 스케일 풀네임 표시 (C Major, ...)
                                         Text(
-                                          fullChordName,
+                                          fullScaleName,
                                           style: const TextStyle(
                                             fontSize: 18,
                                             color: subTextColor,
@@ -138,54 +131,19 @@ class ChordView extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    // 폼 변경 버튼
-                                    Row(
-                                      children: [
-                                        _buildSmallButton(
-                                          Icons.chevron_left,
-                                          onFormPrevious,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        _buildSmallButton(
-                                          Icons.chevron_right,
-                                          onFormNext,
-                                        ),
-                                      ],
-                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 4),
-                                // 코드 폼 표시
+                                // 스케일 폼 표시
                                 AspectRatio(
                                   aspectRatio: 1,
-                                  child: ChordFret(
+                                  child: GuitarFretBox(
                                     fretboardData: fretboardData,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
-                                // 손가락 번호/도 변경 토글
-                                Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: buttonBgColor,
-                                    borderRadius: BorderRadius.circular(99),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      _buildToggleItem(
-                                        'Finger',
-                                        isFingerMode,
-                                        () => onFingerModeChanged(true),
-                                      ),
-                                      _buildToggleItem(
-                                        'Degree',
-                                        !isFingerMode,
-                                        () => onFingerModeChanged(false),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                // 전체 화면 보기 버튼
+                                _buildFullScreenButton(onFullScreenTap),
                               ],
                             ),
                           ),
@@ -282,7 +240,7 @@ class ChordView extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 16),
-                                  // 풀코드 셀렉트 박스
+                                  // 스케일 타입 셀렉트 박스
                                   Material(
                                     color: buttonBgColor,
                                     borderRadius: BorderRadius.circular(99),
@@ -297,8 +255,8 @@ class ChordView extends StatelessWidget {
                                           alignedDropdown: true,
                                           child: DropdownButton<String>(
                                             isExpanded: true,
-                                            value: selectedChordType,
-                                            onChanged: onChordTypeSelected,
+                                            value: selectedScaleType,
+                                            onChanged: onScaleTypeSelected,
                                             icon: const Padding(
                                               padding: EdgeInsets.only(
                                                 right: 8.0,
@@ -310,7 +268,7 @@ class ChordView extends StatelessWidget {
                                             ),
                                             dropdownColor: buttonBgColor,
                                             items:
-                                                chordTypes.map((type) {
+                                                scaleTypes.map((type) {
                                                   return DropdownMenuItem<
                                                     String
                                                   >(
@@ -349,51 +307,22 @@ class ChordView extends StatelessWidget {
     );
   }
 
-  Widget _buildSmallButton(IconData icon, VoidCallback onPressed) {
-    return SizedBox(
-      width: 40,
-      height: 40,
-      child: Material(
-        color: const Color(0xFF27272A), // zinc-800
-        shape: const CircleBorder(),
-        child: InkWell(
-          onTap: onPressed,
-          customBorder: const CircleBorder(),
-          child: Icon(
-            icon,
-            size: 20,
-            color: const Color(0xFFD4D4D8),
-          ), // zinc-300
+  Widget _buildFullScreenButton(VoidCallback onPressed) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      icon: const Icon(Icons.fullscreen, color: Color(0xFFA1A1AA), size: 20),
+      label: const Text(
+        'Full Screen View',
+        style: TextStyle(
+          color: Color(0xFFA1A1AA),
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
         ),
       ),
-    );
-  }
-
-  Widget _buildToggleItem(
-    String text,
-    bool isSelected,
-    VoidCallback onPressed,
-  ) {
-    const Color textColor = Colors.white;
-    const Color subTextColor = Color(0xFFA1A1AA);
-    const Color inactiveToggleColor = Color(0xFF3F3F46);
-
-    return Expanded(
-      child: TextButton(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          backgroundColor:
-              isSelected ? inactiveToggleColor : Colors.transparent,
-          foregroundColor: isSelected ? textColor : subTextColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(99),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 8),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-        ),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        backgroundColor: const Color(0xFF27272A),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(99)),
       ),
     );
   }

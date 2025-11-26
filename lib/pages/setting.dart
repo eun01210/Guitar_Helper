@@ -16,42 +16,59 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.of(context).pop();
   }
 
+  void _showComingSoonDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('알림'),
+          content: const Text('준비 중인 기능입니다.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _onNotificationTap() {
     // TODO: 알림 설정 페이지 이동 로직 구현
-    print("Notification Settings Tapped");
+    _showComingSoonDialog();
   }
 
   void _onProfileTap() {
     // TODO: 프로필 설정 페이지 이동 로직 구현
-    print("Profile Settings Tapped");
+    _showComingSoonDialog();
   }
 
   void _onTunerPreferencesTap() {
     // TODO: 튜너 설정 페이지 이동 로직 구현
-    print("Tuner Preferences Tapped");
+    _showComingSoonDialog();
   }
 
   void _onTermsTap() {
     // TODO: 이용약관 페이지 이동 로직 구현
-    print("Terms of Service Tapped");
+    _showComingSoonDialog();
   }
 
   void _onPrivacyPolicyTap() {
     // TODO: 개인정보 처리방침 페이지 이동 로직 구현
-    print("Privacy Policy Tapped");
+    _showComingSoonDialog();
   }
 
   void _onContactTap() {
     // TODO: 문의하기 페이지 이동 로직 구현
-    print("Contact Us Tapped");
+    _showComingSoonDialog();
   }
 
   void _onDarkModeChanged(bool value) {
     // TODO: 다크 모드 상태 변경 로직 구현
-    setState(() {
-      _isDarkMode = value;
-    });
-    print("Dark Mode changed to: $value");
+    _showComingSoonDialog();
   }
 
   @override

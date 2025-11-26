@@ -18,7 +18,6 @@ class TitleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // HTML의 다크 모드 디자인 색상을 고정적으로 사용
     const Color backgroundColor = Color(0xFF121212);
     const Color mainTextColor = Color(0xFFE5E5E5);
     const Color secondaryTextColor = Color(0xFFA8A29E);
@@ -28,13 +27,10 @@ class TitleView extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Header
             _buildHeader(context, mainTextColor),
-            // Main Content (Grid)
             Expanded(
               child: _buildGrid(context, mainTextColor, secondaryTextColor),
             ),
-            // Footer
             _buildFooter(secondaryTextColor),
           ],
         ),
@@ -42,6 +38,7 @@ class TitleView extends StatelessWidget {
     );
   }
 
+  // 헤더 -> 제목, 설정 버튼 표시
   Widget _buildHeader(BuildContext context, Color mainTextColor) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -74,6 +71,7 @@ class TitleView extends StatelessWidget {
     );
   }
 
+  // 메뉴 -> 기능이 있는 버튼 표시
   Widget _buildGrid(
     BuildContext context,
     Color mainTextColor,
@@ -121,6 +119,7 @@ class TitleView extends StatelessWidget {
     );
   }
 
+  // 푸터 -> 저작권 표시
   Widget _buildFooter(Color secondaryTextColor) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -132,6 +131,7 @@ class TitleView extends StatelessWidget {
   }
 }
 
+// 메뉴 버튼 레이아웃
 class _MenuCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -151,7 +151,6 @@ class _MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // HTML의 다크 모드 디자인 색상을 고정적으로 사용
     const Color cardColor = Color(0xFF1E1E1E);
     const Color primaryColor = Color(0xFF13C8EC);
 
@@ -165,7 +164,7 @@ class _MenuCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: const Color.fromARGB(13, 0, 0, 0), // withOpacity(0.05)와 동일
+              color: const Color.fromARGB(13, 0, 0, 0),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -176,8 +175,6 @@ class _MenuCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Icon(icon, color: primaryColor, size: 32),
-            // 불필요한 Column과 Flexible을 제거하고 텍스트를 바로 배치합니다.
-            // Text 위젯은 기본적으로 공간이 부족하면 자동 줄바꿈됩니다.
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -189,13 +186,13 @@ class _MenuCard extends StatelessWidget {
                   ).copyWith(color: mainTextColor),
                 ),
                 const SizedBox(height: 4),
-                // 공간이 부족할 때 글자 크기를 자동으로 조절하여 잘림 방지
+                // 공간이 모자라면 크기가 줄어듦
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
                     subtitle,
                     style: TextStyle(fontSize: 14, color: secondaryTextColor),
-                    maxLines: 1, // 한 줄로 표시되도록 강제
+                    maxLines: 1, // 한 줄로 표시
                   ),
                 ),
               ],

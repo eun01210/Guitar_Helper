@@ -1,13 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:my_app/widgets/note.dart'; // NoteData를 위해 추가
 import 'package:my_app/datas/chords.dart';
-
-const colorTable = [
-  Color.fromARGB(255, 255, 94, 0),
-  Colors.orange,
-  Colors.blueGrey,
-  Colors.deepPurple,
-];
 
 List<NoteData?> makeFret(int fretNumber, ChordDefinition chord, bool finger) {
   return List.generate(6, (index) {

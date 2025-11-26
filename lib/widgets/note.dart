@@ -8,6 +8,13 @@ class NoteData {
   const NoteData({required this.text, required this.color});
 }
 
+const colorTable = [
+  Color(0xFF4169E1),
+  Color(0xFF00BFFF),
+  Colors.blueGrey,
+  Colors.deepPurple,
+];
+
 class NoteDot extends StatelessWidget {
   final NoteData noteData;
 

@@ -21,8 +21,7 @@ class TunerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Design colors from HTML
-    const backgroundDark = Color(0xFF191022);
+    const backgroundDark = Color(0xFF101F22);
     const textWhite = Colors.white;
     const textZinc400 = Color(0xFFA1A1AA);
     const textZinc500 = Color(0xFF71717A);
