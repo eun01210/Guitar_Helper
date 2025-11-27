@@ -1,9 +1,19 @@
-# Guitar_Chord
-기타 포지션별 코드와 스케일을 쉽게 찾을 수 있는 앱
+# Guitar_Helper
+1. 기타 코드폼 찾기
+   코드별로 여러가지 폼을 확인할 수 있음.
+   손가락 번호와 도(Degree)중에서 선택 가능
+2. 기타 스케일 찾기
+   원하는 코드의 원하는 스케일을 확인할 수 있음.
+   full screen view로 큰 화면으로 확인 가능
+   확대 및 축소 가능
+3. 튜너
+   음성을 감지해, Hz와 가까운 음, 튜닝 상태 확인 가능
+4. 메트로놈
+   원하는 bpm과 박자를 설정하여 사용
+   탭 템포 가능
 
 25.09.22. First commit
-
-Create Test App.
+25.11.26. Test version share
 
 License: MIT
 
