@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/widgets/appbar.dart';
 
 class SettingsView extends StatelessWidget {
   // Callbacks for interactions
@@ -43,26 +44,11 @@ class SettingsView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundDark,
-      appBar: AppBar(
-        backgroundColor: backgroundDark,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            size: 24,
-            color: textColor,
-          ),
-          onPressed: onBack,
-        ),
-        title: const Text(
-          'Settings',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: textColor,
-          ),
-        ),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: 'Settings',
+        onBack: onBack,
+        textColor: textColor,
+        backgroundColor: const Color(0xCC101F22),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

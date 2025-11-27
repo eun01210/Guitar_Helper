@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:my_app/widgets/appbar.dart';
 
 class TunerView extends StatelessWidget {
   final String note;
@@ -36,33 +37,12 @@ class TunerView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundDark,
-      // Appbar 뒤로가기, 제목, 설정
-      appBar: AppBar(
+      appBar: CustomAppBar(
+        title: 'Tuner',
+        onBack: onBack,
+        onSettings: onSettingsTap,
+        textColor: textWhite,
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            size: 24,
-            color: textWhite,
-          ),
-          onPressed: onBack,
-        ),
-        title: const Text(
-          'Tuner',
-          style: TextStyle(
-            color: textWhite,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, color: textWhite),
-            onPressed: onSettingsTap,
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),

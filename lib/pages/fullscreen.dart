@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/fretbox.dart';
+import 'package:my_app/widgets/appbar.dart';
 import 'package:my_app/widgets/note.dart';
 
 class FullScreenFretboxPage extends StatefulWidget {
@@ -35,33 +36,12 @@ class _FullScreenFretboxPageState extends State<FullScreenFretboxPage> {
 
     return Scaffold(
       backgroundColor: backgroundDark,
-      // Appbar, 뒤로가기, 풀스케일 이름, 설정 버튼
-      appBar: AppBar(
+      appBar: CustomAppBar(
+        title: fullScaleName,
+        onBack: widget.onBack,
+        onSettings: widget.onSettings,
+        textColor: textColor,
         backgroundColor: const Color(0xCC101F22),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            size: 28,
-            color: textColor,
-          ),
-          onPressed: widget.onBack,
-        ),
-        title: Text(
-          fullScaleName,
-          style: const TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, size: 28, color: textColor),
-            onPressed: widget.onSettings,
-          ),
-        ],
       ),
       body: SafeArea(
         child: Row(

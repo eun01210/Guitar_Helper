@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/note.dart';
 import 'package:my_app/widgets/fretbox.dart';
+import 'package:my_app/widgets/appbar.dart';
 import 'package:my_app/datas/scales.dart';
 
 class ScaleView extends StatelessWidget {
@@ -50,32 +51,12 @@ class ScaleView extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundDark,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
+      appBar: CustomAppBar(
+        title: 'Scale',
+        onBack: onBack,
+        onSettings: onSettings,
+        textColor: textColor,
         backgroundColor: const Color(0xCC101F22),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            size: 28,
-            color: textColor,
-          ),
-          onPressed: onBack,
-        ),
-        title: const Text(
-          'Scale',
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, size: 28, color: textColor),
-            onPressed: onSettings,
-          ),
-        ],
       ),
       body: SafeArea(
         child: Padding(

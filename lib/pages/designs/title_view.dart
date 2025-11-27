@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/widgets/appbar.dart';
 
 class TitleView extends StatelessWidget {
   final VoidCallback onChordTap;
@@ -21,52 +22,32 @@ class TitleView extends StatelessWidget {
     const Color backgroundColor = Color(0xFF121212);
     const Color mainTextColor = Color(0xFFE5E5E5);
     const Color secondaryTextColor = Color(0xFFA8A29E);
+    // 화면 너비에 따른 스케일 팩터 계산
+    final screenWidth = MediaQuery.of(context).size.width;
+    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
 
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(context, mainTextColor),
-            Expanded(
-              child: _buildGrid(context, mainTextColor, secondaryTextColor),
+            CustomAppBar(
+              title: 'Guitar Helper',
+              onSettings: onSettingsTap,
+              textColor: mainTextColor,
+              backgroundColor: Colors.transparent,
             ),
-            _buildFooter(secondaryTextColor),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // 헤더 -> 제목, 설정 버튼 표시
-  Widget _buildHeader(BuildContext context, Color mainTextColor) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Align(
-            alignment: const Alignment(-0.4, 0), // 정중앙(0.0)에서 왼쪽으로 살짝 이동
-            child: Text(
-              'Guitar Helper',
-              style: TextStyle(
-                fontFamily: 'Playfair Display',
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: mainTextColor,
+            Expanded(
+              child: _buildGrid(
+                context,
+                mainTextColor,
+                secondaryTextColor,
+                scaleFactor,
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: const Icon(Icons.settings),
-              iconSize: 28,
-              onPressed: onSettingsTap,
-              color: mainTextColor,
-            ),
-          ),
-        ],
+            _buildFooter(secondaryTextColor, scaleFactor),
+          ],
+        ),
       ),
     );
   }
@@ -76,6 +57,7 @@ class TitleView extends StatelessWidget {
     BuildContext context,
     Color mainTextColor,
     Color secondaryTextColor,
+    double scaleFactor,
   ) {
     return GridView.count(
       crossAxisCount: 2,
@@ -90,6 +72,7 @@ class TitleView extends StatelessWidget {
           onTap: onChordTap,
           mainTextColor: mainTextColor,
           secondaryTextColor: secondaryTextColor,
+          scaleFactor: scaleFactor,
         ),
         _MenuCard(
           icon: Icons.show_chart,
@@ -98,6 +81,7 @@ class TitleView extends StatelessWidget {
           onTap: onScaleTap,
           mainTextColor: mainTextColor,
           secondaryTextColor: secondaryTextColor,
+          scaleFactor: scaleFactor,
         ),
         _MenuCard(
           icon: Icons.graphic_eq,
@@ -106,6 +90,7 @@ class TitleView extends StatelessWidget {
           onTap: onTunerTap,
           mainTextColor: mainTextColor,
           secondaryTextColor: secondaryTextColor,
+          scaleFactor: scaleFactor,
         ),
         _MenuCard(
           icon: Icons.timer,
@@ -114,18 +99,19 @@ class TitleView extends StatelessWidget {
           onTap: onMetronomeTap,
           mainTextColor: mainTextColor,
           secondaryTextColor: secondaryTextColor,
+          scaleFactor: scaleFactor,
         ),
       ],
     );
   }
 
   // 푸터 -> 저작권 표시
-  Widget _buildFooter(Color secondaryTextColor) {
+  Widget _buildFooter(Color secondaryTextColor, double scaleFactor) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 16.0 * scaleFactor),
       child: Text(
         '© 2025. Eun, Hwangbo. All Rights Reserved.',
-        style: TextStyle(fontSize: 12, color: secondaryTextColor),
+        style: TextStyle(fontSize: 12 * scaleFactor, color: secondaryTextColor),
       ),
     );
   }
@@ -139,6 +125,7 @@ class _MenuCard extends StatelessWidget {
   final VoidCallback onTap;
   final Color mainTextColor;
   final Color secondaryTextColor;
+  final double scaleFactor;
 
   const _MenuCard({
     required this.icon,
@@ -147,6 +134,7 @@ class _MenuCard extends StatelessWidget {
     required this.onTap,
     required this.mainTextColor,
     required this.secondaryTextColor,
+    required this.scaleFactor,
   });
 
   @override
@@ -174,14 +162,14 @@ class _MenuCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(icon, color: primaryColor, size: 32),
+            Icon(icon, color: primaryColor, size: 32 * scaleFactor),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: 18 * scaleFactor,
                     fontWeight: FontWeight.bold,
                   ).copyWith(color: mainTextColor),
                 ),
@@ -191,7 +179,10 @@ class _MenuCard extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   child: Text(
                     subtitle,
-                    style: TextStyle(fontSize: 14, color: secondaryTextColor),
+                    style: TextStyle(
+                      fontSize: 14 * scaleFactor,
+                      color: secondaryTextColor,
+                    ),
                     maxLines: 1, // 한 줄로 표시
                   ),
                 ),

@@ -60,14 +60,19 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
         (_viewerHeight > _fretHeight * liveScale)
             ? 0
             : _viewerHeight - _fretHeight * liveScale;
+
     double clampedY =
         (currentTranslationY < topBoundary) ? topBoundary : currentTranslationY;
     clampedY = (clampedY > 0) ? 0 : clampedY;
+    if (topBoundary >= 0) {
+      clampedY = (_viewerHeight - _fretHeight * liveScale) / 2;
+    }
 
     final double leftBoundary =
         (_viewerWidth > _fretWidth * liveScale)
             ? 0
             : _viewerWidth - _fretWidth * liveScale;
+
     double clampedX =
         (currentTranslationX < leftBoundary)
             ? leftBoundary
@@ -93,9 +98,6 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
 
           _fretHeight = _fretHeight * (_viewerWidth / _fretWidth);
           _fretWidth = _viewerWidth;
-          print(
-            'vH: $_viewerHeight, vW: $_viewerWidth, fH: $_fretHeight, fW: $_fretWidth',
-          );
           // 프렛보드 세로에 맞는 배율 설정
           final double scaleY = _viewerHeight / _fretHeight;
 
@@ -138,8 +140,8 @@ class _InteractiveFretboardState extends State<GuitarFretBox> {
                   ? PanAxis.horizontal
                   : PanAxis.free,
           child: FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.topLeft,
+            fit: BoxFit.fitWidth,
+            alignment: Alignment.topCenter,
             child: GuitarFretboard(fretboardData: widget.fretboardData),
           ),
         );

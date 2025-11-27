@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/widgets/appbar.dart';
 
 class MetronomeView extends StatelessWidget {
   static const Color primaryColor = Color(0xFF13C8EC);
@@ -42,29 +43,12 @@ class MetronomeView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: bgColor,
-      // Appbar 뒤로가기, 제목, 설정
-      appBar: AppBar(
+      appBar: CustomAppBar(
+        title: 'Metronome',
+        onBack: onBack,
+        onSettings: onSettingsTap,
+        textColor: textColor,
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, size: 24, color: textColor),
-          onPressed: onBack,
-        ),
-        title: Text(
-          'Metronome',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: textColor,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings, size: 28, color: textColor),
-            onPressed: onSettingsTap,
-          ),
-        ],
       ),
       body: SafeArea(
         child: Padding(

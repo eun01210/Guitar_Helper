@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/note.dart';
+import 'package:my_app/widgets/appbar.dart';
 import 'package:my_app/widgets/chordfret.dart';
 
 class ChordView extends StatelessWidget {
@@ -55,33 +56,12 @@ class ChordView extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundDark,
       extendBodyBehindAppBar: true,
-      // Appbar 뒤로가기, 제목, 설정
-      appBar: AppBar(
+      appBar: CustomAppBar(
+        title: 'Chord',
+        onBack: onBack,
+        onSettings: onSettings,
+        textColor: textColor,
         backgroundColor: const Color(0xCC101F22),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            size: 28,
-            color: textColor,
-          ),
-          onPressed: onBack,
-        ),
-        title: const Text(
-          'Chord',
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, size: 28, color: textColor),
-            onPressed: onSettings,
-          ),
-        ],
       ),
       body: SafeArea(
         child: Padding(
