@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:my_app/widgets/appbar.dart';
+
+class ContactUsView extends StatelessWidget {
+  final VoidCallback onBack;
+
+  const ContactUsView({super.key, required this.onBack});
+
+  @override
+  Widget build(BuildContext context) {
+    // setting_view.dart와 동일한 색상 테마 적용
+    const Color backgroundDark = Color(0xFF101F22);
+    const Color textColor = Color(0xFFE5E7EB);
+    const Color appBarBgColor = Color(0xCC101F22);
+
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.0);
+
+    // 여기에 표시할 긴 텍스트를 입력합니다.
+    const String contactUsText = '''
+Contact Us — Guitar Helper
+
+If you have any questions, feedback, or issues while using Guitar Helper, please feel free to contact us.
+We will do our best to respond as soon as possible.
+
+
+Email Support
+
+For all inquiries related to the app, please reach us at:
+Email: hwangboeun2002@naver.com
+
+
+What You Can Contact Us About
+
+You may contact us regarding:
+Bug reports
+Feature requests
+General questions about the app
+Issues related to the tuner, metronome, chords, or scales
+Any other feedback to help improve the app
+
+Response Time
+
+We typically respond within a reasonable time frame, but delays may occur depending on the nature of the inquiry.
+''';
+
+    return Scaffold(
+      backgroundColor: backgroundDark,
+      appBar: CustomAppBar(
+        title: 'Contact Us',
+        onBack: onBack,
+        textColor: textColor,
+        backgroundColor: appBarBgColor,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(24.0 * scaleFactor),
+        child: Text(
+          contactUsText,
+          style: TextStyle(
+            color: textColor,
+            fontSize: 16 * scaleFactor,
+            height: 1.5,
+          ),
+        ),
+      ),
+    );
+  }
+}

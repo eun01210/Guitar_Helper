@@ -42,6 +42,10 @@ class SettingsView extends StatelessWidget {
     const Color dividerColor = Color(0x80374151); // bg-gray-700/50
     const Color switchBgColor = Color(0xFF374151); // bg-gray-700
 
+    // 화면 너비에 따른 스케일 팩터 계산
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 1.5);
+
     return Scaffold(
       backgroundColor: backgroundDark,
       appBar: CustomAppBar(
@@ -51,123 +55,141 @@ class SettingsView extends StatelessWidget {
         backgroundColor: const Color(0xCC101F22),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0 * scaleFactor),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Notifications Section
-            _buildSectionHeader('Notifications', subHeaderColor),
-            _buildCard(cardBgColor, [
+            _buildSectionHeader('Notifications', subHeaderColor, scaleFactor),
+            _buildCard(cardBgColor, scaleFactor, [
               _buildSettingsItem(
                 icon: Icons.notifications,
                 text: 'Notifications',
                 primaryColor: primaryColor,
                 textColor: textColor,
                 subTextColor: subTextColor,
+                scaleFactor: scaleFactor,
                 onTap: onNotificationTap,
               ),
             ]),
-            const SizedBox(height: 32),
+            SizedBox(height: 32 * scaleFactor),
 
             // General Settings Section
-            _buildSectionHeader('General', subHeaderColor),
-            _buildCard(cardBgColor, [
+            _buildSectionHeader('General', subHeaderColor, scaleFactor),
+            _buildCard(cardBgColor, scaleFactor, [
               _buildSettingsItem(
                 icon: Icons.person,
                 text: 'Profile Settings',
                 primaryColor: primaryColor,
                 textColor: textColor,
                 subTextColor: subTextColor,
+                scaleFactor: scaleFactor,
                 onTap: onProfileTap,
               ),
-              const _Divider(color: dividerColor),
+              _Divider(color: dividerColor, scaleFactor: scaleFactor),
               _buildSettingsItem(
                 icon: Icons.dark_mode,
                 text: 'Dark Mode',
                 primaryColor: primaryColor,
                 textColor: textColor,
+                scaleFactor: scaleFactor,
                 trailing: _buildToggleSwitch(
                   isActive: isDarkMode,
                   onChanged: onDarkModeChanged,
                   activeColor: primaryColor,
                   inactiveColor: switchBgColor,
+                  scaleFactor: scaleFactor,
                 ),
               ),
-              const _Divider(color: dividerColor),
+              _Divider(color: dividerColor, scaleFactor: scaleFactor),
               _buildSettingsItem(
                 icon: Icons.tune,
                 text: 'Tuner Preferences',
                 primaryColor: primaryColor,
                 textColor: textColor,
                 subTextColor: subTextColor,
+                scaleFactor: scaleFactor,
                 trailing: Row(
                   children: [
-                    const Text(
+                    Text(
                       'Standard',
-                      style: TextStyle(fontSize: 14, color: subTextColor),
+                      style: TextStyle(
+                        fontSize: 14 * scaleFactor,
+                        color: subTextColor,
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    Icon(Icons.chevron_right, color: subTextColor, size: 24),
+                    SizedBox(width: 8 * scaleFactor),
+                    Icon(
+                      Icons.chevron_right,
+                      color: subTextColor,
+                      size: 24 * scaleFactor,
+                    ),
                   ],
                 ),
                 onTap: onTunerPreferencesTap,
               ),
             ]),
-            const SizedBox(height: 32),
+            SizedBox(height: 32 * scaleFactor),
 
             // Information Section
-            _buildSectionHeader('Information', subHeaderColor),
-            _buildCard(cardBgColor, [
+            _buildSectionHeader('Information', subHeaderColor, scaleFactor),
+            _buildCard(cardBgColor, scaleFactor, [
               _buildSettingsItem(
                 icon: Icons.gavel,
                 text: 'Terms of Service',
                 primaryColor: primaryColor,
                 textColor: textColor,
                 subTextColor: subTextColor,
+                scaleFactor: scaleFactor,
                 onTap: onTermsTap,
               ),
-              const _Divider(color: dividerColor),
+              _Divider(color: dividerColor, scaleFactor: scaleFactor),
               _buildSettingsItem(
                 icon: Icons.shield,
                 text: 'Privacy Policy',
                 primaryColor: primaryColor,
                 textColor: textColor,
                 subTextColor: subTextColor,
+                scaleFactor: scaleFactor,
                 onTap: onPrivacyPolicyTap,
               ),
-              const _Divider(color: dividerColor),
+              _Divider(color: dividerColor, scaleFactor: scaleFactor),
               _buildSettingsItem(
                 icon: Icons.email,
                 text: 'Contact Us',
                 primaryColor: primaryColor,
                 textColor: textColor,
                 subTextColor: subTextColor,
+                scaleFactor: scaleFactor,
                 onTap: onContactTap,
               ),
             ]),
-            const SizedBox(height: 32),
+            SizedBox(height: 32 * scaleFactor),
 
             // Footer
             Center(
               child: Text(
                 'App Version $appVersion',
-                style: const TextStyle(fontSize: 14, color: subHeaderColor),
+                style: TextStyle(
+                  fontSize: 14 * scaleFactor,
+                  color: subHeaderColor,
+                ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16 * scaleFactor),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSectionHeader(String title, Color color) {
+  Widget _buildSectionHeader(String title, Color color, double scaleFactor) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, bottom: 8),
+      padding: EdgeInsets.only(left: 16 * scaleFactor, bottom: 8 * scaleFactor),
       child: Text(
         title.toUpperCase(),
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 14 * scaleFactor,
           fontWeight: FontWeight.w600,
           color: color,
         ),
@@ -175,11 +197,11 @@ class SettingsView extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(Color bgColor, List<Widget> children) {
+  Widget _buildCard(Color bgColor, double scaleFactor, List<Widget> children) {
     return Container(
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12 * scaleFactor),
       ),
       child: Column(children: children),
     );
@@ -191,30 +213,34 @@ class SettingsView extends StatelessWidget {
     required Color primaryColor,
     required Color textColor,
     Color? subTextColor,
+    required double scaleFactor,
     Widget? trailing,
     VoidCallback? onTap,
   }) {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16 * scaleFactor,
+          vertical: 12 * scaleFactor,
+        ),
         child: Row(
           children: [
             Container(
-              width: 40,
-              height: 40,
+              width: 40 * scaleFactor,
+              height: 40 * scaleFactor,
               decoration: BoxDecoration(
-                color: primaryColor.withOpacity(0.2),
+                color: primaryColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: primaryColor),
+              child: Icon(icon, color: primaryColor, size: 24 * scaleFactor),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16 * scaleFactor),
             Expanded(
               child: Text(
                 text,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 16 * scaleFactor,
                   fontWeight: FontWeight.w500,
                   color: textColor,
                 ),
@@ -222,7 +248,11 @@ class SettingsView extends StatelessWidget {
             ),
             trailing ??
                 (onTap != null
-                    ? Icon(Icons.chevron_right, color: subTextColor, size: 24)
+                    ? Icon(
+                      Icons.chevron_right,
+                      color: subTextColor,
+                      size: 24 * scaleFactor,
+                    )
                     : const SizedBox.shrink()),
           ],
         ),
@@ -235,28 +265,33 @@ class SettingsView extends StatelessWidget {
     required ValueChanged<bool> onChanged,
     required Color activeColor,
     required Color inactiveColor,
+    required double scaleFactor,
   }) {
-    return Switch(
-      value: isActive,
-      onChanged: onChanged,
-      activeColor: Colors.white,
-      activeTrackColor: activeColor,
-      inactiveThumbColor: Colors.white,
-      inactiveTrackColor: inactiveColor,
+    return Transform.scale(
+      scale: scaleFactor,
+      child: Switch(
+        value: isActive,
+        onChanged: onChanged,
+        activeThumbColor: Colors.white,
+        activeTrackColor: activeColor,
+        inactiveThumbColor: Colors.white,
+        inactiveTrackColor: inactiveColor,
+      ),
     );
   }
 }
 
 class _Divider extends StatelessWidget {
   final Color color;
-  const _Divider({required this.color});
+  final double scaleFactor;
+  const _Divider({required this.color, required this.scaleFactor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 1,
       color: color,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: EdgeInsets.symmetric(horizontal: 16 * scaleFactor),
     );
   }
 }

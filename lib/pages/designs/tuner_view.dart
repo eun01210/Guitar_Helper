@@ -35,6 +35,10 @@ class TunerView extends StatelessWidget {
     final bool isInTune = status == 'In Tune';
     final Color statusColor = isInTune ? success : yellow500;
 
+    // 화면 너비에 따른 스케일 팩터 계산
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
+
     return Scaffold(
       backgroundColor: backgroundDark,
       appBar: CustomAppBar(
@@ -45,35 +49,43 @@ class TunerView extends StatelessWidget {
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.0 * scaleFactor,
+          vertical: 24.0 * scaleFactor,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 1),
+            SizedBox(height: 1 * scaleFactor),
             Column(
               children: [
                 // Hz 표시
                 Text(
                   isTuning ? '${pitch.toStringAsFixed(1)} Hz' : ' ',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: textZinc400,
-                    fontSize: 14,
+                    fontSize: 14 * scaleFactor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 // 음정 표시
-                const SizedBox(height: 16),
-                _buildNoteDisplay(isTuning, statusColor, textZinc600),
-                const SizedBox(height: 16),
+                SizedBox(height: 16 * scaleFactor),
+                _buildNoteDisplay(
+                  isTuning,
+                  statusColor,
+                  textZinc600,
+                  scaleFactor,
+                ),
+                SizedBox(height: 16 * scaleFactor),
                 // 튜닝 상태 표시
                 SizedBox(
-                  height: 32,
+                  height: 32 * scaleFactor,
                   child: Center(
                     child: Text(
                       isTuning ? status : 'Please make a sound',
                       style: TextStyle(
                         color: isTuning ? statusColor : textZinc400,
-                        fontSize: 20,
+                        fontSize: 20 * scaleFactor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -89,6 +101,7 @@ class TunerView extends StatelessWidget {
               success,
               bgZinc800,
               textZinc500,
+              scaleFactor,
             ),
           ],
         ),
@@ -100,6 +113,7 @@ class TunerView extends StatelessWidget {
     bool isTuning,
     Color activeColor,
     Color inactiveColor,
+    double scaleFactor,
   ) {
     String mainNote = note.isNotEmpty ? note[0] : 'A';
     String accidental = note.length > 1 ? note.substring(1) : '';
@@ -111,12 +125,14 @@ class TunerView extends StatelessWidget {
           mainNote: mainNote,
           accidental: accidental,
           color: inactiveColor,
+          scaleFactor: scaleFactor,
         ),
         if (isTuning)
           _NoteText(
             mainNote: mainNote,
             accidental: accidental,
             color: activeColor,
+            scaleFactor: scaleFactor,
           ),
       ],
     );
@@ -128,6 +144,7 @@ class TunerView extends StatelessWidget {
     Color successColor,
     Color meterBgColor,
     Color labelColor,
+    double scaleFactor,
   ) {
     // cents 값을 -50~50으로 제한 (50이 넘어가면 음정이 바뀜)
     final double clampedCents = math.max(-50, math.min(50, cents));
@@ -137,26 +154,26 @@ class TunerView extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 32,
+          height: 32 * scaleFactor,
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Stack(
                 alignment: Alignment.center,
                 children: [
                   Container(
-                    height: 8,
+                    height: 8 * scaleFactor,
                     decoration: BoxDecoration(
                       color: meterBgColor,
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(4 * scaleFactor),
                     ),
                   ),
                   Positioned(
                     child: Container(
-                      width: 4,
-                      height: 16,
+                      width: 4 * scaleFactor,
+                      height: 16 * scaleFactor,
                       decoration: BoxDecoration(
                         color: const Color(0x8034D399),
-                        borderRadius: BorderRadius.circular(2),
+                        borderRadius: BorderRadius.circular(2 * scaleFactor),
                       ),
                     ),
                   ),
@@ -164,11 +181,11 @@ class TunerView extends StatelessWidget {
                     Positioned(
                       left: indicatorPosition * constraints.maxWidth,
                       child: Container(
-                        width: 4,
-                        height: 32,
+                        width: 4 * scaleFactor,
+                        height: 32 * scaleFactor,
                         decoration: BoxDecoration(
                           color: statusColor,
-                          borderRadius: BorderRadius.circular(2),
+                          borderRadius: BorderRadius.circular(2 * scaleFactor),
                         ),
                       ),
                     ),
@@ -177,15 +194,24 @@ class TunerView extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8 * scaleFactor),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          padding: EdgeInsets.symmetric(horizontal: 4.0 * scaleFactor),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('-50', style: TextStyle(fontSize: 12, color: labelColor)),
-              Text('0', style: TextStyle(fontSize: 12, color: labelColor)),
-              Text('+50', style: TextStyle(fontSize: 12, color: labelColor)),
+              Text(
+                '-50',
+                style: TextStyle(fontSize: 12 * scaleFactor, color: labelColor),
+              ),
+              Text(
+                '0',
+                style: TextStyle(fontSize: 12 * scaleFactor, color: labelColor),
+              ),
+              Text(
+                '+50',
+                style: TextStyle(fontSize: 12 * scaleFactor, color: labelColor),
+              ),
             ],
           ),
         ),
@@ -198,11 +224,13 @@ class _NoteText extends StatelessWidget {
   final String mainNote;
   final String accidental;
   final Color color;
+  final double scaleFactor;
 
   const _NoteText({
     required this.mainNote,
     required this.accidental,
     required this.color,
+    required this.scaleFactor,
   });
 
   @override
@@ -217,13 +245,16 @@ class _NoteText extends StatelessWidget {
         children: [
           TextSpan(
             text: mainNote,
-            style: const TextStyle(fontSize: 96, letterSpacing: -4),
+            style: TextStyle(
+              fontSize: 96 * scaleFactor,
+              letterSpacing: -4 * scaleFactor,
+            ),
           ),
           if (accidental.isNotEmpty)
             TextSpan(
               text: accidental,
-              style: const TextStyle(
-                fontSize: 60,
+              style: TextStyle(
+                fontSize: 60 * scaleFactor,
                 fontFeatures: [FontFeature.superscripts()],
               ),
             ),

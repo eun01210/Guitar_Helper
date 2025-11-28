@@ -4,8 +4,13 @@ import 'package:my_app/widgets/note.dart';
 
 class ChordFret extends StatelessWidget {
   final List<List<NoteData?>> fretboardData;
+  final bool showBarreConnections;
 
-  const ChordFret({super.key, required this.fretboardData});
+  const ChordFret({
+    super.key,
+    required this.fretboardData,
+    this.showBarreConnections = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,8 @@ class ChordFret extends StatelessWidget {
             return Fret(
               fretNumber: fretNumber,
               notes: fretData,
-              showBarreConnections: true,
+              showBarreConnections: showBarreConnections,
+              chord: true,
             );
           }),
         ],

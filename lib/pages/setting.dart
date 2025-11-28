@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/designs/setting_view.dart';
+import 'package:my_app/pages/settings/privacy_policy.dart';
+import 'package:my_app/pages/settings/terms_of_service.dart';
+import 'package:my_app/pages/settings/contact_us.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -14,6 +17,24 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _onBack() {
     Navigator.of(context).pop();
+  }
+
+  // `onBack` 콜백을 받는 위젯을 생성하는 함수를 인자로 받습니다.
+  void _onNavigate(
+    Widget Function({required VoidCallback onBack}) pageBuilder,
+  ) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        // 전달받은 함수를 사용하여 페이지 위젯을 생성하고 onBack 콜백을 제공합니다.
+        builder:
+            (context) => pageBuilder(
+              onBack: () {
+                Navigator.of(context).pop();
+              },
+            ),
+      ),
+    );
   }
 
   void _showComingSoonDialog() {
@@ -52,18 +73,15 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _onTermsTap() {
-    // TODO: 이용약관 페이지 이동 로직 구현
-    _showComingSoonDialog();
+    _onNavigate(TosView.new);
   }
 
   void _onPrivacyPolicyTap() {
-    // TODO: 개인정보 처리방침 페이지 이동 로직 구현
-    _showComingSoonDialog();
+    _onNavigate(PrivacyPolicyView.new);
   }
 
   void _onContactTap() {
-    // TODO: 문의하기 페이지 이동 로직 구현
-    _showComingSoonDialog();
+    _onNavigate(ContactUsView.new);
   }
 
   void _onDarkModeChanged(bool value) {

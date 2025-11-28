@@ -5,12 +5,14 @@ class Fret extends StatelessWidget {
   final int fretNumber;
   final List<NoteData?> notes;
   final bool showBarreConnections;
+  final bool chord;
 
   const Fret({
     super.key,
     required this.fretNumber,
     required this.notes,
     this.showBarreConnections = false,
+    this.chord = false,
   });
 
   static const List<int> _backgroundDotFrets = [
@@ -31,7 +33,7 @@ class Fret extends StatelessWidget {
     return SizedBox(
       // ChordPage(showBarreConnections: true)일 때 프렛 너비를 더 넓게 설정
       width:
-          showBarreConnections
+          chord
               // 코드 페이지 프렛 너비 조정 (기존: 36, 54 -> 수정: 34, 52)
               ? ((fretNumber == 0) ? 34 : 52 - fretNumber * 0.9)
               : ((fretNumber == 0) ? 24 : 36 - fretNumber * 0.6),

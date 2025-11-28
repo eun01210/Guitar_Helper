@@ -41,6 +41,10 @@ class MetronomeView extends StatelessWidget {
     const buttonBgColor = Color(0x80374151);
     const buttonFgColor = Color(0xFFD1D5DB);
 
+    // 화면 너비에 따른 스케일 팩터 계산
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2);
+
     return Scaffold(
       backgroundColor: bgColor,
       appBar: CustomAppBar(
@@ -52,14 +56,20 @@ class MetronomeView extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0 * scaleFactor),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(flex: 2),
               // BPM 텍스트
-              Text('BPM', style: TextStyle(color: subTextColor, fontSize: 16)),
-              const SizedBox(height: 8),
+              Text(
+                'BPM',
+                style: TextStyle(
+                  color: subTextColor,
+                  fontSize: 16 * scaleFactor,
+                ),
+              ),
+              SizedBox(height: 8 * scaleFactor),
               // BPM 숫자 & 증감버튼 표시
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -70,18 +80,19 @@ class MetronomeView extends StatelessWidget {
                     onBpmDecrement,
                     buttonBgColor,
                     buttonFgColor,
+                    scaleFactor,
                   ),
                   SizedBox(
-                    width: 180, // 3자리 숫자를 기준으로 너비 고정 (버튼 위치 고정)
+                    width: 180 * scaleFactor, // 3자리 숫자를 기준으로 너비 고정 (버튼 위치 고정)
                     child: Text(
                       bpm.round().toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: textColor,
-                        fontSize: 88,
+                        fontSize: 88 * scaleFactor,
                         fontWeight: FontWeight.bold,
                         height: 1,
-                        letterSpacing: -4,
+                        letterSpacing: -4 * scaleFactor,
                       ),
                     ),
                   ),
@@ -90,28 +101,29 @@ class MetronomeView extends StatelessWidget {
                     onBpmIncrement,
                     buttonBgColor,
                     buttonFgColor,
+                    scaleFactor,
                   ),
                 ],
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32 * scaleFactor),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0 * scaleFactor),
                 child: Column(
                   children: [
                     // BPM 슬라이더
                     SliderTheme(
                       data: SliderTheme.of(context).copyWith(
-                        trackHeight: 8.0,
+                        trackHeight: 8.0 * scaleFactor,
                         trackShape: const RoundedRectSliderTrackShape(),
                         activeTrackColor: primaryColor,
                         inactiveTrackColor: const Color(0xFF4B5563),
-                        thumbShape: const RoundSliderThumbShape(
-                          enabledThumbRadius: 12.0,
+                        thumbShape: RoundSliderThumbShape(
+                          enabledThumbRadius: 12.0 * scaleFactor,
                         ),
                         thumbColor: primaryColor,
                         overlayColor: const Color(0x2013C8EC),
-                        overlayShape: const RoundSliderOverlayShape(
-                          overlayRadius: 28.0,
+                        overlayShape: RoundSliderOverlayShape(
+                          overlayRadius: 28.0 * scaleFactor,
                         ),
                       ),
                       child: Slider(
@@ -122,16 +134,16 @@ class MetronomeView extends StatelessWidget {
                       ),
                     ),
                     // 박자 설정 리스트 & 탭 템포 버튼
-                    const SizedBox(height: 24),
-                    _buildTimeSignatureButton(context),
-                    const SizedBox(height: 24),
-                    _buildTapTempoButton(),
+                    SizedBox(height: 24 * scaleFactor),
+                    _buildTimeSignatureButton(context, scaleFactor),
+                    SizedBox(height: 24 * scaleFactor),
+                    _buildTapTempoButton(scaleFactor),
                   ],
                 ),
               ),
               // 재생 버튼
               const Spacer(flex: 1),
-              _buildPlayButton(),
+              _buildPlayButton(scaleFactor),
               const Spacer(flex: 3),
             ],
           ),
@@ -145,37 +157,44 @@ class MetronomeView extends StatelessWidget {
     VoidCallback onPressed,
     Color bgColor,
     Color fgColor,
+    double scaleFactor,
   ) {
     return SizedBox(
-      width: 48,
-      height: 48,
+      width: 48 * scaleFactor,
+      height: 48 * scaleFactor,
       child: Material(
         color: bgColor,
         shape: const CircleBorder(),
         child: InkWell(
           onTap: onPressed,
           customBorder: const CircleBorder(),
-          child: Icon(icon, size: 28, color: fgColor),
+          child: Icon(icon, size: 28 * scaleFactor, color: fgColor),
         ),
       ),
     );
   }
 
-  Widget _buildTimeSignatureButton(BuildContext context) {
+  Widget _buildTimeSignatureButton(BuildContext context, double scaleFactor) {
     return Material(
       color: const Color(0xFF27272A),
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(12 * scaleFactor),
       child: InkWell(
         onTap: onTimeSignatureChange,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12 * scaleFactor),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: EdgeInsets.symmetric(
+            horizontal: 24 * scaleFactor,
+            vertical: 16 * scaleFactor,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 timeSignature,
-                style: TextStyle(fontSize: 18, color: Colors.white),
+                style: TextStyle(
+                  fontSize: 18 * scaleFactor,
+                  color: Colors.white,
+                ),
               ),
               Icon(Icons.expand_more, color: Colors.white),
             ],
@@ -185,13 +204,13 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildTapTempoButton() {
+  Widget _buildTapTempoButton(double scaleFactor) {
     return GestureDetector(
       onTap: onTapTempo,
       child: Container(
-        height: 80,
+        height: 80 * scaleFactor,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16 * scaleFactor),
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -200,16 +219,16 @@ class MetronomeView extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: const Color(0x33000000),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+              blurRadius: 8 * scaleFactor,
+              offset: Offset(0, 4 * scaleFactor),
             ),
           ],
         ),
-        child: const Center(
+        child: Center(
           child: Icon(
             Icons.touch_app,
             color: primaryColor,
-            size: 36, // 아이콘 크기를 조금 키워 허전함을 줄입니다.
+            size: 36 * scaleFactor, // 아이콘 크기를 조금 키워 허전함을 줄입니다.
             weight: 500,
             fill: 1,
           ),
@@ -218,18 +237,18 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildPlayButton() {
+  Widget _buildPlayButton(double scaleFactor) {
     return Container(
-      width: 96,
-      height: 96,
+      width: 96 * scaleFactor,
+      height: 96 * scaleFactor,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: primaryColor,
         boxShadow: [
           BoxShadow(
             color: const Color(0x4D13C8EC),
-            blurRadius: 16,
-            spreadRadius: 4,
+            blurRadius: 16 * scaleFactor,
+            spreadRadius: 4 * scaleFactor,
           ),
         ],
       ),
@@ -241,7 +260,7 @@ class MetronomeView extends StatelessWidget {
           child: Icon(
             isPlaying ? Icons.pause : Icons.play_arrow,
             color: Colors.white,
-            size: 56,
+            size: 56 * scaleFactor,
             fill: 1,
           ),
         ),

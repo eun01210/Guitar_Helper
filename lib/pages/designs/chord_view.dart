@@ -53,6 +53,10 @@ class ChordView extends StatelessWidget {
     final List<String> accidentals = ['♭', '♮', '♯'];
     final List<String> chordTypes = ['maj', 'm', '7', 'm7', 'M7', '7sus4'];
 
+    // 화면 너비에 따른 스케일 팩터 계산
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
+
     return Scaffold(
       backgroundColor: backgroundDark,
       extendBodyBehindAppBar: true,
@@ -67,261 +71,261 @@ class ChordView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 448),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  // FittedBox -> 화면이 깨지지 않게 사이즈 조절
-                  return FittedBox(
-                    fit: BoxFit.contain,
-                    child: SizedBox(
-                      width: constraints.maxWidth,
-                      child: Column(
-                        children: [
-                          // 프렛 박스 (코드, 폼 표시 등)
-                          Container(
-                            padding: const EdgeInsets.all(24),
-                            decoration: BoxDecoration(
-                              color: cardBgColor,
-                              borderRadius: BorderRadius.circular(12),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // FittedBox -> 화면이 깨지지 않게 사이즈 조절
+                return FittedBox(
+                  fit: BoxFit.contain,
+                  child: SizedBox(
+                    width: constraints.maxWidth,
+                    child: Column(
+                      children: [
+                        // 프렛 박스 (코드, 폼 표시 등)
+                        Container(
+                          padding: EdgeInsets.all(24 * scaleFactor),
+                          decoration: BoxDecoration(
+                            color: cardBgColor,
+                            borderRadius: BorderRadius.circular(
+                              12 * scaleFactor,
                             ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // 기본 코드 표시 (C, D, ...)
+                                      Text(
+                                        selectedRootNote +
+                                            ((selectedAccidental == '♮')
+                                                ? ''
+                                                : selectedAccidental),
+                                        style: TextStyle(
+                                          fontSize: 48 * scaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          color: textColor,
+                                        ),
+                                      ),
+                                      // 코드 풀네임 표시 (C, Cm7, ...)
+                                      Text(
+                                        fullChordName,
+                                        style: TextStyle(
+                                          fontSize: 18 * scaleFactor,
+                                          color: subTextColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  // 폼 변경 버튼
+                                  Row(
+                                    children: [
+                                      _buildSmallButton(
+                                        Icons.chevron_left,
+                                        onFormPrevious,
+                                        scaleFactor,
+                                      ),
+                                      SizedBox(width: 8 * scaleFactor),
+                                      _buildSmallButton(
+                                        Icons.chevron_right,
+                                        onFormNext,
+                                        scaleFactor,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 4 * scaleFactor),
+                              // 코드 폼 표시
+                              AspectRatio(
+                                aspectRatio: 1,
+                                child: ChordFret(
+                                  fretboardData: fretboardData,
+                                  showBarreConnections: isFingerMode,
+                                ),
+                              ),
+                              SizedBox(height: 8 * scaleFactor),
+                              // 손가락 번호/도 변경 토글
+                              Container(
+                                padding: EdgeInsets.all(4 * scaleFactor),
+                                decoration: BoxDecoration(
+                                  color: buttonBgColor,
+                                  borderRadius: BorderRadius.circular(99),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // 기본 코드 표시 (C, D, ...)
-                                        Text(
-                                          selectedRootNote +
-                                              ((selectedAccidental == '♮')
-                                                  ? ''
-                                                  : selectedAccidental),
-                                          style: const TextStyle(
-                                            fontSize: 48,
-                                            fontWeight: FontWeight.bold,
-                                            color: textColor,
-                                          ),
-                                        ),
-                                        // 코드 풀네임 표시 (C, Cm7, ...)
-                                        Text(
-                                          fullChordName,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            color: subTextColor,
-                                          ),
-                                        ),
-                                      ],
+                                    _buildToggleItem(
+                                      'Finger',
+                                      isFingerMode,
+                                      () => onFingerModeChanged(true),
+                                      scaleFactor,
                                     ),
-                                    // 폼 변경 버튼
-                                    Row(
-                                      children: [
-                                        _buildSmallButton(
-                                          Icons.chevron_left,
-                                          onFormPrevious,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        _buildSmallButton(
-                                          Icons.chevron_right,
-                                          onFormNext,
-                                        ),
-                                      ],
+                                    _buildToggleItem(
+                                      'Degree',
+                                      !isFingerMode,
+                                      () => onFingerModeChanged(false),
+                                      scaleFactor,
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4),
-                                // 코드 폼 표시
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: ChordFret(
-                                    fretboardData: fretboardData,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                // 손가락 번호/도 변경 토글
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16 * scaleFactor),
+                        Column(
+                          children: [
+                            // 기본 코드 버튼 (C, D, E, ...)
+                            GridView.count(
+                              crossAxisCount: 7,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              mainAxisSpacing: 8 * scaleFactor,
+                              crossAxisSpacing: 8 * scaleFactor,
+                              children:
+                                  rootNotes.map((note) {
+                                    final isSelected = note == selectedRootNote;
+                                    return ElevatedButton(
+                                      onPressed: () => onRootNoteSelected(note),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            isSelected
+                                                ? primaryColor
+                                                : buttonBgColor,
+                                        foregroundColor:
+                                            isSelected
+                                                ? textColor
+                                                : buttonTextColor,
+                                        shape: const CircleBorder(),
+                                        padding: EdgeInsets.zero,
+                                      ),
+                                      child: Text(
+                                        note,
+                                        style: TextStyle(
+                                          fontSize: 18 * scaleFactor,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                            ),
+                            SizedBox(height: 16 * scaleFactor),
+                            Column(
+                              children: [
+                                // #, b, ♮ 버튼
                                 Container(
-                                  padding: const EdgeInsets.all(4),
+                                  padding: EdgeInsets.all(4 * scaleFactor),
                                   decoration: BoxDecoration(
                                     color: buttonBgColor,
                                     borderRadius: BorderRadius.circular(99),
                                   ),
                                   child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      _buildToggleItem(
-                                        'Finger',
-                                        isFingerMode,
-                                        () => onFingerModeChanged(true),
-                                      ),
-                                      _buildToggleItem(
-                                        'Degree',
-                                        !isFingerMode,
-                                        () => onFingerModeChanged(false),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Column(
-                            children: [
-                              // 기본 코드 버튼 (C, D, E, ...)
-                              GridView.count(
-                                crossAxisCount: 7,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                mainAxisSpacing: 8,
-                                crossAxisSpacing: 8,
-                                children:
-                                    rootNotes.map((note) {
-                                      final isSelected =
-                                          note == selectedRootNote;
-                                      return ElevatedButton(
-                                        onPressed:
-                                            () => onRootNoteSelected(note),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              isSelected
-                                                  ? primaryColor
-                                                  : buttonBgColor,
-                                          foregroundColor:
-                                              isSelected
-                                                  ? textColor
-                                                  : buttonTextColor,
-                                          shape: const CircleBorder(),
-                                          padding: EdgeInsets.zero,
-                                        ),
-                                        child: Text(
-                                          note,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                              ),
-                              const SizedBox(height: 16),
-                              Column(
-                                children: [
-                                  // #, b, ♮ 버튼
-                                  Container(
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      color: buttonBgColor,
-                                      borderRadius: BorderRadius.circular(99),
-                                    ),
-                                    child: Row(
-                                      children:
-                                          accidentals.map((acc) {
-                                            final isSelected =
-                                                acc == selectedAccidental;
-                                            return Expanded(
-                                              child: TextButton(
-                                                onPressed:
-                                                    () => onAccidentalSelected(
-                                                      acc,
-                                                    ),
-                                                style: TextButton.styleFrom(
-                                                  backgroundColor:
-                                                      isSelected
-                                                          ? inactiveToggleColor
-                                                          : Colors.transparent,
-                                                  foregroundColor:
-                                                      isSelected
-                                                          ? textColor
-                                                          : subTextColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          99,
-                                                        ),
-                                                  ),
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                      ),
+                                    children:
+                                        accidentals.map((acc) {
+                                          final isSelected =
+                                              acc == selectedAccidental;
+                                          return Expanded(
+                                            child: TextButton(
+                                              onPressed:
+                                                  () =>
+                                                      onAccidentalSelected(acc),
+                                              style: TextButton.styleFrom(
+                                                backgroundColor:
+                                                    isSelected
+                                                        ? inactiveToggleColor
+                                                        : Colors.transparent,
+                                                foregroundColor:
+                                                    isSelected
+                                                        ? textColor
+                                                        : subTextColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(99),
                                                 ),
-                                                child: Text(
-                                                  acc,
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 8 * scaleFactor,
                                                 ),
                                               ),
-                                            );
-                                          }).toList(),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  // 풀코드 셀렉트 박스
-                                  Material(
-                                    color: buttonBgColor,
-                                    borderRadius: BorderRadius.circular(99),
-                                    clipBehavior: Clip.antiAlias,
-                                    child: Theme(
-                                      data: Theme.of(context).copyWith(
-                                        highlightColor: Colors.transparent,
-                                        splashColor: Colors.transparent,
-                                      ),
-                                      child: DropdownButtonHideUnderline(
-                                        child: ButtonTheme(
-                                          alignedDropdown: true,
-                                          child: DropdownButton<String>(
-                                            isExpanded: true,
-                                            value: selectedChordType,
-                                            onChanged: onChordTypeSelected,
-                                            icon: const Padding(
-                                              padding: EdgeInsets.only(
-                                                right: 8.0,
-                                              ),
-                                              child: Icon(
-                                                Icons.expand_more,
-                                                color: textColor,
+                                              child: Text(
+                                                acc,
+                                                style: TextStyle(
+                                                  fontSize: 16 * scaleFactor,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
                                             ),
-                                            dropdownColor: buttonBgColor,
-                                            items:
-                                                chordTypes.map((type) {
-                                                  return DropdownMenuItem<
-                                                    String
-                                                  >(
-                                                    value: type,
-                                                    child: Center(
-                                                      child: Text(
-                                                        type,
-                                                        style: const TextStyle(
-                                                          color: textColor,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }).toList(),
+                                          );
+                                        }).toList(),
+                                  ),
+                                ),
+                                SizedBox(height: 16 * scaleFactor),
+                                // 풀코드 셀렉트 박스
+                                Material(
+                                  color: buttonBgColor, // 배경색
+                                  borderRadius: BorderRadius.circular(
+                                    99,
+                                  ), // 둥근 모서리
+                                  clipBehavior: Clip.antiAlias,
+                                  child: DropdownButtonHideUnderline(
+                                    child: ButtonTheme(
+                                      alignedDropdown: true,
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        value: selectedChordType,
+                                        onChanged: onChordTypeSelected,
+                                        // 버튼의 높이를 scaleFactor에 따라 조절
+                                        itemHeight:
+                                            (48 * scaleFactor < 48)
+                                                ? null
+                                                : 48 * scaleFactor,
+                                        icon: Padding(
+                                          padding: EdgeInsets.only(
+                                            right: 8.0 * scaleFactor,
+                                          ),
+                                          child: Icon(
+                                            Icons.expand_more,
+                                            color: textColor,
                                           ),
                                         ),
+                                        dropdownColor: buttonBgColor,
+                                        items:
+                                            chordTypes.map((type) {
+                                              return DropdownMenuItem<String>(
+                                                value: type,
+                                                child: Center(
+                                                  child: Text(
+                                                    type,
+                                                    style: TextStyle(
+                                                      fontSize:
+                                                          16 * scaleFactor,
+                                                      color: textColor,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                                ),
+                                SizedBox(height: 16 * scaleFactor),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -329,10 +333,14 @@ class ChordView extends StatelessWidget {
     );
   }
 
-  Widget _buildSmallButton(IconData icon, VoidCallback onPressed) {
+  Widget _buildSmallButton(
+    IconData icon,
+    VoidCallback onPressed,
+    double scaleFactor,
+  ) {
     return SizedBox(
-      width: 40,
-      height: 40,
+      width: 40 * scaleFactor,
+      height: 40 * scaleFactor,
       child: Material(
         color: const Color(0xFF27272A), // zinc-800
         shape: const CircleBorder(),
@@ -341,7 +349,7 @@ class ChordView extends StatelessWidget {
           customBorder: const CircleBorder(),
           child: Icon(
             icon,
-            size: 20,
+            size: 20 * scaleFactor,
             color: const Color(0xFFD4D4D8),
           ), // zinc-300
         ),
@@ -353,6 +361,7 @@ class ChordView extends StatelessWidget {
     String text,
     bool isSelected,
     VoidCallback onPressed,
+    double scaleFactor,
   ) {
     const Color textColor = Colors.white;
     const Color subTextColor = Color(0xFFA1A1AA);
@@ -368,11 +377,14 @@ class ChordView extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(99),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: 8 * scaleFactor),
         ),
         child: Text(
           text,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          style: TextStyle(
+            fontSize: 14 * scaleFactor,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

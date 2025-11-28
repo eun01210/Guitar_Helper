@@ -23,20 +23,20 @@ class TitleView extends StatelessWidget {
     const Color mainTextColor = Color(0xFFE5E5E5);
     const Color secondaryTextColor = Color(0xFFA8A29E);
     // 화면 너비에 따른 스케일 팩터 계산
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.sizeOf(context).width;
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
 
     return Scaffold(
       backgroundColor: backgroundColor,
+      appBar: CustomAppBar(
+        title: 'Guitar Helper',
+        onSettings: onSettingsTap,
+        textColor: mainTextColor,
+        backgroundColor: Colors.transparent,
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            CustomAppBar(
-              title: 'Guitar Helper',
-              onSettings: onSettingsTap,
-              textColor: mainTextColor,
-              backgroundColor: Colors.transparent,
-            ),
             Expanded(
               child: _buildGrid(
                 context,
@@ -61,9 +61,9 @@ class TitleView extends StatelessWidget {
   ) {
     return GridView.count(
       crossAxisCount: 2,
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      padding: const EdgeInsets.all(20),
+      crossAxisSpacing: 16 * scaleFactor,
+      mainAxisSpacing: 16 * scaleFactor,
+      padding: EdgeInsets.all(20 * scaleFactor),
       children: [
         _MenuCard(
           icon: Icons.music_note,

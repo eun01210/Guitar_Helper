@@ -20,50 +20,65 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     // 화면 너비를 기준으로 스케일 팩터 계산
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.sizeOf(context).width;
     // 기준 너비(e.g., 360)를 기반으로 스케일 팩터 계산하고, 최소/최대 크기 제한
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
     final double dynamicHeight = kToolbarHeight * scaleFactor;
 
     return PreferredSize(
       preferredSize: Size.fromHeight(dynamicHeight),
-      child: AppBar(
-        backgroundColor: backgroundColor,
-        elevation: 0,
-        // onBack 콜백이 있으면 뒤로가기 버튼 표시
-        leading:
-            onBack != null
-                ? IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new,
-                    size: 22 * scaleFactor, // 화면 비율에 맞게 크기 조절
-                    color: textColor,
-                  ),
-                  onPressed: onBack,
-                )
-                : null,
-        title: Text(
-          title,
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 22 * scaleFactor, // 화면 비율에 맞게 크기 조절
-          ),
+      child: Container(
+        height: dynamicHeight,
+        padding: EdgeInsets.symmetric(horizontal: 10 * scaleFactor),
+        color: backgroundColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Leading 위젯 (뒤로가기 버튼 또는 빈 공간)
+            SizedBox(
+              width: 22 * scaleFactor, // AppBar의 기본 아이콘 영역 크기
+              child:
+                  onBack != null
+                      ? IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 22 * scaleFactor,
+                          color: textColor,
+                        ),
+                        onPressed: onBack,
+                      )
+                      : null,
+            ),
+            // Title
+            Text(
+              title,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 22 * scaleFactor,
+              ),
+            ),
+            // Actions 위젯 (설정 버튼 또는 빈 공간)
+            Padding(
+              padding: EdgeInsets.only(right: 10 * scaleFactor),
+              child: SizedBox(
+                width: 22 * scaleFactor, // AppBar의 기본 아이콘 영역 크기
+                child:
+                    onSettings != null
+                        ? IconButton(
+                          icon: Icon(
+                            Icons.settings,
+                            size: 22 * scaleFactor,
+                            color: textColor,
+                          ),
+                          onPressed: onSettings,
+                        )
+                        : null,
+              ),
+            ),
+          ],
         ),
-        centerTitle: true,
-        actions: [
-          // onSettings 콜백이 있을 때만 설정 버튼 표시
-          onSettings != null
-              ? IconButton(
-                icon: Icon(
-                  Icons.settings,
-                  size: 22 * scaleFactor,
-                  color: textColor,
-                ),
-                onPressed: onSettings,
-              )
-              : const SizedBox.shrink(), // 빈 공간을 차지하지 않는 위젯
-        ],
       ),
     );
   }
