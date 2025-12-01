@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/widgets/appbar.dart';
 
 class SettingsView extends StatelessWidget {
-  // Callbacks for interactions
   final VoidCallback onBack;
   final VoidCallback onNotificationTap;
   final VoidCallback onProfileTap;
@@ -11,7 +10,6 @@ class SettingsView extends StatelessWidget {
   final VoidCallback onPrivacyPolicyTap;
   final VoidCallback onContactTap;
 
-  // Data for UI state
   final bool isDarkMode;
   final ValueChanged<bool> onDarkModeChanged;
   final String appVersion;
@@ -32,15 +30,14 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Design colors from HTML (dark mode)
     const Color primaryColor = Color(0xFF13C8EC);
     const Color backgroundDark = Color(0xFF101F22);
-    const Color textColor = Color(0xFFE5E7EB); // text-gray-200
-    const Color subTextColor = Color(0xFF9CA3AF); // text-gray-400
-    const Color subHeaderColor = Color(0xFF6B7280); // text-gray-500
-    const Color cardBgColor = Color(0x331F2937); // bg-gray-800/20
-    const Color dividerColor = Color(0x80374151); // bg-gray-700/50
-    const Color switchBgColor = Color(0xFF374151); // bg-gray-700
+    const Color textColor = Color(0xFFE5E7EB);
+    const Color subTextColor = Color(0xFF9CA3AF);
+    const Color subHeaderColor = Color(0xFF6B7280);
+    const Color cardBgColor = Color(0x331F2937);
+    const Color dividerColor = Color(0x80374151);
+    const Color switchBgColor = Color(0xFF374151);
 
     // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -59,7 +56,7 @@ class SettingsView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Notifications Section
+            // 알림 설정
             _buildSectionHeader('Notifications', subHeaderColor, scaleFactor),
             _buildCard(cardBgColor, scaleFactor, [
               _buildSettingsItem(
@@ -75,9 +72,9 @@ class SettingsView extends StatelessWidget {
             ]),
             SizedBox(height: 32 * scaleFactor),
 
-            // General Settings Section
             _buildSectionHeader('General', subHeaderColor, scaleFactor),
             _buildCard(cardBgColor, scaleFactor, [
+              // 프로필 설정
               _buildSettingsItem(
                 icon: Icons.person,
                 text: 'Profile Settings',
@@ -89,6 +86,7 @@ class SettingsView extends StatelessWidget {
                 enabled: false,
               ),
               _Divider(color: dividerColor, scaleFactor: scaleFactor),
+              // 다크모드 설정
               _buildSettingsItem(
                 icon: Icons.dark_mode,
                 text: 'Dark Mode',
@@ -96,16 +94,17 @@ class SettingsView extends StatelessWidget {
                 textColor: textColor,
                 scaleFactor: scaleFactor,
                 trailing: _buildToggleSwitch(
-                  isActive: isDarkMode, // 현재 상태는 유지
-                  onChanged: null, // 비활성화
-                  activeColor: primaryColor, // 활성 색상
-                  inactiveColor: switchBgColor, // 비활성 색상
-                  scaleFactor: scaleFactor, // 스케일
+                  isActive: isDarkMode,
+                  onChanged: null,
+                  activeColor: primaryColor,
+                  inactiveColor: switchBgColor,
+                  scaleFactor: scaleFactor,
                 ),
-                onTap: null, // 탭 비활성화
-                enabled: false, // 비활성화 상태로 설정
+                onTap: null,
+                enabled: false,
               ),
               _Divider(color: dividerColor, scaleFactor: scaleFactor),
+              // 튜너 설정
               _buildSettingsItem(
                 icon: Icons.tune,
                 text: 'Tuner Preferences',
@@ -136,9 +135,10 @@ class SettingsView extends StatelessWidget {
             ]),
             SizedBox(height: 32 * scaleFactor),
 
-            // Information Section
+            // 정보 탭
             _buildSectionHeader('Information', subHeaderColor, scaleFactor),
             _buildCard(cardBgColor, scaleFactor, [
+              // TOS
               _buildSettingsItem(
                 icon: Icons.gavel,
                 text: 'Terms of Service',
@@ -149,6 +149,7 @@ class SettingsView extends StatelessWidget {
                 onTap: onTermsTap,
               ),
               _Divider(color: dividerColor, scaleFactor: scaleFactor),
+              // PP
               _buildSettingsItem(
                 icon: Icons.shield,
                 text: 'Privacy Policy',
@@ -159,6 +160,7 @@ class SettingsView extends StatelessWidget {
                 onTap: onPrivacyPolicyTap,
               ),
               _Divider(color: dividerColor, scaleFactor: scaleFactor),
+              // CU
               _buildSettingsItem(
                 icon: Icons.email,
                 text: 'Contact Us',

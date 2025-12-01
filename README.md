@@ -23,7 +23,7 @@ License: MIT
 =======
 # my_app
 
-A new Flutter project.
+Guitar App Project Page.
 
 ## Getting Started
 

@@ -240,7 +240,7 @@ class MetronomeView extends StatelessWidget {
           child: Icon(
             Icons.touch_app,
             color: primaryColor,
-            size: 36 * scaleFactor, // 아이콘 크기를 조금 키워 허전함을 줄입니다.
+            size: 36 * scaleFactor,
             weight: 500,
             fill: 1,
           ),

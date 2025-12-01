@@ -19,14 +19,14 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.of(context).pop();
   }
 
-  // `onBack` 콜백을 받는 위젯을 생성하는 함수를 인자로 받습니다.
+  // ((onBack 콜백을 받는 위젯)을 생성하는 함수)를 인자로 받음
   void _onNavigate(
     Widget Function({required VoidCallback onBack}) pageBuilder,
   ) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        // 전달받은 함수를 사용하여 페이지 위젯을 생성하고 onBack 콜백을 제공합니다.
+        // 페이지 위젯을 생성, onBack 콜백 제공
         builder:
             (context) => pageBuilder(
               onBack: () {

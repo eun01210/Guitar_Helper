@@ -350,7 +350,7 @@ class ChordView extends StatelessWidget {
       width: 40 * scaleFactor,
       height: 40 * scaleFactor,
       child: Material(
-        color: const Color(0xFF27272A), // zinc-800
+        color: const Color(0xFF27272A),
         shape: const CircleBorder(),
         child: InkWell(
           onTap: onPressed,
