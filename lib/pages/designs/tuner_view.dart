@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import 'package:my_app/widgets/appbar.dart';
+import 'package:guitar_helper/widgets/appbar.dart';
 
 class TunerView extends StatelessWidget {
   final String note;

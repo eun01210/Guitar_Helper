@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/designs/title_view.dart';
-import 'package:my_app/pages/chord.dart';
-import 'package:my_app/pages/scale.dart';
-import 'package:my_app/pages/tuner.dart';
-import 'package:my_app/pages/metronome.dart';
-import 'package:my_app/pages/setting.dart';
+import 'package:guitar_helper/pages/designs/title_view.dart';
+import 'package:guitar_helper/pages/chord.dart';
+import 'package:guitar_helper/pages/scale.dart';
+import 'package:guitar_helper/pages/tuner.dart';
+import 'package:guitar_helper/pages/metronome.dart';
+import 'package:guitar_helper/pages/setting.dart';
 
 class TitleScreen extends StatefulWidget {
   const TitleScreen({super.key});

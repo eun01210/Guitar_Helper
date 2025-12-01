@@ -1,5 +1,5 @@
-import 'package:my_app/widgets/note.dart'; // NoteData를 위해 추가
-import 'package:my_app/datas/chords.dart';
+import 'package:guitar_helper/widgets/note.dart'; // NoteData를 위해 추가
+import 'package:guitar_helper/datas/chords.dart';
 
 List<NoteData?> makeFret(int fretNumber, ChordDefinition chord, bool finger) {
   return List.generate(6, (index) {

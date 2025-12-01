@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/note.dart';
-import 'package:my_app/util/createchord.dart';
-import 'package:my_app/util/keychanger.dart';
-import 'package:my_app/pages/designs/chord_view.dart';
-import 'package:my_app/pages/setting.dart';
+import 'package:guitar_helper/widgets/note.dart';
+import 'package:guitar_helper/util/createchord.dart';
+import 'package:guitar_helper/util/keychanger.dart';
+import 'package:guitar_helper/pages/designs/chord_view.dart';
+import 'package:guitar_helper/pages/setting.dart';
 
 class ChordPage extends StatefulWidget {
   const ChordPage({super.key});

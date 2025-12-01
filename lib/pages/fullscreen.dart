@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/fretbox.dart';
-import 'package:my_app/widgets/appbar.dart';
-import 'package:my_app/widgets/note.dart';
+import 'package:guitar_helper/widgets/fretbox.dart';
+import 'package:guitar_helper/widgets/appbar.dart';
+import 'package:guitar_helper/widgets/note.dart';
 
 class FullScreenFretboxPage extends StatefulWidget {
   final List<List<NoteData?>> fretboardData;

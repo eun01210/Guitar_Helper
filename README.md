@@ -21,7 +21,7 @@
 License: MIT
 
 =======
-# my_app
+# guitar_helper
 
 Guitar App Project Page.
 

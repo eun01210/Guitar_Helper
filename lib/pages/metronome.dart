@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:metronome/metronome.dart';
-import 'package:my_app/pages/designs/metronome_view.dart';
-import 'package:my_app/pages/setting.dart';
+import 'package:guitar_helper/pages/designs/metronome_view.dart';
+import 'package:guitar_helper/pages/setting.dart';
 
 class MetronomePage extends StatefulWidget {
   const MetronomePage({super.key});

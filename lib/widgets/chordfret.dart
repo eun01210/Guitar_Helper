@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/fret.dart';
-import 'package:my_app/widgets/note.dart';
+import 'package:guitar_helper/widgets/fret.dart';
+import 'package:guitar_helper/widgets/note.dart';
 
 class ChordFret extends StatelessWidget {
   final List<List<NoteData?>> fretboardData;

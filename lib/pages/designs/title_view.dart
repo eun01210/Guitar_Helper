@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/appbar.dart';
+import 'package:guitar_helper/widgets/appbar.dart';
 
 class TitleView extends StatelessWidget {
   final VoidCallback onChordTap;

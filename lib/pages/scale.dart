@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/designs/scale_view.dart';
-import 'package:my_app/pages/fullscreen.dart';
-import 'package:my_app/pages/setting.dart';
-import 'package:my_app/datas/scales.dart';
-import 'package:my_app/widgets/note.dart';
-import 'package:my_app/util/createscale.dart';
-import 'package:my_app/util/keychanger.dart';
+import 'package:guitar_helper/pages/designs/scale_view.dart';
+import 'package:guitar_helper/pages/fullscreen.dart';
+import 'package:guitar_helper/pages/setting.dart';
+import 'package:guitar_helper/datas/scales.dart';
+import 'package:guitar_helper/widgets/note.dart';
+import 'package:guitar_helper/util/createscale.dart';
+import 'package:guitar_helper/util/keychanger.dart';
 
 class ScalePage extends StatefulWidget {
   const ScalePage({super.key});

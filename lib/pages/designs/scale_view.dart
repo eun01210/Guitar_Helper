@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/note.dart';
-import 'package:my_app/widgets/fretbox.dart';
-import 'package:my_app/widgets/appbar.dart';
-import 'package:my_app/datas/scales.dart';
+import 'package:guitar_helper/widgets/note.dart';
+import 'package:guitar_helper/widgets/fretbox.dart';
+import 'package:guitar_helper/widgets/appbar.dart';
+import 'package:guitar_helper/datas/scales.dart';
 
 class ScaleView extends StatelessWidget {
   final String selectedRootNote;

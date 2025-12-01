@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/note.dart'; // NoteData를 위해 추가
+import 'package:guitar_helper/widgets/note.dart'; // NoteData를 위해 추가
 
 class Fret extends StatelessWidget {
   final int fretNumber;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/fretboard.dart';
-import 'package:my_app/widgets/note.dart';
+import 'package:guitar_helper/widgets/fretboard.dart';
+import 'package:guitar_helper/widgets/note.dart';
 
 // 스크롤이 가능한 박스 위젯
 class GuitarFretBox extends StatefulWidget {

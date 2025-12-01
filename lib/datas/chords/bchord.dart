@@ -1,5 +1,5 @@
-import 'package:my_app/datas/chords.dart';
-import 'package:my_app/datas/chords/basic_form.dart';
+import 'package:guitar_helper/datas/chords.dart';
+import 'package:guitar_helper/datas/chords/basic_form.dart';
 
 final b0maj1 = keyUp(maj2, 1);
 final b0maj2 = keyUp(maj3, 3);

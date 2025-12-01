@@ -1,4 +1,4 @@
-import 'package:my_app/datas/chords/basic_form.dart';
+import 'package:guitar_helper/datas/chords/basic_form.dart';
 
 final c1maj1 = keyUp(maj1, 0);
 final c1maj2 = keyUp(maj2, 3);

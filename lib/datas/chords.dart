@@ -1,15 +1,15 @@
-import 'package:my_app/datas/chords/cchord.dart';
-import 'package:my_app/datas/chords/cschord.dart';
-import 'package:my_app/datas/chords/dchord.dart';
-import 'package:my_app/datas/chords/dschord.dart';
-import 'package:my_app/datas/chords/echord.dart';
-import 'package:my_app/datas/chords/fchord.dart';
-import 'package:my_app/datas/chords/fschord.dart';
-import 'package:my_app/datas/chords/gchord.dart';
-import 'package:my_app/datas/chords/gschord.dart';
-import 'package:my_app/datas/chords/achord.dart';
-import 'package:my_app/datas/chords/aschord.dart';
-import 'package:my_app/datas/chords/bchord.dart';
+import 'package:guitar_helper/datas/chords/cchord.dart';
+import 'package:guitar_helper/datas/chords/cschord.dart';
+import 'package:guitar_helper/datas/chords/dchord.dart';
+import 'package:guitar_helper/datas/chords/dschord.dart';
+import 'package:guitar_helper/datas/chords/echord.dart';
+import 'package:guitar_helper/datas/chords/fchord.dart';
+import 'package:guitar_helper/datas/chords/fschord.dart';
+import 'package:guitar_helper/datas/chords/gchord.dart';
+import 'package:guitar_helper/datas/chords/gschord.dart';
+import 'package:guitar_helper/datas/chords/achord.dart';
+import 'package:guitar_helper/datas/chords/aschord.dart';
+import 'package:guitar_helper/datas/chords/bchord.dart';
 
 class ChordDefinition {
   final List<int> fret; // 해당 줄의 프렛 번호

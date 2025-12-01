@@ -1,5 +1,5 @@
-import 'package:my_app/datas/chords.dart';
-import 'package:my_app/datas/chords/basic_form.dart';
+import 'package:guitar_helper/datas/chords.dart';
+import 'package:guitar_helper/datas/chords/basic_form.dart';
 
 final e0maj1 = ChordDefinition(
   fret: [0, 2, 2, 1, 0, 0],

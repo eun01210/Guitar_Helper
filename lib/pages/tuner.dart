@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pitch_detector_dart/pitch_detector.dart';
-import 'package:my_app/util/tunecheck.dart';
-import 'package:my_app/pages/designs/tuner_view.dart';
+import 'package:guitar_helper/util/tunecheck.dart';
+import 'package:guitar_helper/pages/designs/tuner_view.dart';
 import 'package:record/record.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'package:my_app/pages/setting.dart';
+import 'package:guitar_helper/pages/setting.dart';
 
 class TunerPage extends StatefulWidget {
   const TunerPage({super.key});

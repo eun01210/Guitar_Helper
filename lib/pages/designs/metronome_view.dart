@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/appbar.dart';
+import 'package:guitar_helper/widgets/appbar.dart';
 
 class MetronomeView extends StatelessWidget {
   static const Color primaryColor = Color(0xFF13C8EC);

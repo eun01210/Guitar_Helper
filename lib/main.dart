@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/title.dart';
+import 'package:guitar_helper/pages/title.dart';
 import 'package:flutter/services.dart';
 
 void main() {

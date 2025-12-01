@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/designs/setting_view.dart';
-import 'package:my_app/pages/settings/privacy_policy.dart';
-import 'package:my_app/pages/settings/terms_of_service.dart';
-import 'package:my_app/pages/settings/contact_us.dart';
+import 'package:guitar_helper/pages/designs/setting_view.dart';
+import 'package:guitar_helper/pages/settings/privacy_policy.dart';
+import 'package:guitar_helper/pages/settings/terms_of_service.dart';
+import 'package:guitar_helper/pages/settings/contact_us.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

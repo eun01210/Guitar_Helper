@@ -1,4 +1,4 @@
-import 'package:my_app/datas/chords.dart';
+import 'package:guitar_helper/datas/chords.dart';
 
 ChordDefinition keyUp(ChordDefinition chord, int key) {
   final newFrets =
