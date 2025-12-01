@@ -51,17 +51,13 @@ class MetronomePageState extends State<MetronomePage> {
 
   // 메트로놈 재생/종료 설정
   void _toggleMetronome() {
+    if (!_isPlaying) {
+      metronome.play();
+    } else {
+      metronome.pause();
+    }
     setState(() {
       _isPlaying = !_isPlaying;
-
-      if (_isPlaying) {
-        // 메트로놈이 시작, 타이머 설정
-        metronome.play();
-      } else {
-        // 타이머 및 카운트 초기화
-        metronome.pause();
-        // _beatCount = 0;
-      }
     });
   }
 
