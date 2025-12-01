@@ -31,8 +31,8 @@ class MetronomePageState extends State<MetronomePage> {
     super.initState();
     // 메트로놈 초기화
     metronome.init(
-      'assets/metro1.wav', // 보조 박자 사운드
-      accentedPath: 'assets/metro2.wav', // 주 박자 사운드
+      'assets/metro2.wav', // 보조 박자 사운드
+      accentedPath: 'assets/metro1.wav', // 주 박자 사운드
       bpm: _bpm.toInt(),
       volume: 100,
       timeSignature: _beatsPerMeasure,
