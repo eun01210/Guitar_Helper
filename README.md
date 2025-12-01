@@ -13,7 +13,10 @@
    탭 템포 가능
 
 25.09.22. First commit
+
 25.11.26. Test version share
+
+25.12.01. Web pages distribute
 
 License: MIT
 
