@@ -21,20 +21,33 @@
 License: MIT
 
 =======
-# guitar_helper
+# Guitar Helper: All-in-One Musician's Companion
 
-Guitar App Project Page.
+A comprehensive, cross-platform mobile application built with Flutter, designed to be the ultimate reference and practice tool for guitarists of all levels.
 
-## Getting Started
+## Live Demo & Distribution
+Web App (Live Demo): https://eun01210.github.io/Guitar_Helper/
 
-This project is a starting point for a Flutter application.
+Google Play Store: 
 
-A few resources to get you started if this is your first Flutter project:
+App Store (iOS): X
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Key Features
+The Guitar Helper app provides essential tools for practice and reference:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
->>>>>>> 8ca0660 (first commit)
+1. Guitar Chord Finder:
+   Find and view multiple finger positions (forms) for any given chord.
+   View chords with options for Fingering numbers or Degree (Interval) display.
+
+2. Guitar Scale Explorer:
+   Instantly find desired scales based on any root and chord type.
+   Features a Full Screen View for easy practice reading.
+   Supports intuitive Zoom in/out functionality.
+
+3. Chromatic Tuner:
+   Detects and analyzes voice/instrument sound in real-time.
+   Displays frequency (Hz), the nearest note, and the tuning status (flat/sharp).
+
+4. Metronome:
+   Customizable BPM (Beats Per Minute) and Time Signature settings.
+   Includes a Tap Tempo feature for quickly setting the beat.

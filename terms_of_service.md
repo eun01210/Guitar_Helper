@@ -1,0 +1,44 @@
+# Guitar Helper — Terms of Service
+
+
+## These Terms of Service ("Terms") govern the use of the "Guitar Helper" App ("the App").
+
+
+1. Purpose
+
+These Terms define the rights and responsibilities between the App provider and its users.
+
+
+2. Service Description
+
+The App provides the following features:
+Chord forms
+Scale information
+Tuner
+Metronome
+
+
+3. User Responsibilities
+
+Users must not engage in the following activities:
+Misuse of App functionality
+Reverse engineering, decompiling, or attempting to analyze the App
+Any actions that violate applicable laws
+
+
+4. Limitation of Liability
+
+The App provider is not responsible for:
+Malfunctions caused by the user's device environment
+Errors resulting from incorrect settings or user misuse
+Any damages arising from the use of the App's information (tuning, chords, scales, etc.)
+
+
+5. Service Modification and Termination
+
+The App provider may modify or discontinue the App's features without prior notice and is not liable for any resulting issues.
+
+
+6. Governing Law
+
+Any disputes related to the App will be governed by the laws of the Republic of Korea.
