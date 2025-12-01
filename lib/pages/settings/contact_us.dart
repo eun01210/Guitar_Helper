@@ -39,6 +39,7 @@ General questions about the app
 Issues related to the tuner, metronome, chords, or scales
 Any other feedback to help improve the app
 
+
 Response Time
 
 We typically respond within a reasonable time frame, but delays may occur depending on the nature of the inquiry.

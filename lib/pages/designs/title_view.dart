@@ -35,18 +35,24 @@ class TitleView extends StatelessWidget {
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: _buildGrid(
-                context,
-                mainTextColor,
-                secondaryTextColor,
-                scaleFactor,
-              ),
+        child: Center(
+          child: ConstrainedBox(
+            // 웹과 같은 넓은 화면에서 최대 너비 제한
+            constraints: const BoxConstraints(maxWidth: 1000),
+            child: Column(
+              children: [
+                Expanded(
+                  child: _buildGrid(
+                    context,
+                    mainTextColor,
+                    secondaryTextColor,
+                    scaleFactor,
+                  ),
+                ),
+                _buildFooter(secondaryTextColor, scaleFactor),
+              ],
             ),
-            _buildFooter(secondaryTextColor, scaleFactor),
-          ],
+          ),
         ),
       ),
     );

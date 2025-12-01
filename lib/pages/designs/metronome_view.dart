@@ -41,9 +41,8 @@ class MetronomeView extends StatelessWidget {
     const buttonBgColor = Color(0x80374151);
     const buttonFgColor = Color(0xFFD1D5DB);
 
-    // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2);
+    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.0);
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -56,96 +55,107 @@ class MetronomeView extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0 * scaleFactor),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(flex: 2),
-              // BPM 텍스트
-              Text(
-                'BPM',
-                style: TextStyle(
-                  color: subTextColor,
-                  fontSize: 16 * scaleFactor,
-                ),
-              ),
-              SizedBox(height: 8 * scaleFactor),
-              // BPM 숫자 & 증감버튼 표시
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _buildBpmButton(
-                    Icons.remove,
-                    onBpmDecrement,
-                    buttonBgColor,
-                    buttonFgColor,
-                    scaleFactor,
-                  ),
-                  SizedBox(
-                    width: 180 * scaleFactor, // 3자리 숫자를 기준으로 너비 고정 (버튼 위치 고정)
-                    child: Text(
-                      bpm.round().toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 88 * scaleFactor,
-                        fontWeight: FontWeight.bold,
-                        height: 1,
-                        letterSpacing: -4 * scaleFactor,
-                      ),
-                    ),
-                  ),
-                  _buildBpmButton(
-                    Icons.add,
-                    onBpmIncrement,
-                    buttonBgColor,
-                    buttonFgColor,
-                    scaleFactor,
-                  ),
-                ],
-              ),
-              SizedBox(height: 32 * scaleFactor),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0 * scaleFactor),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: SingleChildScrollView(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 800),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // BPM 슬라이더
-                    SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        trackHeight: 8.0 * scaleFactor,
-                        trackShape: const RoundedRectSliderTrackShape(),
-                        activeTrackColor: primaryColor,
-                        inactiveTrackColor: const Color(0xFF4B5563),
-                        thumbShape: RoundSliderThumbShape(
-                          enabledThumbRadius: 12.0 * scaleFactor,
-                        ),
-                        thumbColor: primaryColor,
-                        overlayColor: const Color(0x2013C8EC),
-                        overlayShape: RoundSliderOverlayShape(
-                          overlayRadius: 28.0 * scaleFactor,
-                        ),
-                      ),
-                      child: Slider(
-                        value: bpm,
-                        min: 20,
-                        max: 500,
-                        onChanged: onBpmChanged,
+                    SizedBox(height: 48 * scaleFactor),
+                    // BPM 텍스트
+                    Text(
+                      'BPM',
+                      style: TextStyle(
+                        color: subTextColor,
+                        fontSize: 16 * scaleFactor,
                       ),
                     ),
-                    // 박자 설정 리스트 & 탭 템포 버튼
+                    SizedBox(height: 8 * scaleFactor),
+                    // BPM 숫자 & 증감버튼 표시
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _buildBpmButton(
+                          Icons.remove,
+                          onBpmDecrement,
+                          buttonBgColor,
+                          buttonFgColor,
+                          scaleFactor,
+                        ),
+                        SizedBox(
+                          width:
+                              180 *
+                              scaleFactor, // 3자리 숫자를 기준으로 너비 고정 (버튼 위치 고정)
+                          child: Text(
+                            bpm.round().toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 88 * scaleFactor,
+                              fontWeight: FontWeight.bold,
+                              height: 1,
+                              letterSpacing: -4 * scaleFactor,
+                            ),
+                          ),
+                        ),
+                        _buildBpmButton(
+                          Icons.add,
+                          onBpmIncrement,
+                          buttonBgColor,
+                          buttonFgColor,
+                          scaleFactor,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 32 * scaleFactor),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.0 * scaleFactor,
+                      ),
+                      child: Column(
+                        children: [
+                          // BPM 슬라이더
+                          SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              trackHeight: 8.0 * scaleFactor,
+                              trackShape: const RoundedRectSliderTrackShape(),
+                              activeTrackColor: primaryColor,
+                              inactiveTrackColor: const Color(0xFF4B5563),
+                              thumbShape: RoundSliderThumbShape(
+                                enabledThumbRadius: 12.0 * scaleFactor,
+                              ),
+                              thumbColor: primaryColor,
+                              overlayColor: const Color(0x2013C8EC),
+                              overlayShape: RoundSliderOverlayShape(
+                                overlayRadius: 28.0 * scaleFactor,
+                              ),
+                            ),
+                            child: Slider(
+                              value: bpm,
+                              min: 20,
+                              max: 500,
+                              onChanged: onBpmChanged,
+                            ),
+                          ),
+                          // 박자 설정 리스트 & 탭 템포 버튼
+                          SizedBox(height: 24 * scaleFactor),
+                          _buildTimeSignatureButton(context, scaleFactor),
+                          SizedBox(height: 24 * scaleFactor),
+                          _buildTapTempoButton(scaleFactor),
+                        ],
+                      ),
+                    ),
+                    // 재생 버튼
                     SizedBox(height: 24 * scaleFactor),
-                    _buildTimeSignatureButton(context, scaleFactor),
-                    SizedBox(height: 24 * scaleFactor),
-                    _buildTapTempoButton(scaleFactor),
+                    _buildPlayButton(scaleFactor),
+                    SizedBox(height: 8 * scaleFactor),
                   ],
                 ),
               ),
-              // 재생 버튼
-              const Spacer(flex: 1),
-              _buildPlayButton(scaleFactor),
-              const Spacer(flex: 3),
-            ],
+            ),
           ),
         ),
       ),
@@ -182,6 +192,7 @@ class MetronomeView extends StatelessWidget {
         onTap: onTimeSignatureChange,
         borderRadius: BorderRadius.circular(12 * scaleFactor),
         child: Container(
+          width: 360 * scaleFactor,
           padding: EdgeInsets.symmetric(
             horizontal: 24 * scaleFactor,
             vertical: 16 * scaleFactor,
@@ -208,7 +219,8 @@ class MetronomeView extends StatelessWidget {
     return GestureDetector(
       onTap: onTapTempo,
       child: Container(
-        height: 80 * scaleFactor,
+        width: 360 * scaleFactor,
+        height: 60 * scaleFactor,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16 * scaleFactor),
           gradient: const LinearGradient(

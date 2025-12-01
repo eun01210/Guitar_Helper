@@ -70,6 +70,7 @@ class SettingsView extends StatelessWidget {
                 subTextColor: subTextColor,
                 scaleFactor: scaleFactor,
                 onTap: onNotificationTap,
+                enabled: false,
               ),
             ]),
             SizedBox(height: 32 * scaleFactor),
@@ -85,6 +86,7 @@ class SettingsView extends StatelessWidget {
                 subTextColor: subTextColor,
                 scaleFactor: scaleFactor,
                 onTap: onProfileTap,
+                enabled: false,
               ),
               _Divider(color: dividerColor, scaleFactor: scaleFactor),
               _buildSettingsItem(
@@ -94,12 +96,14 @@ class SettingsView extends StatelessWidget {
                 textColor: textColor,
                 scaleFactor: scaleFactor,
                 trailing: _buildToggleSwitch(
-                  isActive: isDarkMode,
-                  onChanged: onDarkModeChanged,
-                  activeColor: primaryColor,
-                  inactiveColor: switchBgColor,
-                  scaleFactor: scaleFactor,
+                  isActive: isDarkMode, // 현재 상태는 유지
+                  onChanged: null, // 비활성화
+                  activeColor: primaryColor, // 활성 색상
+                  inactiveColor: switchBgColor, // 비활성 색상
+                  scaleFactor: scaleFactor, // 스케일
                 ),
+                onTap: null, // 탭 비활성화
+                enabled: false, // 비활성화 상태로 설정
               ),
               _Divider(color: dividerColor, scaleFactor: scaleFactor),
               _buildSettingsItem(
@@ -127,6 +131,7 @@ class SettingsView extends StatelessWidget {
                   ],
                 ),
                 onTap: onTunerPreferencesTap,
+                enabled: false,
               ),
             ]),
             SizedBox(height: 32 * scaleFactor),
@@ -212,11 +217,17 @@ class SettingsView extends StatelessWidget {
     required String text,
     required Color primaryColor,
     required Color textColor,
-    Color? subTextColor,
+    Color subTextColor = Colors.grey,
     required double scaleFactor,
     Widget? trailing,
     VoidCallback? onTap,
+    bool enabled = true,
   }) {
+    final Color iconColor = enabled ? primaryColor : subTextColor;
+    final Color itemTextColor = enabled ? textColor : subTextColor;
+    final Color iconBgColor =
+        enabled ? primaryColor.withAlpha(51) : subTextColor.withAlpha(51);
+
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -230,10 +241,10 @@ class SettingsView extends StatelessWidget {
               width: 40 * scaleFactor,
               height: 40 * scaleFactor,
               decoration: BoxDecoration(
-                color: primaryColor.withValues(alpha: 0.2),
+                color: iconBgColor,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: primaryColor, size: 24 * scaleFactor),
+              child: Icon(icon, color: iconColor, size: 24 * scaleFactor),
             ),
             SizedBox(width: 16 * scaleFactor),
             Expanded(
@@ -242,12 +253,12 @@ class SettingsView extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16 * scaleFactor,
                   fontWeight: FontWeight.w500,
-                  color: textColor,
+                  color: itemTextColor,
                 ),
               ),
             ),
             trailing ??
-                (onTap != null
+                (onTap != null && enabled
                     ? Icon(
                       Icons.chevron_right,
                       color: subTextColor,
@@ -262,7 +273,7 @@ class SettingsView extends StatelessWidget {
 
   Widget _buildToggleSwitch({
     required bool isActive,
-    required ValueChanged<bool> onChanged,
+    required ValueChanged<bool>? onChanged,
     required Color activeColor,
     required Color inactiveColor,
     required double scaleFactor,
@@ -273,7 +284,7 @@ class SettingsView extends StatelessWidget {
         value: isActive,
         onChanged: onChanged,
         activeThumbColor: Colors.white,
-        activeTrackColor: activeColor,
+        activeTrackColor: Colors.grey, // activeColor, 현재는 비활성화
         inactiveThumbColor: Colors.white,
         inactiveTrackColor: inactiveColor,
       ),

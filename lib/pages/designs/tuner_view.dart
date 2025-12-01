@@ -37,7 +37,7 @@ class TunerView extends StatelessWidget {
 
     // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
+    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.0);
 
     return Scaffold(
       backgroundColor: backgroundDark,
