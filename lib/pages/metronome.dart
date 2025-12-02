@@ -52,6 +52,16 @@ class MetronomePageState extends State<MetronomePage> {
   // 메트로놈 재생/종료 설정
   void _toggleMetronome() {
     if (!_isPlaying) {
+      // Web 환경, 특히 iOS Safari에서 오디오 재생 문제를 해결하기 위해
+      // play() 직전에 init()을 다시 호출하여 오디오 컨텍스트를 활성화합니다.
+      metronome.init(
+        'assets/metro2.wav',
+        accentedPath: 'assets/metro1.wav',
+        bpm: _bpm.toInt(),
+        volume: 100,
+        timeSignature: _beatsPerMeasure,
+        enableTickCallback: true,
+      );
       metronome.play();
     } else {
       metronome.pause();
