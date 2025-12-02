@@ -13,3 +13,5 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+# Ignore Gradle Kotlin DSL
+*.gradle.kts
