@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:js_interop';
 import 'package:metronome/metronome.dart';
 import 'package:guitar_helper/pages/designs/metronome_view.dart';
 import 'package:guitar_helper/pages/setting.dart';
@@ -10,6 +12,10 @@ class MetronomePage extends StatefulWidget {
   @override
   State<MetronomePage> createState() => MetronomePageState();
 }
+
+// JavaScript의 eval 함수 사용 선언
+@JS('eval')
+external void eval(String code);
 
 class MetronomePageState extends State<MetronomePage> {
   // 기존 상태 변수
@@ -51,10 +57,16 @@ class MetronomePageState extends State<MetronomePage> {
 
   // 메트로놈 재생/종료 설정
   void _toggleMetronome() {
+    // safari 자동 재생 정책 방지
+    if (kIsWeb) {
+      eval(
+          "if (window.metCtx && window.metCtx.state === 'suspended') { window.metCtx.resume(); }");
+    }
+
     if (!_isPlaying) {
       metronome.play();
     } else {
-      metronome.destroy();
+      metronome.stop();
     }
     setState(() {
       _isPlaying = !_isPlaying;
