@@ -1,4 +1,4 @@
-package com.example.guitar_helper
+package com.eun.guitarhelper
 
 import io.flutter.embedding.android.FlutterActivity
 

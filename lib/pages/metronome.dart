@@ -51,7 +51,7 @@ class MetronomePageState extends State<MetronomePage> {
 
   // 메트로놈 재생/종료 설정
   void _toggleMetronome() {
-    if (!_isPlaying) {
+    if (mounted && !_isPlaying) {
       // safari 환경때문에 매번 init
       metronome.init(
         'assets/metro2.wav', // 보조 박자 사운드
@@ -63,7 +63,8 @@ class MetronomePageState extends State<MetronomePage> {
       );
       metronome.play();
     } else {
-      metronome.pause();
+      metronome.stop();
+      metronome.destroy();
     }
     setState(() {
       _isPlaying = !_isPlaying;
@@ -139,6 +140,7 @@ class MetronomePageState extends State<MetronomePage> {
   // 타이머 및 오디오 플레이어 사용 중지
   @override
   void dispose() {
+    metronome.stop();
     metronome.destroy();
     _tapTempoTimer?.cancel();
     super.dispose();
