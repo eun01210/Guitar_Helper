@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:js_interop';
 import 'package:metronome/metronome.dart';
 import 'package:guitar_helper/pages/designs/metronome_view.dart';
 import 'package:guitar_helper/pages/setting.dart';
+import 'package:guitar_helper/util/audio_unlock_stub.dart'
+    if (dart.library.html) 'package:guitar_helper/util/audio_unlock_web.dart';
 
 class MetronomePage extends StatefulWidget {
   const MetronomePage({super.key});
@@ -12,10 +13,6 @@ class MetronomePage extends StatefulWidget {
   @override
   State<MetronomePage> createState() => MetronomePageState();
 }
-
-// JavaScript의 eval 함수 사용 선언
-@JS('eval')
-external void eval(String code);
 
 class MetronomePageState extends State<MetronomePage> {
   // 기존 상태 변수
@@ -37,8 +34,8 @@ class MetronomePageState extends State<MetronomePage> {
     super.initState();
     // 메트로놈 초기화
     metronome.init(
-      'assets/metro2.wav', // 보조 박자 사운드
-      accentedPath: 'assets/metro1.wav', // 주 박자 사운드
+      'assets/beat.wav', // 보조 박자 사운드
+      accentedPath: 'assets/accent.wav', // 주 박자 사운드
       bpm: _bpm.toInt(),
       volume: 100,
       timeSignature: _beatsPerMeasure,
@@ -59,8 +56,7 @@ class MetronomePageState extends State<MetronomePage> {
   void _toggleMetronome() {
     // safari 자동 재생 정책 방지
     if (kIsWeb) {
-      eval(
-          "if (window.metCtx && window.metCtx.state === 'suspended') { window.metCtx.resume(); }");
+      unlockWebAudio();
     }
 
     if (!_isPlaying) {
