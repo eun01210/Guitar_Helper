@@ -68938,7 +68938,7 @@ ak(){return new A.vy($.apU())}}
 A.vy.prototype={
 av(){var s,r,q,p=this
 p.aP()
-p.x.Cs("assets/metro2.wav","assets/metro1.wav",B.c.e9(p.d),!0,p.f,100)
+p.x.Cs("assets/beat.wav","assets/accent.wav",B.c.e9(p.d),!0,p.f,100)
 s=J.kc(12,t.N)
 for(r=0;r<12;r=q){q=r+1
 s[r]=B.h.k(q)}p.y!==$&&A.bC()
