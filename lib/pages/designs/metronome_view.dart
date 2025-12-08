@@ -8,12 +8,14 @@ class MetronomeView extends StatelessWidget {
 
   final double bpm;
   final bool isPlaying;
+  final bool isTripletActive;
   final String timeSignature;
   final ValueChanged<double> onBpmChanged;
   final VoidCallback onBpmIncrement;
   final VoidCallback onBpmDecrement;
   final VoidCallback onTogglePlay;
   final VoidCallback onTapTempo;
+  final VoidCallback onToggleTriplet;
   final VoidCallback onTimeSignatureChange;
   final VoidCallback onSettingsTap;
   final VoidCallback onBack;
@@ -22,11 +24,13 @@ class MetronomeView extends StatelessWidget {
     super.key,
     required this.bpm,
     required this.isPlaying,
+    required this.isTripletActive,
     required this.timeSignature,
     required this.onBpmChanged,
     required this.onBpmIncrement,
     required this.onBpmDecrement,
     required this.onTogglePlay,
+    required this.onToggleTriplet,
     required this.onTapTempo,
     required this.onTimeSignatureChange,
     required this.onSettingsTap,
@@ -86,8 +90,7 @@ class MetronomeView extends StatelessWidget {
                           scaleFactor,
                         ),
                         SizedBox(
-                          width:
-                              180 *
+                          width: 180 *
                               scaleFactor, // 3자리 숫자를 기준으로 너비 고정 (버튼 위치 고정)
                           child: Text(
                             bpm.round().toString(),
@@ -142,7 +145,26 @@ class MetronomeView extends StatelessWidget {
                           ),
                           // 박자 설정 리스트 & 탭 템포 버튼
                           SizedBox(height: 24 * scaleFactor),
-                          _buildTimeSignatureButton(context, scaleFactor),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: _buildTimeSignatureButton(
+                                    context, scaleFactor),
+                              ),
+                              SizedBox(width: 12 * scaleFactor),
+                              Expanded(
+                                flex: 1,
+                                child: _buildTripletButton(
+                                  scaleFactor,
+                                  isTripletActive
+                                      ? primaryColor
+                                      : const Color(0xFF27272A),
+                                  Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                           SizedBox(height: 24 * scaleFactor),
                           _buildTapTempoButton(scaleFactor),
                         ],
@@ -190,7 +212,6 @@ class MetronomeView extends StatelessWidget {
       borderRadius: BorderRadius.circular(12 * scaleFactor),
       child: InkWell(
         onTap: onTimeSignatureChange,
-        borderRadius: BorderRadius.circular(12 * scaleFactor),
         child: Container(
           width: 360 * scaleFactor,
           padding: EdgeInsets.symmetric(
@@ -209,6 +230,32 @@ class MetronomeView extends StatelessWidget {
               ),
               Icon(Icons.expand_more, color: Colors.white),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTripletButton(
+      double scaleFactor, Color bgColor, Color textColor) {
+    return Material(
+      color: bgColor,
+      borderRadius: BorderRadius.circular(12 * scaleFactor),
+      child: InkWell(
+        onTap: onToggleTriplet,
+        borderRadius: BorderRadius.circular(12 * scaleFactor),
+        child: Container(
+          height: 54 * scaleFactor,
+          padding: EdgeInsets.symmetric(
+            horizontal: 24 * scaleFactor,
+            vertical: 16 * scaleFactor,
+          ),
+          child: Center(
+            child: Image.asset(
+              'assets/triplet.png',
+              height: 36 * scaleFactor,
+              color: textColor,
+            ),
           ),
         ),
       ),

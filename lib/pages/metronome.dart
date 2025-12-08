@@ -20,6 +20,7 @@ class MetronomePageState extends State<MetronomePage> {
   bool _isPlaying = false; // 실행중 여부
   // int _beatCount = 0; // 현재 박자
 
+  int _tripletMultiplier = 1; // 셋잇단 변수 1 or 3
   int _beatsPerMeasure = 4; // 박자 체크
   DateTime? _lastTapTime; // 탭 템포 마지막 클릭 시간
   Timer? _tapTempoTimer; // 탭 템포 초기화 타이머
@@ -36,9 +37,9 @@ class MetronomePageState extends State<MetronomePage> {
     metronome.init(
       'assets/beat.wav', // 보조 박자 사운드
       accentedPath: 'assets/accent.wav', // 주 박자 사운드
-      bpm: _bpm.toInt(),
+      bpm: (_bpm * _tripletMultiplier).toInt(),
       volume: 100,
-      timeSignature: _beatsPerMeasure,
+      timeSignature: (_tripletMultiplier == 3) ? 3 : _beatsPerMeasure,
       enableTickCallback: true,
     );
     _timeSignatures = List.generate(12, (index) => (index + 1).toString());
@@ -75,7 +76,18 @@ class MetronomePageState extends State<MetronomePage> {
     setState(() {
       _bpm = newBpm;
     });
-    metronome.setBPM(newBpm.toInt());
+    metronome.setBPM((newBpm * _tripletMultiplier).toInt());
+  }
+
+  // 셋잇단 관리 함수
+  void _toggleTriplet() {
+    setState(() {
+      _tripletMultiplier = _tripletMultiplier == 1 ? 3 : 1;
+    });
+    // 메트로놈 즉시 반영
+    metronome.setBPM((_bpm * _tripletMultiplier).toInt());
+    metronome
+        .setTimeSignature((_tripletMultiplier == 3) ? 3 : _beatsPerMeasure);
   }
 
   // 박자 변경 함수
@@ -93,7 +105,8 @@ class MetronomePageState extends State<MetronomePage> {
                 onTap: () {
                   setState(() {
                     _beatsPerMeasure = int.parse(_timeSignatures[index]);
-                    metronome.setTimeSignature(_beatsPerMeasure);
+                    metronome.setTimeSignature(
+                        (_tripletMultiplier == 3) ? 3 : _beatsPerMeasure);
                   });
                   Navigator.pop(context);
                 },
@@ -148,11 +161,13 @@ class MetronomePageState extends State<MetronomePage> {
     return MetronomeView(
       bpm: _bpm,
       isPlaying: _isPlaying,
+      isTripletActive: _tripletMultiplier == 3,
       timeSignature: _currentTimeSignature,
       onBpmChanged: _onBpmChanged,
       onBpmIncrement: () => _onBpmChanged(_bpm + 1),
       onBpmDecrement: () => _onBpmChanged(_bpm - 1),
       onTogglePlay: _toggleMetronome,
+      onToggleTriplet: _toggleTriplet,
       onTapTempo: _handleTapTempo,
       onTimeSignatureChange: _showTimeSignaturePicker,
       onSettingsTap: () {

@@ -4,9 +4,9 @@ import 'package:guitar_helper/datas/chords/basic_form.dart';
 final f0maj1 = keyUp(maj4, 0);
 final f0maj2 = ChordDefinition(
   fret: [-1, -1, 3, 2, 1, 1],
-  degrees: ['X', 'X', 'R', '5', 'R', '3'],
+  degrees: ['X', 'X', 'R', '3', '5', 'R'],
   fingering: [0, 0, 4, 3, 1, 2],
-  colors: [1, 1, 0, 1, 0, 1],
+  colors: [1, 1, 0, 1, 1, 0],
 );
 final f0maj3 = keyUp(maj5, 2);
 final f0maj4 = keyUp(maj1, 4);
