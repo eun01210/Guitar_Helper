@@ -25,6 +25,10 @@ jobs:
       
       # Flutter Web 빌드
       - run: flutter build web --base-href /Guitar_Helper/ 
+
+      - run: 
+          cp terms_of_service.html build/web/terms_of_service.html
+          cp privacy_policy.html build/web/privacy_policy.html
       
       # 5. 빌드된 결과물(build/web)을 gh-pages 브랜치에 배포
       - uses: peaceiris/actions-gh-pages@v3
