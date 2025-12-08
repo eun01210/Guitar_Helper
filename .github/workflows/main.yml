@@ -26,7 +26,7 @@ jobs:
       # Flutter Web 빌드
       - run: flutter build web --base-href /Guitar_Helper/ 
 
-      - run: 
+      - run: |
           cp terms_of_service.html build/web/terms_of_service.html
           cp privacy_policy.html build/web/privacy_policy.html
       
