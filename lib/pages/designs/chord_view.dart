@@ -51,7 +51,15 @@ class ChordView extends StatelessWidget {
 
     final List<String> rootNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     final List<String> accidentals = ['♭', '♮', '♯'];
-    final List<String> chordTypes = ['maj', 'm', '7', 'm7', 'M7', '7sus4'];
+    final List<String> chordTypes = [
+      'maj',
+      'm',
+      '7',
+      'm7',
+      'M7',
+      '7sus4',
+      'm7b5'
+    ];
 
     // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -190,34 +198,29 @@ class ChordView extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 mainAxisSpacing: 8 * scaleFactor,
                                 crossAxisSpacing: 8 * scaleFactor,
-                                children:
-                                    rootNotes.map((note) {
-                                      final isSelected =
-                                          note == selectedRootNote;
-                                      return ElevatedButton(
-                                        onPressed:
-                                            () => onRootNoteSelected(note),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              isSelected
-                                                  ? primaryColor
-                                                  : buttonBgColor,
-                                          foregroundColor:
-                                              isSelected
-                                                  ? textColor
-                                                  : buttonTextColor,
-                                          shape: const CircleBorder(),
-                                          padding: EdgeInsets.zero,
-                                        ),
-                                        child: Text(
-                                          note,
-                                          style: TextStyle(
-                                            fontSize: 18 * scaleFactor,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
+                                children: rootNotes.map((note) {
+                                  final isSelected = note == selectedRootNote;
+                                  return ElevatedButton(
+                                    onPressed: () => onRootNoteSelected(note),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: isSelected
+                                          ? primaryColor
+                                          : buttonBgColor,
+                                      foregroundColor: isSelected
+                                          ? textColor
+                                          : buttonTextColor,
+                                      shape: const CircleBorder(),
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                    child: Text(
+                                      note,
+                                      style: TextStyle(
+                                        fontSize: 18 * scaleFactor,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                               SizedBox(height: 16 * scaleFactor),
                               Column(
@@ -230,45 +233,42 @@ class ChordView extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(99),
                                     ),
                                     child: Row(
-                                      children:
-                                          accidentals.map((acc) {
-                                            final isSelected =
-                                                acc == selectedAccidental;
-                                            return Expanded(
-                                              child: TextButton(
-                                                onPressed:
-                                                    () => onAccidentalSelected(
-                                                      acc,
-                                                    ),
-                                                style: TextButton.styleFrom(
-                                                  backgroundColor:
-                                                      isSelected
-                                                          ? inactiveToggleColor
-                                                          : Colors.transparent,
-                                                  foregroundColor:
-                                                      isSelected
-                                                          ? textColor
-                                                          : subTextColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          99,
-                                                        ),
-                                                  ),
-                                                  padding: EdgeInsets.symmetric(
-                                                    vertical: 8 * scaleFactor,
-                                                  ),
-                                                ),
-                                                child: Text(
-                                                  acc,
-                                                  style: TextStyle(
-                                                    fontSize: 16 * scaleFactor,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                      children: accidentals.map((acc) {
+                                        final isSelected =
+                                            acc == selectedAccidental;
+                                        return Expanded(
+                                          child: TextButton(
+                                            onPressed: () =>
+                                                onAccidentalSelected(
+                                              acc,
+                                            ),
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: isSelected
+                                                  ? inactiveToggleColor
+                                                  : Colors.transparent,
+                                              foregroundColor: isSelected
+                                                  ? textColor
+                                                  : subTextColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  99,
                                                 ),
                                               ),
-                                            );
-                                          }).toList(),
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 8 * scaleFactor,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              acc,
+                                              style: TextStyle(
+                                                fontSize: 16 * scaleFactor,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
                                     ),
                                   ),
                                   SizedBox(height: 16 * scaleFactor),
@@ -287,10 +287,9 @@ class ChordView extends StatelessWidget {
                                           value: selectedChordType,
                                           onChanged: onChordTypeSelected,
                                           // 버튼의 높이를 scaleFactor에 따라 조절
-                                          itemHeight:
-                                              (48 * scaleFactor < 48)
-                                                  ? null
-                                                  : 48 * scaleFactor,
+                                          itemHeight: (48 * scaleFactor < 48)
+                                              ? null
+                                              : 48 * scaleFactor,
                                           icon: Padding(
                                             padding: EdgeInsets.only(
                                               right: 8.0 * scaleFactor,
@@ -301,24 +300,21 @@ class ChordView extends StatelessWidget {
                                             ),
                                           ),
                                           dropdownColor: buttonBgColor,
-                                          items:
-                                              chordTypes.map((type) {
-                                                return DropdownMenuItem<String>(
-                                                  value: type,
-                                                  child: Center(
-                                                    child: Text(
-                                                      type,
-                                                      style: TextStyle(
-                                                        fontSize:
-                                                            16 * scaleFactor,
-                                                        color: textColor,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
+                                          items: chordTypes.map((type) {
+                                            return DropdownMenuItem<String>(
+                                              value: type,
+                                              child: Center(
+                                                child: Text(
+                                                  type,
+                                                  style: TextStyle(
+                                                    fontSize: 16 * scaleFactor,
+                                                    color: textColor,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
-                                                );
-                                              }).toList(),
+                                                ),
+                                              ),
+                                            );
+                                          }).toList(),
                                         ),
                                       ),
                                     ),
