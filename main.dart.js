@@ -70835,7 +70835,7 @@ s.e=this.b
 s.k5()},
 $S:0}
 A.Dh.prototype={
-L(a){var s=null,r=t.s,q=A.b(["C","D","E","F","G","A","B"],r),p=A.b(["\u266d","\u266e","\u266f"],r),o=A.b(["maj","m","7","m7","M7","7sus4"],r)
+L(a){var s=null,r=t.s,q=A.b(["C","D","E","F","G","A","B"],r),p=A.b(["\u266d","\u266e","\u266f"],r),o=A.b(["maj","m","7","m7","M7","7sus4","m7b5"],r)
 return A.jx(new A.f4("Chord",this.x,this.y,B.j,B.cJ,s),B.c7,A.q5(!0,new A.bV(B.ek,A.eg(A.vD(new A.ST(this,B.c.cw(A.bo(a,B.bk,t.w).w.a.a/360,0.8,2.5),q,p,o)),s,s),s),B.a8,!0),!0)},
 Hd(a,b,c){var s=null,r=40*c
 return A.be(A.hg(B.R,!0,s,A.ib(!1,s,!0,A.f9(a,B.it,s,s,20*c,s),B.c5,!0,s,s,s,s,s,s,s,s,b,s,s,s,s),B.K,B.ar,0,s,s,B.c5,s,s,B.bB),r,r)},
