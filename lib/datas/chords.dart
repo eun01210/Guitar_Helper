@@ -199,4 +199,33 @@ final Map<String, List<ChordDefinition>> chords = {
   'B-17sus4': a1sus74s,
   'B07sus4': b0sus74s,
   'B17sus4': c0sus74s,
+
+  // 하프디미니쉬
+  'C-1m7b5': b0m7b5s,
+  'C0m7b5': c0m7b5s,
+  'C1m7b5': c1m7b5s,
+
+  'D-1m7b5': c1m7b5s,
+  'D0m7b5': d0m7b5s,
+  'D1m7b5': d1m7b5s,
+
+  'E-1m7b5': d1m7b5s,
+  'E0m7b5': e0m7b5s,
+  'E1m7b5': f0m7b5s,
+
+  'F-1m7b5': e0m7b5s,
+  'F0m7b5': f0m7b5s,
+  'F1m7b5': f1m7b5s,
+
+  'G-1m7b5': f1m7b5s,
+  'G0m7b5': g0m7b5s,
+  'G1m7b5': g1m7b5s,
+
+  'A-1m7b5': g1m7b5s,
+  'A0m7b5': a0m7b5s,
+  'A1m7b5': a1m7b5s,
+
+  'B-1m7b5': a1m7b5s,
+  'B0m7b5': b0m7b5s,
+  'B1m7b5': c0m7b5s,
 };

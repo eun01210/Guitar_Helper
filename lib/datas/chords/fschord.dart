@@ -97,3 +97,29 @@ final f1sus742 = keyUp(sus741, 3);
 final f1sus743 = keyUp(sus743, 8);
 
 final f1sus74s = [f1sus741, f1sus742, f1sus743];
+
+final f1m7b51 = keyUp(m7b58, 0);
+final f1m7b52 = keyUp(m7b59, 0);
+final f1m7b53 = keyUp(m7b57, 1);
+final f1m7b54 = keyUp(m7b56, 3);
+final f1m7b55 = keyUp(m7b54, 6);
+final f1m7b56 = keyUp(m7b55, 6);
+final f1m7b57 = keyUp(m7b53, 7);
+final f1m7b58 = keyUp(m7b52, 8);
+final f1m7b59 = keyUp(m7b51, 9);
+final f1m7b510 = keyUp(m7b58, 12);
+final f1m7b511 = keyUp(m7b59, 12);
+
+final f1m7b5s = [
+  f1m7b51,
+  f1m7b52,
+  f1m7b53,
+  f1m7b54,
+  f1m7b55,
+  f1m7b56,
+  f1m7b57,
+  f1m7b58,
+  f1m7b59,
+  f1m7b510,
+  f1m7b511,
+];

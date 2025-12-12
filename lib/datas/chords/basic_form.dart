@@ -1,10 +1,9 @@
 import 'package:guitar_helper/datas/chords.dart';
 
 ChordDefinition keyUp(ChordDefinition chord, int key) {
-  final newFrets =
-      chord.fret.map((fret) {
-        return fret == -1 ? fret : fret + key;
-      }).toList();
+  final newFrets = chord.fret.map((fret) {
+    return fret == -1 ? fret : fret + key;
+  }).toList();
 
   return ChordDefinition(
     fret: newFrets,
@@ -320,4 +319,78 @@ const sus743 = ChordDefinition(
   degrees: ['X', 'R', '5', 'b7', '4', '5'],
   fingering: [0, 1, 3, 1, 4, 1],
   colors: [1, 0, 1, 1, 1, 1],
+);
+
+// m7(b5) =======================================
+
+// Am7(b5) 2번폼
+const m7b51 = ChordDefinition(
+  fret: [-1, 3, 1, 2, 1, 3],
+  degrees: ['X', 'b3', 'b5', 'R', 'b3', 'b7'],
+  fingering: [0, 3, 1, 2, 1, 4],
+  colors: [1, 1, 1, 0, 1, 1],
+);
+
+// A#m7(b5) 2번폼
+const m7b52 = ChordDefinition(
+  fret: [-1, 1, 2, 1, 2, -1],
+  degrees: ['X', 'R', 'b5', 'b7', 'b3', 'X'],
+  fingering: [0, 1, 3, 2, 4, 0],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+
+// Bm7(b5) 2번폼
+const m7b53 = ChordDefinition(
+  fret: [-1, 2, -1, 2, 3, 1],
+  degrees: ['X', 'R', 'X', 'b7', 'b3', 'b5'],
+  fingering: [0, 2, 0, 3, 4, 1],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+
+// Cm7(b5) 1번폼
+const m7b54 = ChordDefinition(
+  fret: [-1, 1, 1, 3, 1, 2],
+  degrees: ['X', 'b7', 'b3', 'b7', 'R', 'b5'],
+  fingering: [0, 1, 1, 3, 1, 2],
+  colors: [1, 1, 1, 1, 0, 1],
+);
+
+// Cm7(b5) 2번폼
+const m7b55 = ChordDefinition(
+  fret: [-1, -1, 1, 3, 1, 2],
+  degrees: ['X', 'X', 'b3', 'b7', 'R', 'b5'],
+  fingering: [0, 0, 1, 3, 1, 2],
+  colors: [1, 1, 1, 1, 0, 1],
+);
+
+// D#m7(b5) 1번폼
+const m7b56 = ChordDefinition(
+  fret: [-1, -1, 1, 2, 2, 2],
+  degrees: ['X', 'X', 'R', 'b5', 'b7', 'b3'],
+  fingering: [0, 0, 1, 2, 2, 2],
+  colors: [1, 1, 0, 1, 1, 1],
+);
+
+// Fm7(b5) 3번폼
+const m7b57 = ChordDefinition(
+  fret: [1, 2, 1, 1, 4, 1],
+  degrees: ['R', 'b5', 'b7', 'b3', 'b7', 'R'],
+  fingering: [1, 2, 1, 1, 4, 1],
+  colors: [0, 1, 1, 1, 1, 0],
+);
+
+// F#m7(b5) 1번폼
+const m7b58 = ChordDefinition(
+  fret: [2, -1, 2, 2, 1, -1],
+  degrees: ['R', 'X', 'b7', 'b3', 'b5', 'X'],
+  fingering: [2, 0, 3, 4, 1, 0],
+  colors: [0, 1, 1, 1, 1, 1],
+);
+
+// F#m7(b5) 2번폼
+const m7b59 = ChordDefinition(
+  fret: [-1, -1, 2, 2, 1, 2],
+  degrees: ['X', 'X', 'b7', 'b3', 'b5', 'R'],
+  fingering: [0, 0, 2, 3, 1, 4],
+  colors: [1, 1, 1, 1, 1, 0],
 );

@@ -117,3 +117,29 @@ final c0sus742 = keyUp(sus742, 7);
 final c0sus743 = keyUp(sus741, 9);
 
 final c0sus74s = [c0sus741, c0sus742, c0sus743];
+
+final c0m7b51 = keyUp(m7b54, 0);
+final c0m7b52 = keyUp(m7b55, 0);
+final c0m7b53 = keyUp(m7b53, 1);
+final c0m7b54 = keyUp(m7b52, 2);
+final c0m7b55 = keyUp(m7b51, 3);
+final c0m7b56 = keyUp(m7b58, 6);
+final c0m7b57 = keyUp(m7b59, 6);
+final c0m7b58 = keyUp(m7b57, 7);
+final c0m7b59 = keyUp(m7b56, 9);
+final c0m7b510 = keyUp(m7b54, 12);
+final c0m7b511 = keyUp(m7b55, 12);
+
+final c0m7b5s = [
+  c0m7b51,
+  c0m7b52,
+  c0m7b53,
+  c0m7b54,
+  c0m7b55,
+  c0m7b56,
+  c0m7b57,
+  c0m7b58,
+  c0m7b59,
+  c0m7b510,
+  c0m7b511,
+];

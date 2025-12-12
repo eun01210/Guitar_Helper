@@ -165,3 +165,34 @@ final e0sus743 = keyUp(sus743, 6);
 final e0sus744 = keyUp(sus742, 11);
 
 final e0sus74s = [e0sus741, e0sus742, e0sus743, e0sus744];
+
+final e0m7b51 = ChordDefinition(
+  fret: [0, 1, 0, 0, 3, 0],
+  degrees: ['R', 'b5', 'b7', 'b3', 'b7', 'R'],
+  fingering: [0, 1, 0, 0, 4, 0],
+  colors: [0, 1, 1, 1, 1, 0],
+);
+final e0m7b52 = keyUp(m7b56, 1);
+final e0m7b53 = keyUp(m7b54, 4);
+final e0m7b54 = keyUp(m7b55, 4);
+final e0m7b55 = keyUp(m7b53, 5);
+final e0m7b56 = keyUp(m7b52, 6);
+final e0m7b57 = keyUp(m7b51, 7);
+final e0m7b58 = keyUp(m7b58, 10);
+final e0m7b59 = keyUp(m7b59, 10);
+final e0m7b510 = keyUp(m7b57, 11);
+final e0m7b511 = keyUp(m7b56, 13);
+
+final e0m7b5s = [
+  e0m7b51,
+  e0m7b52,
+  e0m7b53,
+  e0m7b54,
+  e0m7b55,
+  e0m7b56,
+  e0m7b57,
+  e0m7b58,
+  e0m7b59,
+  e0m7b510,
+  e0m7b511,
+];

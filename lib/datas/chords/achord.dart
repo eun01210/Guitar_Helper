@@ -123,3 +123,35 @@ final a0sus743 = keyUp(sus741, 6);
 final a0sus744 = keyUp(sus743, 11);
 
 final a0sus74s = [a0sus741, a0sus742, a0sus743, a0sus744];
+
+// A#m7(b5) 2번폼
+final a0m7b51 = ChordDefinition(
+  fret: [-1, 0, 1, 0, 1, -1],
+  degrees: ['X', 'R', 'b5', 'b7', 'b3', 'X'],
+  fingering: [0, 0, 1, 0, 2, 0],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+final a0m7b52 = keyUp(m7b51, 0);
+final a0m7b53 = keyUp(m7b58, 3);
+final a0m7b54 = keyUp(m7b59, 3);
+final a0m7b55 = keyUp(m7b57, 4);
+final a0m7b56 = keyUp(m7b56, 6);
+final a0m7b57 = keyUp(m7b54, 9);
+final a0m7b58 = keyUp(m7b55, 9);
+final a0m7b59 = keyUp(m7b53, 10);
+final a0m7b510 = keyUp(m7b52, 11);
+final a0m7b511 = keyUp(m7b51, 12);
+
+final a0m7b5s = [
+  a0m7b51,
+  a0m7b52,
+  a0m7b53,
+  a0m7b54,
+  a0m7b55,
+  a0m7b56,
+  a0m7b57,
+  a0m7b58,
+  a0m7b59,
+  a0m7b510,
+  a0m7b511,
+];

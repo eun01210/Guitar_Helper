@@ -1,3 +1,4 @@
+import 'package:guitar_helper/datas/chords.dart';
 import 'package:guitar_helper/datas/chords/basic_form.dart';
 
 final a1maj1 = keyUp(maj2, 0);
@@ -73,3 +74,34 @@ final a1sus742 = keyUp(sus742, 5);
 final a1sus743 = keyUp(sus741, 7);
 
 final a1sus74s = [a1sus741, a1sus742, a1sus743];
+
+final a1m7b51 = ChordDefinition(
+  fret: [-1, 1, -1, 1, 2, 0],
+  degrees: ['X', 'R', 'X', 'b7', 'b3', 'b5'],
+  fingering: [0, 1, 0, 2, 3, 0],
+  colors: [1, 0, 1, 1, 1, 1],
+);
+final a1m7b52 = keyUp(m7b52, 0);
+final a1m7b53 = keyUp(m7b51, 1);
+final a1m7b54 = keyUp(m7b58, 4);
+final a1m7b55 = keyUp(m7b59, 4);
+final a1m7b56 = keyUp(m7b57, 5);
+final a1m7b57 = keyUp(m7b56, 7);
+final a1m7b58 = keyUp(m7b54, 10);
+final a1m7b59 = keyUp(m7b55, 10);
+final a1m7b510 = keyUp(m7b53, 11);
+final a1m7b511 = keyUp(m7b52, 12);
+
+final a1m7b5s = [
+  a1m7b51,
+  a1m7b52,
+  a1m7b53,
+  a1m7b54,
+  a1m7b55,
+  a1m7b56,
+  a1m7b57,
+  a1m7b58,
+  a1m7b59,
+  a1m7b510,
+  a1m7b511,
+];
