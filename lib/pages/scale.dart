@@ -28,9 +28,9 @@ class _ScalePageState extends State<ScalePage> {
 
   void _updateFretboardData() {
     int accidentalOffset = 0;
-    if (_selectedAccidental == '♯') {
+    if (_selectedAccidental == '#') {
       accidentalOffset = 1;
-    } else if (_selectedAccidental == '♭') {
+    } else if (_selectedAccidental == 'b') {
       accidentalOffset = -1;
     }
 
@@ -61,21 +61,19 @@ class _ScalePageState extends State<ScalePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder:
-                (context) => FullScreenFretboxPage(
-                  fretboardData: _fretboardData,
-                  onBack: () => Navigator.of(context).pop(),
-                  onSettings:
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SettingsPage(),
-                        ),
-                      ),
-                  selectedRootNote: _selectedRootNote,
-                  selectedAccidental: _selectedAccidental,
-                  selectedScaleType: _selectedScaleType,
+            builder: (context) => FullScreenFretboxPage(
+              fretboardData: _fretboardData,
+              onBack: () => Navigator.of(context).pop(),
+              onSettings: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsPage(),
                 ),
+              ),
+              selectedRootNote: _selectedRootNote,
+              selectedAccidental: _selectedAccidental,
+              selectedScaleType: _selectedScaleType,
+            ),
           ),
         );
       },

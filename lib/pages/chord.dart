@@ -30,14 +30,14 @@ class _ChordPageState extends State<ChordPage> {
     _updateFretboardData();
   }
 
-  // ♭, ♮, ♯ 버튼 처리
+  // b, ♮, # 버튼 처리
   void _handleAccidentalChange(String accidental) {
     setState(() {
       _form = 0; // 폼 초기화
-      if (accidental == '♯') {
+      if (accidental == '#') {
         _isSharp = true;
         _isFlat = false;
-      } else if (accidental == '♭') {
+      } else if (accidental == 'b') {
         _isSharp = false;
         _isFlat = true;
       } else {
@@ -93,23 +93,23 @@ class _ChordPageState extends State<ChordPage> {
   @override
   Widget build(BuildContext context) {
     String accidentalSymbol = '♮';
-    if (_isSharp) accidentalSymbol = '♯';
-    if (_isFlat) accidentalSymbol = '♭';
+    if (_isSharp) accidentalSymbol = '#';
+    if (_isFlat) accidentalSymbol = 'b';
 
     return ChordView(
       selectedRootNote: _selChord ?? 'C',
       selectedAccidental: accidentalSymbol,
       selectedChordType: _selExt,
+      selectedForm: _form,
       fullChordName:
           '${_selChord ?? ''}${accidentalName(_isSharp, _isFlat)}${(_selExt == 'maj') ? '' : _selExt}',
       isFingerMode: _isFinger,
       fretboardData: _fretboardData,
       onBack: () => Navigator.of(context).pop(),
-      onSettings:
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SettingsPage()),
-          ),
+      onSettings: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SettingsPage()),
+      ),
       onFormPrevious: () => _handleFormChange(-1, maxForm()),
       onFormNext: () => _handleFormChange(1, maxForm()),
       onFingerModeChanged: (value) {

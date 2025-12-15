@@ -45,7 +45,7 @@ class ScaleView extends StatelessWidget {
     const Color inactiveToggleColor = Color(0xFF3F3F46);
 
     final List<String> rootNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-    final List<String> accidentals = ['♭', '♮', '♯'];
+    final List<String> accidentals = ['b', '♮', '#'];
     final List<String> scaleTypes = scales.keys.toList();
 
     // 화면 너비에 따른 스케일 팩터 계산
@@ -147,34 +147,29 @@ class ScaleView extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 mainAxisSpacing: 8 * scaleFactor,
                                 crossAxisSpacing: 8 * scaleFactor,
-                                children:
-                                    rootNotes.map((note) {
-                                      final isSelected =
-                                          note == selectedRootNote;
-                                      return ElevatedButton(
-                                        onPressed:
-                                            () => onRootNoteSelected(note),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              isSelected
-                                                  ? primaryColor
-                                                  : buttonBgColor,
-                                          foregroundColor:
-                                              isSelected
-                                                  ? textColor
-                                                  : buttonTextColor,
-                                          shape: const CircleBorder(),
-                                          padding: EdgeInsets.zero,
-                                        ),
-                                        child: Text(
-                                          note,
-                                          style: TextStyle(
-                                            fontSize: 18 * scaleFactor,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
+                                children: rootNotes.map((note) {
+                                  final isSelected = note == selectedRootNote;
+                                  return ElevatedButton(
+                                    onPressed: () => onRootNoteSelected(note),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: isSelected
+                                          ? primaryColor
+                                          : buttonBgColor,
+                                      foregroundColor: isSelected
+                                          ? textColor
+                                          : buttonTextColor,
+                                      shape: const CircleBorder(),
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                    child: Text(
+                                      note,
+                                      style: TextStyle(
+                                        fontSize: 18 * scaleFactor,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                               SizedBox(height: 16 * scaleFactor),
                               Column(
@@ -187,45 +182,42 @@ class ScaleView extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(99),
                                     ),
                                     child: Row(
-                                      children:
-                                          accidentals.map((acc) {
-                                            final isSelected =
-                                                acc == selectedAccidental;
-                                            return Expanded(
-                                              child: TextButton(
-                                                onPressed:
-                                                    () => onAccidentalSelected(
-                                                      acc,
-                                                    ),
-                                                style: TextButton.styleFrom(
-                                                  backgroundColor:
-                                                      isSelected
-                                                          ? inactiveToggleColor
-                                                          : Colors.transparent,
-                                                  foregroundColor:
-                                                      isSelected
-                                                          ? textColor
-                                                          : subTextColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          99,
-                                                        ),
-                                                  ),
-                                                  padding: EdgeInsets.symmetric(
-                                                    vertical: 8 * scaleFactor,
-                                                  ),
-                                                ),
-                                                child: Text(
-                                                  acc,
-                                                  style: TextStyle(
-                                                    fontSize: 16 * scaleFactor,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                      children: accidentals.map((acc) {
+                                        final isSelected =
+                                            acc == selectedAccidental;
+                                        return Expanded(
+                                          child: TextButton(
+                                            onPressed: () =>
+                                                onAccidentalSelected(
+                                              acc,
+                                            ),
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: isSelected
+                                                  ? inactiveToggleColor
+                                                  : Colors.transparent,
+                                              foregroundColor: isSelected
+                                                  ? textColor
+                                                  : subTextColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  99,
                                                 ),
                                               ),
-                                            );
-                                          }).toList(),
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 8 * scaleFactor,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              acc,
+                                              style: TextStyle(
+                                                fontSize: 16 * scaleFactor,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
                                     ),
                                   ),
                                   SizedBox(height: 16 * scaleFactor),
@@ -246,10 +238,9 @@ class ScaleView extends StatelessWidget {
                                             isExpanded: true,
                                             value: selectedScaleType,
                                             onChanged: onScaleTypeSelected,
-                                            itemHeight:
-                                                (48 * scaleFactor < 48)
-                                                    ? null
-                                                    : 48 * scaleFactor,
+                                            itemHeight: (48 * scaleFactor < 48)
+                                                ? null
+                                                : 48 * scaleFactor,
                                             icon: Padding(
                                               padding: EdgeInsets.only(
                                                 right: 8.0 * scaleFactor,
@@ -260,26 +251,23 @@ class ScaleView extends StatelessWidget {
                                               ),
                                             ),
                                             dropdownColor: buttonBgColor,
-                                            items:
-                                                scaleTypes.map((type) {
-                                                  return DropdownMenuItem<
-                                                    String
-                                                  >(
-                                                    value: type,
-                                                    child: Center(
-                                                      child: Text(
-                                                        type,
-                                                        style: TextStyle(
-                                                          color: textColor,
-                                                          fontSize:
-                                                              16 * scaleFactor,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
+                                            items: scaleTypes.map((type) {
+                                              return DropdownMenuItem<String>(
+                                                value: type,
+                                                child: Center(
+                                                  child: Text(
+                                                    type,
+                                                    style: TextStyle(
+                                                      color: textColor,
+                                                      fontSize:
+                                                          16 * scaleFactor,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
-                                                  );
-                                                }).toList(),
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
                                           ),
                                         ),
                                       ),

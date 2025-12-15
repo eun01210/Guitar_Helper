@@ -6,7 +6,7 @@ int accidental(bool? sharp, bool? flat) {
 
 String accidentalName(bool? sharp, bool? flat) {
   if (sharp == true) return '#';
-  if (flat == true) return '♭';
+  if (flat == true) return 'b';
   return '';
 }
 

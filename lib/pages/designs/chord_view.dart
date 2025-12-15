@@ -8,6 +8,7 @@ class ChordView extends StatelessWidget {
   final String selectedAccidental;
   final String selectedChordType;
   final String fullChordName;
+  final int selectedForm;
   final bool isFingerMode;
   final List<List<NoteData?>> fretboardData;
 
@@ -26,6 +27,7 @@ class ChordView extends StatelessWidget {
     required this.selectedAccidental,
     required this.selectedChordType,
     required this.fullChordName,
+    required this.selectedForm,
     required this.isFingerMode,
     required this.fretboardData,
     required this.onBack,
@@ -50,7 +52,7 @@ class ChordView extends StatelessWidget {
     const Color inactiveToggleColor = Color(0xFF3F3F46);
 
     final List<String> rootNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-    final List<String> accidentals = ['♭', '♮', '♯'];
+    final List<String> accidentals = ['b', '♮', '#'];
     final List<String> chordTypes = [
       'maj',
       'm',
@@ -140,7 +142,18 @@ class ChordView extends StatelessWidget {
                                           onFormPrevious,
                                           scaleFactor,
                                         ),
-                                        SizedBox(width: 8 * scaleFactor),
+                                        SizedBox(
+                                            width: 60 * scaleFactor,
+                                            child: Center(
+                                              child: Text(
+                                                (selectedForm + 1).toString(),
+                                                style: TextStyle(
+                                                  fontSize: 36 * scaleFactor,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textColor,
+                                                ),
+                                              ),
+                                            )),
                                         _buildSmallButton(
                                           Icons.chevron_right,
                                           onFormNext,
