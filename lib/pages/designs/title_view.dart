@@ -19,9 +19,11 @@ class TitleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color backgroundColor = Color(0xFF121212);
-    const Color mainTextColor = Color(0xFFE5E5E5);
-    const Color secondaryTextColor = Color(0xFFA8A29E);
+    // 테마에서 색상 가져오기
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final Color mainTextColor = colorScheme.onSurface;
+    final Color secondaryTextColor = colorScheme.onSurfaceVariant;
     // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
@@ -145,8 +147,9 @@ class _MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color cardColor = Color(0xFF1E1E1E);
-    const Color primaryColor = Color(0xFF13C8EC);
+    // 테마 색상 적용
+    final Color cardColor = Theme.of(context).colorScheme.surface;
+    final Color primaryColor = Theme.of(context).colorScheme.primary;
 
     return InkWell(
       onTap: onTap,

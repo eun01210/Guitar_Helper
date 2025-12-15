@@ -14,11 +14,13 @@ class ChordSelectBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       height: 30,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.secondaryContainer,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.transparent, width: 1),
         boxShadow: [
@@ -32,13 +34,13 @@ class ChordSelectBox extends StatelessWidget {
       ),
       child: DropdownButton<String>(
         value: selectedItem, // 외부에서 전달받은 값 사용
-        items:
-            items.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(value: value, child: Text(value));
-            }).toList(),
+        dropdownColor: colorScheme.secondaryContainer,
+        items: items.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(value: value, child: Text(value));
+        }).toList(),
         onChanged: onChanged, // 외부에서 전달받은 콜백 함수 사용
         underline: Container(),
-        style: const TextStyle(color: Colors.black, fontSize: 16),
+        style: TextStyle(color: colorScheme.onSurface, fontSize: 16),
       ),
     );
   }

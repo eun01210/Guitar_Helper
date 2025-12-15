@@ -8,7 +8,7 @@ import 'package:guitar_helper/pages/metronome.dart';
 import 'package:guitar_helper/pages/setting.dart';
 
 class TitleScreen extends StatefulWidget {
-  TitleScreen({super.key});
+  const TitleScreen({super.key});
 
   @override
   State<TitleScreen> createState() => _TitleScreenState();

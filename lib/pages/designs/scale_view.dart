@@ -35,14 +35,15 @@ class ScaleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF13C8EC);
-    const Color backgroundDark = Color(0xFF101F22);
-    const Color cardBgColor = Color(0xFF171717);
-    const Color buttonBgColor = Color(0xFF27272A);
-    const Color buttonTextColor = Color(0xFFD4D4D8);
-    const Color textColor = Colors.white;
-    const Color subTextColor = Color(0xFFA1A1AA);
-    const Color inactiveToggleColor = Color(0xFF3F3F46);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color primaryColor = colorScheme.primary;
+    final Color backgroundColor = colorScheme.tertiary;
+    final Color cardBgColor = colorScheme.secondary;
+    final Color buttonBgColor = colorScheme.secondaryContainer;
+    final Color buttonTextColor = colorScheme.outline;
+    final Color textColor = colorScheme.onSurface;
+    final Color subTextColor = colorScheme.onSurfaceVariant;
+    final Color toggleSelectedColor = colorScheme.outlineVariant;
 
     final List<String> rootNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     final List<String> accidentals = ['b', '♮', '#'];
@@ -53,14 +54,14 @@ class ScaleView extends StatelessWidget {
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
 
     return Scaffold(
-      backgroundColor: backgroundDark,
+      backgroundColor: backgroundColor,
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(
         title: 'Scale',
         onBack: onBack,
         onSettings: onSettings,
         textColor: textColor,
-        backgroundColor: const Color(0xCC101F22),
+        backgroundColor: backgroundColor.withAlpha(204),
       ),
       body: SafeArea(
         child: Padding(
@@ -132,6 +133,8 @@ class ScaleView extends StatelessWidget {
                                 // 전체 화면 보기 버튼
                                 _buildFullScreenButton(
                                   onFullScreenTap,
+                                  buttonBgColor,
+                                  subTextColor,
                                   scaleFactor,
                                 ),
                               ],
@@ -193,7 +196,7 @@ class ScaleView extends StatelessWidget {
                                             ),
                                             style: TextButton.styleFrom(
                                               backgroundColor: isSelected
-                                                  ? inactiveToggleColor
+                                                  ? toggleSelectedColor
                                                   : Colors.transparent,
                                               foregroundColor: isSelected
                                                   ? textColor
@@ -291,18 +294,23 @@ class ScaleView extends StatelessWidget {
     );
   }
 
-  Widget _buildFullScreenButton(VoidCallback onPressed, double scaleFactor) {
+  Widget _buildFullScreenButton(
+    VoidCallback onPressed,
+    Color bgColor,
+    Color fgColor,
+    double scaleFactor,
+  ) {
     return TextButton.icon(
       onPressed: onPressed,
       icon: Icon(
         Icons.fullscreen,
-        color: const Color(0xFFA1A1AA),
+        color: fgColor,
         size: 20 * scaleFactor,
       ),
       label: Text(
         'Full Screen View',
         style: TextStyle(
-          color: Color(0xFFA1A1AA),
+          color: fgColor,
           fontWeight: FontWeight.w500,
           fontSize: 14 * scaleFactor,
         ),
@@ -312,7 +320,7 @@ class ScaleView extends StatelessWidget {
           horizontal: 16 * scaleFactor,
           vertical: 8 * scaleFactor,
         ),
-        backgroundColor: const Color(0xFF27272A),
+        backgroundColor: bgColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(99)),
       ),
     );

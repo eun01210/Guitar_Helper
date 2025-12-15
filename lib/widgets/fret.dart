@@ -30,13 +30,17 @@ class Fret extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color fretboardColor = colorScheme.secondary;
+    final Color numberColor = colorScheme.onSurfaceVariant;
+    final Color dotColor = colorScheme.primaryContainer;
+
     return SizedBox(
       // ChordPage(showBarreConnections: true)일 때 프렛 너비를 더 넓게 설정
-      width:
-          chord
-              // 코드 페이지 프렛 너비 조정 (기존: 36, 54 -> 수정: 34, 52)
-              ? ((fretNumber == 0) ? 34 : 52 - fretNumber * 0.9)
-              : ((fretNumber == 0) ? 24 : 36 - fretNumber * 0.6),
+      width: chord
+          // 코드 페이지 프렛 너비 조정 (기존: 36, 54 -> 수정: 34, 52)
+          ? ((fretNumber == 0) ? 34 : 52 - fretNumber * 0.9)
+          : ((fretNumber == 0) ? 24 : 36 - fretNumber * 0.6),
       child: Align(
         alignment: Alignment.topLeft,
         child: SizedBox(
@@ -45,44 +49,43 @@ class Fret extends StatelessWidget {
           child: Stack(
             children: [
               // 프렛보드 배경색
-              if (fretNumber > 0) Container(color: Color(0xFF171717)),
+              if (fretNumber > 0) Container(color: fretboardColor),
               // 프렛의 세로 선 (너비 1px)
               Align(
                 alignment: Alignment.centerRight,
-                child: Container(width: 1, color: Colors.white),
+                child: Container(width: 1, color: dotColor),
               ),
               // 프렛 배경 흰색 점
               if (_backgroundDotFrets.contains(fretNumber))
                 Transform.translate(
                   offset: const Offset(0, 7.5),
                   child: Center(
-                    child:
-                        fretNumber % 12 == 0
-                            ? // 12번 프렛일 때
-                            const Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                NoteDot(
-                                  noteData: NoteData(
-                                    text: ' ',
-                                    color: Colors.white,
-                                  ),
+                    child: fretNumber % 12 == 0
+                        ? // 12번 프렛일 때 (const 제거)
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              NoteDot(
+                                noteData: NoteData(
+                                  text: ' ',
+                                  color: dotColor,
                                 ),
-                                NoteDot(
-                                  noteData: NoteData(
-                                    text: ' ',
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            )
-                            : // 12번이 아닌 다른 프렛일 때
-                            const NoteDot(
-                              noteData: NoteData(
-                                text: ' ',
-                                color: Colors.white,
                               ),
+                              NoteDot(
+                                noteData: NoteData(
+                                  text: ' ',
+                                  color: dotColor,
+                                ),
+                              ),
+                            ],
+                          )
+                        : // 12번이 아닌 다른 프렛일 때 (const 제거)
+                        NoteDot(
+                            noteData: NoteData(
+                              text: ' ',
+                              color: dotColor,
                             ),
+                          ),
                   ),
                 ),
 
@@ -96,9 +99,9 @@ class Fret extends StatelessWidget {
                     child: Center(
                       child: Text(
                         '$fretNumber',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10,
-                          color: Colors.grey,
+                          color: numberColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -107,28 +110,27 @@ class Fret extends StatelessWidget {
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children:
-                          List.generate(notes.length, (index) {
-                            final note = notes[index];
+                      children: List.generate(notes.length, (index) {
+                        final note = notes[index];
 
-                            return Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                // 가로선
-                                Container(height: 1, color: Colors.grey[700]),
-                                // 노트 점 (줄의 중앙에 위치)
-                                if (note != null)
-                                  NoteDot(noteData: note)
-                                else
-                                  const NoteDot(
-                                    noteData: NoteData(
-                                      text: '',
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                              ],
-                            );
-                          }).reversed.toList(),
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // 가로선
+                            Container(height: 1, color: Colors.grey[700]),
+                            // 노트 점 (줄의 중앙에 위치)
+                            if (note != null)
+                              NoteDot(noteData: note)
+                            else
+                              const NoteDot(
+                                noteData: NoteData(
+                                  text: '',
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                          ],
+                        );
+                      }).reversed.toList(),
                     ),
                   ),
                 ],

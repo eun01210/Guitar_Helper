@@ -29,7 +29,9 @@ class NoteDot extends StatelessWidget {
         color: noteData.color,
         shape: BoxShape.circle,
         border: Border.all(
-          color: noteData.text != '' ? Colors.black : Colors.transparent,
+          color: (noteData.text != '' && noteData.text != ' ')
+              ? Colors.black
+              : Colors.transparent,
           width: 1.0,
         ),
       ),

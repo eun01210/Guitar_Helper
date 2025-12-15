@@ -3,6 +3,7 @@ import 'package:guitar_helper/pages/designs/setting_view.dart';
 import 'package:guitar_helper/pages/settings/privacy_policy.dart';
 import 'package:guitar_helper/pages/settings/terms_of_service.dart';
 import 'package:guitar_helper/pages/settings/contact_us.dart';
+import 'package:guitar_helper/main.dart'; // themeNotifier 접근을 위해 import
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -12,7 +13,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _isDarkMode = true; // 현재는 다크모드 UI만 있으므로 true로 고정
   final String _appVersion = "1.0.0";
 
   void _onBack() {
@@ -27,12 +27,11 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       MaterialPageRoute(
         // 페이지 위젯을 생성, onBack 콜백 제공
-        builder:
-            (context) => pageBuilder(
-              onBack: () {
-                Navigator.of(context).pop();
-              },
-            ),
+        builder: (context) => pageBuilder(
+          onBack: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
     );
   }
@@ -84,13 +83,17 @@ class _SettingsPageState extends State<SettingsPage> {
     _onNavigate(ContactUsView.new);
   }
 
-  void _onDarkModeChanged(bool value) {
-    // TODO: 다크 모드 상태 변경 로직 구현
-    _showComingSoonDialog();
+  void _onDarkModeChanged() {
+    themeNotifier.value = themeNotifier.value == ThemeMode.dark
+        ? ThemeMode.light
+        : ThemeMode.dark;
   }
 
   @override
   Widget build(BuildContext context) {
+    // 현재 앱의 테마 상태를 확인하여 스위치 값 결정
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return SettingsView(
       onBack: _onBack,
       onNotificationTap: _onNotificationTap,
@@ -99,7 +102,7 @@ class _SettingsPageState extends State<SettingsPage> {
       onTermsTap: _onTermsTap,
       onPrivacyPolicyTap: _onPrivacyPolicyTap,
       onContactTap: _onContactTap,
-      isDarkMode: _isDarkMode,
+      isDarkMode: isDarkMode,
       onDarkModeChanged: _onDarkModeChanged,
       appVersion: _appVersion,
     );

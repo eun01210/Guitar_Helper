@@ -26,10 +26,9 @@ class ChordFret extends StatelessWidget {
           // 범위 내의 프렛 생성
           ...List.generate(endFret - startFret, (index) {
             final fretNumber = startFret + index;
-            final fretData =
-                fretNumber < fretboardData.length
-                    ? fretboardData[fretNumber]
-                    : List.filled(6, null);
+            final fretData = fretNumber < fretboardData.length
+                ? fretboardData[fretNumber]
+                : List.filled(6, null);
 
             return Fret(
               fretNumber: fretNumber,
@@ -77,11 +76,13 @@ class FretNumberIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color lineColor = Theme.of(context).colorScheme.primaryContainer;
+
     return SizedBox(
       height: 150, // Fret 위젯 높이
       child: Row(
         children: [
-          Container(width: 1, color: Colors.white), // 왼쪽 세로선
+          Container(width: 1, color: lineColor), // 왼쪽 세로선
         ],
       ),
     );

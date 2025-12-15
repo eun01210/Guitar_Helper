@@ -42,14 +42,15 @@ class ChordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF13C8EC);
-    const Color backgroundDark = Color(0xFF101F22);
-    const Color cardBgColor = Color(0xFF171717);
-    const Color buttonBgColor = Color(0xFF27272A);
-    const Color buttonTextColor = Color(0xFFD4D4D8);
-    const Color textColor = Colors.white;
-    const Color subTextColor = Color(0xFFA1A1AA);
-    const Color inactiveToggleColor = Color(0xFF3F3F46);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color primaryColor = colorScheme.primary;
+    final Color backgroundColor = colorScheme.tertiary; // ChordView 배경
+    final Color cardBgColor = colorScheme.secondary; // 카드 배경
+    final Color buttonBgColor = colorScheme.secondaryContainer; // 버튼 배경
+    final Color buttonTextColor = colorScheme.outline; // 버튼 텍스트
+    final Color textColor = colorScheme.onSurface; // 기본 텍스트
+    final Color subTextColor = colorScheme.onSurfaceVariant; // 보조 텍스트
+    final Color toggleSelectedColor = colorScheme.outlineVariant; // 토글 선택 배경
 
     final List<String> rootNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     final List<String> accidentals = ['b', '♮', '#'];
@@ -68,14 +69,14 @@ class ChordView extends StatelessWidget {
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
 
     return Scaffold(
-      backgroundColor: backgroundDark,
+      backgroundColor: backgroundColor,
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(
         title: 'Chord',
         onBack: onBack,
         onSettings: onSettings,
         textColor: textColor,
-        backgroundColor: const Color(0xCC101F22),
+        backgroundColor: backgroundColor.withAlpha(204), // 0xCC = 204
       ),
       body: SafeArea(
         child: Padding(
@@ -140,6 +141,8 @@ class ChordView extends StatelessWidget {
                                         _buildSmallButton(
                                           Icons.chevron_left,
                                           onFormPrevious,
+                                          buttonBgColor,
+                                          buttonTextColor,
                                           scaleFactor,
                                         ),
                                         SizedBox(
@@ -157,6 +160,8 @@ class ChordView extends StatelessWidget {
                                         _buildSmallButton(
                                           Icons.chevron_right,
                                           onFormNext,
+                                          buttonBgColor,
+                                          buttonTextColor,
                                           scaleFactor,
                                         ),
                                       ],
@@ -187,12 +192,18 @@ class ChordView extends StatelessWidget {
                                         'Finger',
                                         isFingerMode,
                                         () => onFingerModeChanged(true),
+                                        toggleSelectedColor,
+                                        textColor,
+                                        subTextColor,
                                         scaleFactor,
                                       ),
                                       _buildToggleItem(
                                         'Degree',
                                         !isFingerMode,
                                         () => onFingerModeChanged(false),
+                                        toggleSelectedColor,
+                                        textColor,
+                                        subTextColor,
                                         scaleFactor,
                                       ),
                                     ],
@@ -257,7 +268,7 @@ class ChordView extends StatelessWidget {
                                             ),
                                             style: TextButton.styleFrom(
                                               backgroundColor: isSelected
-                                                  ? inactiveToggleColor
+                                                  ? toggleSelectedColor
                                                   : Colors.transparent,
                                               foregroundColor: isSelected
                                                   ? textColor
@@ -353,13 +364,15 @@ class ChordView extends StatelessWidget {
   Widget _buildSmallButton(
     IconData icon,
     VoidCallback onPressed,
+    Color bgColor,
+    Color iconColor,
     double scaleFactor,
   ) {
     return SizedBox(
       width: 40 * scaleFactor,
       height: 40 * scaleFactor,
       child: Material(
-        color: const Color(0xFF27272A),
+        color: bgColor,
         shape: const CircleBorder(),
         child: InkWell(
           onTap: onPressed,
@@ -367,8 +380,8 @@ class ChordView extends StatelessWidget {
           child: Icon(
             icon,
             size: 20 * scaleFactor,
-            color: const Color(0xFFD4D4D8),
-          ), // zinc-300
+            color: iconColor,
+          ),
         ),
       ),
     );
@@ -378,18 +391,16 @@ class ChordView extends StatelessWidget {
     String text,
     bool isSelected,
     VoidCallback onPressed,
+    Color activeColor,
+    Color textColor,
+    Color subTextColor,
     double scaleFactor,
   ) {
-    const Color textColor = Colors.white;
-    const Color subTextColor = Color(0xFFA1A1AA);
-    const Color inactiveToggleColor = Color(0xFF3F3F46);
-
     return Expanded(
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor:
-              isSelected ? inactiveToggleColor : Colors.transparent,
+          backgroundColor: isSelected ? activeColor : Colors.transparent,
           foregroundColor: isSelected ? textColor : subTextColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(99),

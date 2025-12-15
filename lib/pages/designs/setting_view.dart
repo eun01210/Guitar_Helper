@@ -9,9 +9,9 @@ class SettingsView extends StatelessWidget {
   final VoidCallback onTermsTap;
   final VoidCallback onPrivacyPolicyTap;
   final VoidCallback onContactTap;
+  final VoidCallback onDarkModeChanged;
 
   final bool isDarkMode;
-  final ValueChanged<bool> onDarkModeChanged;
   final String appVersion;
 
   const SettingsView({
@@ -93,15 +93,17 @@ class SettingsView extends StatelessWidget {
                 primaryColor: primaryColor,
                 textColor: textColor,
                 scaleFactor: scaleFactor,
-                trailing: _buildToggleSwitch(
-                  isActive: isDarkMode,
-                  onChanged: null,
-                  activeColor: primaryColor,
-                  inactiveColor: switchBgColor,
-                  scaleFactor: scaleFactor,
+                trailing: IgnorePointer(
+                  child: _buildToggleSwitch(
+                    isActive: isDarkMode,
+                    onChanged: (_) {}, // 빈 함수를 넣어 활성화된 디자인 유지
+                    activeColor: primaryColor,
+                    inactiveColor: switchBgColor,
+                    scaleFactor: scaleFactor,
+                  ),
                 ),
-                onTap: null,
-                enabled: false,
+                onTap: onDarkModeChanged,
+                enabled: true,
               ),
               _Divider(color: dividerColor, scaleFactor: scaleFactor),
               // 튜너 설정
@@ -262,10 +264,10 @@ class SettingsView extends StatelessWidget {
             trailing ??
                 (onTap != null && enabled
                     ? Icon(
-                      Icons.chevron_right,
-                      color: subTextColor,
-                      size: 24 * scaleFactor,
-                    )
+                        Icons.chevron_right,
+                        color: subTextColor,
+                        size: 24 * scaleFactor,
+                      )
                     : const SizedBox.shrink()),
           ],
         ),
@@ -286,7 +288,7 @@ class SettingsView extends StatelessWidget {
         value: isActive,
         onChanged: onChanged,
         activeThumbColor: Colors.white,
-        activeTrackColor: Colors.grey, // activeColor, 현재는 비활성화
+        activeTrackColor: activeColor,
         inactiveThumbColor: Colors.white,
         inactiveTrackColor: inactiveColor,
       ),
