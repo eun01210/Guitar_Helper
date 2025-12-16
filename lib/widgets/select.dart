@@ -1,46 +1,199 @@
 import 'package:flutter/material.dart';
 
+// 셀렉트 박스
 class ChordSelectBox extends StatelessWidget {
-  final String? selectedItem;
+  final String? value;
   final ValueChanged<String?> onChanged;
   final List<String> items;
+  final double scaleFactor;
 
   const ChordSelectBox({
     super.key,
-    required this.selectedItem,
+    required this.value,
     required this.onChanged,
     required this.items,
+    this.scaleFactor = 1.0,
   });
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color backgroundColor = colorScheme.secondary;
+    final Color textColor = colorScheme.onSurface;
+
+    return Material(
+      color: backgroundColor,
+      borderRadius: BorderRadius.circular(99),
+      clipBehavior: Clip.antiAlias,
+      child: SizedBox(
+        height: 40 * scaleFactor,
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: value,
+            isExpanded: true,
+            icon: Padding(
+              padding: EdgeInsets.only(right: 16 * scaleFactor),
+              child: Icon(
+                Icons.expand_more,
+                color: textColor,
+                size: 24 * scaleFactor,
+              ),
+            ),
+            style: TextStyle(
+              fontSize: 16 * scaleFactor,
+              color: textColor,
+              fontWeight: FontWeight.w500,
+            ),
+            dropdownColor: backgroundColor,
+            onChanged: onChanged,
+            selectedItemBuilder: (BuildContext context) {
+              return items.map((String item) {
+                return Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(left: 16 * scaleFactor),
+                  child: Text(
+                    item,
+                    style: TextStyle(
+                      fontSize: 16 * scaleFactor,
+                      color: textColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                );
+              }).toList();
+            },
+            items: items.map((item) {
+              return DropdownMenuItem<String>(
+                value: item,
+                child: Center(
+                  child: Text(
+                    item,
+                    style: TextStyle(
+                      fontSize: 16 * scaleFactor,
+                      color: textColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// 코드 선택 버튼
+class RootNoteSelector extends StatelessWidget {
+  final String value;
+  final ValueChanged<String> onChanged;
+  final double scaleFactor;
+
+  const RootNoteSelector({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    this.scaleFactor = 1.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color primaryColor = colorScheme.primary;
+    final Color buttonBgColor = colorScheme.secondary;
+    final Color buttonTextColor = colorScheme.outline;
+    final Color textColor = colorScheme.onSurface;
+
+    final List<String> rootNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+
+    return GridView.count(
+      crossAxisCount: 7,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      mainAxisSpacing: 8 * scaleFactor,
+      crossAxisSpacing: 8 * scaleFactor,
+      children: rootNotes.map((note) {
+        final isSelected = note == value;
+        return ElevatedButton(
+          onPressed: () => onChanged(note),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: isSelected ? primaryColor : buttonBgColor,
+            foregroundColor: isSelected ? textColor : buttonTextColor,
+            shape: const CircleBorder(),
+            padding: EdgeInsets.zero,
+          ),
+          child: Text(
+            note,
+            style: TextStyle(
+              fontSize: 18 * scaleFactor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+
+// # b 선택 버튼
+class AccidentalSelector extends StatelessWidget {
+  final String value;
+  final ValueChanged<String> onChanged;
+  final double scaleFactor;
+
+  const AccidentalSelector({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    this.scaleFactor = 1.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color buttonBgColor = colorScheme.secondary;
+    final Color textColor = colorScheme.onSurface;
+    final Color subTextColor = colorScheme.onSurfaceVariant;
+    final Color toggleSelectedColor = colorScheme.outlineVariant;
+
+    final List<String> accidentals = ['b', '♮', '#'];
 
     return Container(
-      height: 30,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      height: 40 * scaleFactor,
+      padding: EdgeInsets.all(4 * scaleFactor),
       decoration: BoxDecoration(
-        color: colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.transparent, width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(25), // 그림자 색상 (투명도 조절)
-            spreadRadius: 1, // 그림자가 번지는 정도
-            blurRadius: 5, // 그림자 흐림 정도
-            offset: const Offset(0, 3), // 그림자 위치 (x: 0, y: 3만큼 아래로)
-          ),
-        ],
+        color: buttonBgColor,
+        borderRadius: BorderRadius.circular(99),
       ),
-      child: DropdownButton<String>(
-        value: selectedItem, // 외부에서 전달받은 값 사용
-        dropdownColor: colorScheme.secondaryContainer,
-        items: items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(value: value, child: Text(value));
+      child: Row(
+        children: accidentals.map((acc) {
+          final isSelected = acc == value;
+          return Expanded(
+            child: TextButton(
+              onPressed: () => onChanged(acc),
+              style: TextButton.styleFrom(
+                backgroundColor:
+                    isSelected ? toggleSelectedColor : Colors.transparent,
+                foregroundColor: isSelected ? textColor : subTextColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(99),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 8 * scaleFactor),
+              ),
+              child: Transform.translate(
+                offset: acc == '♮' ? Offset(0, -5 * scaleFactor) : Offset.zero,
+                child: Text(
+                  acc,
+                  style: TextStyle(
+                    fontSize: 16 * scaleFactor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+          );
         }).toList(),
-        onChanged: onChanged, // 외부에서 전달받은 콜백 함수 사용
-        underline: Container(),
-        style: TextStyle(color: colorScheme.onSurface, fontSize: 16),
       ),
     );
   }

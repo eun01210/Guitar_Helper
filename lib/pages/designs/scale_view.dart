@@ -3,6 +3,7 @@ import 'package:guitar_helper/widgets/note.dart';
 import 'package:guitar_helper/widgets/fretbox.dart';
 import 'package:guitar_helper/widgets/appbar.dart';
 import 'package:guitar_helper/datas/scales.dart';
+import 'package:guitar_helper/widgets/select.dart';
 
 class ScaleView extends StatelessWidget {
   final String selectedRootNote;
@@ -36,22 +37,26 @@ class ScaleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color primaryColor = colorScheme.primary;
     final Color backgroundColor = colorScheme.tertiary;
     final Color cardBgColor = colorScheme.secondary;
     final Color buttonBgColor = colorScheme.secondaryContainer;
-    final Color buttonTextColor = colorScheme.outline;
     final Color textColor = colorScheme.onSurface;
     final Color subTextColor = colorScheme.onSurfaceVariant;
-    final Color toggleSelectedColor = colorScheme.outlineVariant;
 
-    final List<String> rootNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-    final List<String> accidentals = ['b', '♮', '#'];
     final List<String> scaleTypes = scales.keys.toList();
 
     // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    double scaleFactor = 1.0;
+    double maxWidth = 1000;
+    if (screenWidth * 2 > screenHeight) {
+      scaleFactor = (screenHeight / 800.0).clamp(0.5, 2.5);
+      maxWidth = screenHeight / 2 - 40;
+    } else {
+      scaleFactor = (screenWidth / 400.0).clamp(0.5, 2.5);
+      maxWidth = screenWidth - 40;
+    }
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -69,220 +74,107 @@ class ScaleView extends StatelessWidget {
           child: Center(
             child: LayoutBuilder(
               builder: (context, constraints) {
-                return FittedBox(
-                  fit: BoxFit.contain,
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 1000),
-                    child: SizedBox(
-                      width: constraints.maxWidth,
-                      child: Column(
-                        children: [
-                          // 프렛 박스 (스케일, 이름 표시 등)
-                          Container(
-                            padding: EdgeInsets.all(24 * scaleFactor),
-                            decoration: BoxDecoration(
-                              color: cardBgColor,
-                              borderRadius: BorderRadius.circular(
-                                12 * scaleFactor,
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // 기본 스케일 표시 (C, D, ...)
-                                        Text(
-                                          selectedRootNote +
-                                              ((selectedAccidental == '♮')
-                                                  ? ''
-                                                  : selectedAccidental),
-                                          style: TextStyle(
-                                            fontSize: 48 * scaleFactor,
-                                            fontWeight: FontWeight.bold,
-                                            color: textColor,
-                                          ),
-                                        ),
-                                        // 스케일 풀네임 표시 (C Major, ...)
-                                        Text(
-                                          fullScaleName,
-                                          style: TextStyle(
-                                            fontSize: 18 * scaleFactor,
-                                            color: subTextColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 4 * scaleFactor),
-                                // 스케일 폼 표시
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: GuitarFretBox(
-                                    fretboardData: fretboardData,
-                                  ),
-                                ),
-                                SizedBox(height: 8 * scaleFactor),
-                                // 전체 화면 보기 버튼
-                                _buildFullScreenButton(
-                                  onFullScreenTap,
-                                  buttonBgColor,
-                                  subTextColor,
-                                  scaleFactor,
-                                ),
-                              ],
+                return ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: maxWidth),
+                  child: SizedBox(
+                    width: constraints.maxWidth,
+                    child: Column(
+                      children: [
+                        // 프렛 박스 (스케일, 이름 표시 등)
+                        Container(
+                          padding: EdgeInsets.all(24 * scaleFactor),
+                          decoration: BoxDecoration(
+                            color: cardBgColor,
+                            borderRadius: BorderRadius.circular(
+                              12 * scaleFactor,
                             ),
                           ),
-                          SizedBox(height: 16 * scaleFactor),
-                          Column(
+                          child: Column(
                             children: [
-                              // 기본 코드 버튼 (C, D, E, ...)
-                              GridView.count(
-                                crossAxisCount: 7,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                mainAxisSpacing: 8 * scaleFactor,
-                                crossAxisSpacing: 8 * scaleFactor,
-                                children: rootNotes.map((note) {
-                                  final isSelected = note == selectedRootNote;
-                                  return ElevatedButton(
-                                    onPressed: () => onRootNoteSelected(note),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: isSelected
-                                          ? primaryColor
-                                          : buttonBgColor,
-                                      foregroundColor: isSelected
-                                          ? textColor
-                                          : buttonTextColor,
-                                      shape: const CircleBorder(),
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                    child: Text(
-                                      note,
-                                      style: TextStyle(
-                                        fontSize: 18 * scaleFactor,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                              SizedBox(height: 16 * scaleFactor),
-                              Column(
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // #, b, ♮ 버튼
-                                  Container(
-                                    padding: EdgeInsets.all(4 * scaleFactor),
-                                    decoration: BoxDecoration(
-                                      color: buttonBgColor,
-                                      borderRadius: BorderRadius.circular(99),
-                                    ),
-                                    child: Row(
-                                      children: accidentals.map((acc) {
-                                        final isSelected =
-                                            acc == selectedAccidental;
-                                        return Expanded(
-                                          child: TextButton(
-                                            onPressed: () =>
-                                                onAccidentalSelected(
-                                              acc,
-                                            ),
-                                            style: TextButton.styleFrom(
-                                              backgroundColor: isSelected
-                                                  ? toggleSelectedColor
-                                                  : Colors.transparent,
-                                              foregroundColor: isSelected
-                                                  ? textColor
-                                                  : subTextColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                  99,
-                                                ),
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 8 * scaleFactor,
-                                              ),
-                                            ),
-                                            child: Text(
-                                              acc,
-                                              style: TextStyle(
-                                                fontSize: 16 * scaleFactor,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                  SizedBox(height: 16 * scaleFactor),
-                                  // 스케일 타입 셀렉트 박스
-                                  Material(
-                                    color: buttonBgColor,
-                                    borderRadius: BorderRadius.circular(99),
-                                    clipBehavior: Clip.antiAlias,
-                                    child: Theme(
-                                      data: Theme.of(context).copyWith(
-                                        highlightColor: Colors.transparent,
-                                        splashColor: Colors.transparent,
-                                      ),
-                                      child: DropdownButtonHideUnderline(
-                                        child: ButtonTheme(
-                                          alignedDropdown: true,
-                                          child: DropdownButton<String>(
-                                            isExpanded: true,
-                                            value: selectedScaleType,
-                                            onChanged: onScaleTypeSelected,
-                                            itemHeight: (48 * scaleFactor < 48)
-                                                ? null
-                                                : 48 * scaleFactor,
-                                            icon: Padding(
-                                              padding: EdgeInsets.only(
-                                                right: 8.0 * scaleFactor,
-                                              ),
-                                              child: Icon(
-                                                Icons.expand_more,
-                                                color: textColor,
-                                              ),
-                                            ),
-                                            dropdownColor: buttonBgColor,
-                                            items: scaleTypes.map((type) {
-                                              return DropdownMenuItem<String>(
-                                                value: type,
-                                                child: Center(
-                                                  child: Text(
-                                                    type,
-                                                    style: TextStyle(
-                                                      color: textColor,
-                                                      fontSize:
-                                                          16 * scaleFactor,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            }).toList(),
-                                          ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // 기본 스케일 표시 (C, D, ...)
+                                      Text(
+                                        selectedRootNote +
+                                            ((selectedAccidental == '♮')
+                                                ? ''
+                                                : selectedAccidental),
+                                        style: TextStyle(
+                                          fontSize: 48 * scaleFactor,
+                                          fontWeight: FontWeight.bold,
+                                          color: textColor,
                                         ),
                                       ),
-                                    ),
+                                      // 스케일 풀네임 표시 (C Major, ...)
+                                      Text(
+                                        fullScaleName,
+                                        style: TextStyle(
+                                          fontSize: 18 * scaleFactor,
+                                          color: subTextColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(height: 16 * scaleFactor),
                                 ],
+                              ),
+                              SizedBox(height: 4 * scaleFactor),
+                              // 스케일 폼 표시
+                              AspectRatio(
+                                aspectRatio: 1,
+                                child: GuitarFretBox(
+                                  fretboardData: fretboardData,
+                                ),
+                              ),
+                              SizedBox(height: 16 * scaleFactor),
+                              // 전체 화면 보기 버튼
+                              _buildFullScreenButton(
+                                onFullScreenTap,
+                                buttonBgColor,
+                                subTextColor,
+                                scaleFactor,
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 16 * scaleFactor),
+                        Column(
+                          children: [
+                            // 기본 코드 버튼 (C, D, E, ...)
+                            RootNoteSelector(
+                              value: selectedRootNote,
+                              onChanged: onRootNoteSelected,
+                              scaleFactor: scaleFactor,
+                            ),
+                            SizedBox(height: 16 * scaleFactor),
+                            Column(
+                              children: [
+                                // #, b, ♮ 버튼
+                                AccidentalSelector(
+                                  value: selectedAccidental,
+                                  onChanged: onAccidentalSelected,
+                                  scaleFactor: scaleFactor,
+                                ),
+                                SizedBox(height: 16 * scaleFactor),
+                                // 스케일 타입 셀렉트 박스
+                                ChordSelectBox(
+                                  value: selectedScaleType,
+                                  onChanged: onScaleTypeSelected,
+                                  items: scaleTypes,
+                                  scaleFactor: scaleFactor,
+                                ),
+                                SizedBox(height: 16 * scaleFactor),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 );
