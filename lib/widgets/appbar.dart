@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// 화면 비율에 맞춰 크기가 조절되는 AppBar
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onBack;
@@ -17,9 +16,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 화면 너비를 기준으로 스케일 팩터 계산
+    // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
-    // 기준 너비(e.g., 360)를 기반으로 스케일 팩터 계산하고, 최소/최대 크기 제한
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
     final double dynamicHeight = kToolbarHeight * scaleFactor;
 
@@ -36,9 +34,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Leading 위젯 (뒤로가기 버튼 또는 빈 공간)
+            // 뒤로가기 버튼 or 빈 공간
             SizedBox(
-              width: 22 * scaleFactor, // AppBar의 기본 아이콘 영역 크기
+              width: 22 * scaleFactor,
               child: onBack != null
                   ? IconButton(
                       icon: Icon(
@@ -50,7 +48,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     )
                   : null,
             ),
-            // Title
+            // 타이틀 제목
             Text(
               title,
               style: TextStyle(
@@ -59,11 +57,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 fontSize: 22 * scaleFactor,
               ),
             ),
-            // Actions 위젯 (설정 버튼 또는 빈 공간)
+            // 설정 버튼 or 빈 공간
             Padding(
               padding: EdgeInsets.only(right: 10 * scaleFactor),
               child: SizedBox(
-                width: 22 * scaleFactor, // AppBar의 기본 아이콘 영역 크기
+                width: 22 * scaleFactor,
                 child: onSettings != null
                     ? IconButton(
                         icon: Icon(
@@ -82,6 +80,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
+  // 실제 높이를 넉넉하게 반환하도록 재정의 (scaleFactor를 곱해야 하나, 사용 x)
   @override
   Size get preferredSize {
     return Size.fromHeight(kToolbarHeight * 1.5);

@@ -9,13 +9,12 @@ class ContactUsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color backgroundDark = colorScheme.tertiary;
+    final Color backgroundColor = colorScheme.tertiary;
     final Color textColor = colorScheme.onSurface;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.0);
 
-    // 여기에 표시할 긴 텍스트를 입력합니다.
     const String contactUsText = '''
 Contact Us — Guitar Helper
 
@@ -45,7 +44,7 @@ We typically respond within a reasonable time frame, but delays may occur depend
 ''';
 
     return Scaffold(
-      backgroundColor: backgroundDark,
+      backgroundColor: backgroundColor,
       appBar: CustomAppBar(
         title: 'Contact Us',
         onBack: onBack,

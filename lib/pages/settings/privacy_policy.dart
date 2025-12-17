@@ -9,13 +9,12 @@ class PrivacyPolicyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color backgroundDark = colorScheme.tertiary;
+    final Color backgroundColor = colorScheme.tertiary;
     final Color textColor = colorScheme.onSurface;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.0);
 
-    // 여기에 표시할 긴 텍스트를 입력합니다.
     const String privacyPolicyText = '''
 Guitar Helper — Privacy Policy
 
@@ -57,7 +56,7 @@ The App does not collect any personal information from children.
 ''';
 
     return Scaffold(
-      backgroundColor: backgroundDark,
+      backgroundColor: backgroundColor,
       appBar: CustomAppBar(
         title: 'Privacy Policy',
         onBack: onBack,
@@ -69,7 +68,7 @@ The App does not collect any personal information from children.
           style: TextStyle(
             color: textColor,
             fontSize: 16 * scaleFactor,
-            height: 1.5, // 줄 간격을 넓혀 가독성을 높입니다.
+            height: 1.5,
           ),
         ),
       ),

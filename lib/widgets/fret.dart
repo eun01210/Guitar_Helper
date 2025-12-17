@@ -36,7 +36,7 @@ class Fret extends StatelessWidget {
     final Color dotColor = colorScheme.primaryContainer;
 
     return SizedBox(
-      // ChordPage(showBarreConnections: true)일 때 프렛 너비를 더 넓게 설정
+      // ChordPage(chord: true)일 때 프렛 너비를 더 넓게 설정
       width: chord
           // 코드 페이지 프렛 너비 조정 (기존: 36, 54 -> 수정: 34, 52)
           ? ((fretNumber == 0) ? 34 : 52 - fretNumber * 0.9)
@@ -61,7 +61,7 @@ class Fret extends StatelessWidget {
                   offset: const Offset(0, 7.5),
                   child: Center(
                     child: fretNumber % 12 == 0
-                        ? // 12번 프렛일 때 (const 제거)
+                        ? // 12의 배수 프렛일 때 점 2개
                         Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -79,7 +79,7 @@ class Fret extends StatelessWidget {
                               ),
                             ],
                           )
-                        : // 12번이 아닌 다른 프렛일 때 (const 제거)
+                        : // 12의 배수가 아닌 프렛일 때 점 1개
                         NoteDot(
                             noteData: NoteData(
                               text: ' ',
@@ -89,6 +89,7 @@ class Fret extends StatelessWidget {
                   ),
                 ),
 
+              // finger인 경우 바레 표시
               if (showBarreConnections) ..._buildBarreConnections(),
 
               // 프렛 번호와 점들을 표시
@@ -97,6 +98,7 @@ class Fret extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 1.0),
                     child: Center(
+                      // 프렛 번호
                       child: Text(
                         '$fretNumber',
                         style: TextStyle(

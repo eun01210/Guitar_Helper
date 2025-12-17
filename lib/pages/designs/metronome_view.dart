@@ -44,6 +44,7 @@ class MetronomeView extends StatelessWidget {
     final Color buttonFgColor = colorScheme.outline;
     final Color containerColor = colorScheme.secondaryContainer;
 
+    // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.0);
 
@@ -140,16 +141,17 @@ class MetronomeView extends StatelessWidget {
                               onChanged: onBpmChanged,
                             ),
                           ),
-                          // 박자 설정 리스트 & 탭 템포 버튼
                           SizedBox(height: 24 * scaleFactor),
                           Row(
                             children: [
+                              // 박자 설정 박스
                               Expanded(
                                 flex: 2,
                                 child: _buildTimeSignatureButton(context,
                                     scaleFactor, containerColor, textColor),
                               ),
                               SizedBox(width: 12 * scaleFactor),
+                              // 셋잇단 버튼
                               Expanded(
                                 flex: 1,
                                 child: _buildTripletButton(
@@ -163,8 +165,9 @@ class MetronomeView extends StatelessWidget {
                             ],
                           ),
                           SizedBox(height: 24 * scaleFactor),
-                          _buildTapTempoButton(scaleFactor, containerColor,
-                              colorScheme.surface, primaryColor),
+                          // 탭 템포 버튼
+                          _buildTapTempoButton(
+                              scaleFactor, containerColor, primaryColor),
                         ],
                       ),
                     ),
@@ -182,6 +185,7 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
+  // BPM 증감 버튼
   Widget _buildBpmButton(
     IconData icon,
     VoidCallback onPressed,
@@ -204,6 +208,7 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
+  // 박자 설정 박스
   Widget _buildTimeSignatureButton(BuildContext context, double scaleFactor,
       Color bgColor, Color textColor) {
     return Container(
@@ -248,6 +253,7 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
+  // 셋잇단 버튼
   Widget _buildTripletButton(
       double scaleFactor, Color bgColor, Color textColor) {
     return Container(
@@ -286,18 +292,15 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
+  // 탭 템포 버튼
   Widget _buildTapTempoButton(
-      double scaleFactor, Color startColor, Color endColor, Color iconColor) {
+      double scaleFactor, Color bgColor, Color iconColor) {
     return Container(
       width: 360 * scaleFactor,
       height: 60 * scaleFactor,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16 * scaleFactor),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [startColor, endColor],
-        ),
+        color: bgColor,
         boxShadow: [
           BoxShadow(
             color: const Color(0x33000000),
@@ -325,6 +328,7 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
+  // 재생 버튼
   Widget _buildPlayButton(double scaleFactor, Color primaryColor) {
     return Container(
       width: 96 * scaleFactor,

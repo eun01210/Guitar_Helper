@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:metronome/metronome.dart';
 import 'package:guitar_helper/pages/designs/metronome_view.dart';
 import 'package:guitar_helper/pages/setting.dart';
+// safari 자동 재생 정책 방지를 위한 함수
 import 'package:guitar_helper/util/audio_unlock_stub.dart'
     if (dart.library.html) 'package:guitar_helper/util/audio_unlock_web.dart';
 
@@ -15,10 +16,9 @@ class MetronomePage extends StatefulWidget {
 }
 
 class MetronomePageState extends State<MetronomePage> {
-  // 기존 상태 변수
   double _bpm = 120.0; // double -> 슬라이더와 호환
   bool _isPlaying = false; // 실행중 여부
-  // int _beatCount = 0; // 현재 박자
+  // int _beatCount = 0; // 현재 박자 (사용 X)
 
   int _tripletMultiplier = 1; // 셋잇단 변수 1 or 3
   int _beatsPerMeasure = 4; // 박자 체크
@@ -26,9 +26,10 @@ class MetronomePageState extends State<MetronomePage> {
   Timer? _tapTempoTimer; // 탭 템포 초기화 타이머
   final metronome = Metronome(); // 메트로놈 객체
 
-  // UI를 위한 상태 변수
-  late final List<String> _timeSignatures;
-  String get _currentTimeSignature => '$_beatsPerMeasure';
+  // 박자 종류를 담는 리스트
+  final List<String> _timeSignatures =
+      List.generate(12, (index) => (index + 1).toString());
+  String get _currentTimeSignature => '$_beatsPerMeasure'; // 현재 박자를 문자로 가져오는 함수
 
   @override
   void initState() {
@@ -37,13 +38,13 @@ class MetronomePageState extends State<MetronomePage> {
     metronome.init(
       'assets/beat.wav', // 보조 박자 사운드
       accentedPath: 'assets/accent.wav', // 주 박자 사운드
-      bpm: (_bpm * _tripletMultiplier).toInt(),
-      volume: 100,
-      timeSignature: (_tripletMultiplier == 3) ? 3 : _beatsPerMeasure,
-      enableTickCallback: true,
+      bpm: (_bpm * _tripletMultiplier).toInt(), // 메트로놈 bpm (기본은 120)
+      volume: 100, // 메트로놈 볼륨
+      timeSignature:
+          (_tripletMultiplier == 3) ? 3 : _beatsPerMeasure, // 메트로놈 박자
+      enableTickCallback: true, // 현재 박자를 받아올 수 있음
     );
-    _timeSignatures = List.generate(12, (index) => (index + 1).toString());
-    /*
+    /* 현재 박자를 사용하는 경우 주석 해제
     metronome.tickStream.listen((int tick) {
       if (mounted) {
         setState(() {
@@ -84,13 +85,13 @@ class MetronomePageState extends State<MetronomePage> {
     setState(() {
       _tripletMultiplier = _tripletMultiplier == 1 ? 3 : 1;
     });
-    // 메트로놈 즉시 반영
+    // 메트로놈에 즉시 반영
     metronome.setBPM((_bpm * _tripletMultiplier).toInt());
     metronome
         .setTimeSignature((_tripletMultiplier == 3) ? 3 : _beatsPerMeasure);
   }
 
-  // 박자 변경 함수
+  // 박자 변경 위젯
   void _showTimeSignaturePicker() {
     showModalBottomSheet(
       context: context,
@@ -148,7 +149,7 @@ class MetronomePageState extends State<MetronomePage> {
     });
   }
 
-  // 타이머 및 오디오 플레이어 사용 중지
+  // 메트로놈 및 탭 템포 타이머 사용 중지
   @override
   void dispose() {
     metronome.destroy();
@@ -170,15 +171,11 @@ class MetronomePageState extends State<MetronomePage> {
       onToggleTriplet: _toggleTriplet,
       onTapTempo: _handleTapTempo,
       onTimeSignatureChange: _showTimeSignaturePicker,
-      onSettingsTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SettingsPage()),
-        );
-      },
-      onBack: () {
-        Navigator.of(context).pop();
-      },
+      onSettingsTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SettingsPage()),
+      ),
+      onBack: () => Navigator.of(context).pop(),
     );
   }
 }

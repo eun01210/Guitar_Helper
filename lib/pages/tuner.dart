@@ -96,6 +96,7 @@ class _TunerPageState extends State<TunerPage> {
     );
   }
 
+  // 튜닝 상태 업데이트
   void _updateTuningStatus() {
     if (_pitch == 0.0) {
       _note = '';
@@ -111,6 +112,7 @@ class _TunerPageState extends State<TunerPage> {
     _cents = result.cents;
   }
 
+  // 스트림 구독, 음성 녹음 종료
   @override
   void dispose() {
     _recordSub?.cancel();
@@ -125,15 +127,11 @@ class _TunerPageState extends State<TunerPage> {
       status: _status,
       pitch: _pitch,
       cents: _cents,
-      onBack: () {
-        Navigator.of(context).pop();
-      },
-      onSettingsTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SettingsPage()),
-        );
-      },
+      onBack: () => Navigator.of(context).pop(),
+      onSettingsTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SettingsPage()),
+      ),
     );
   }
 }

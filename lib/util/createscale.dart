@@ -1,6 +1,7 @@
 import 'package:guitar_helper/widgets/note.dart'; // NoteData를 위해 추가
 import 'package:guitar_helper/datas/scales.dart';
 
+// 스케일에 해당하는 음인 경우 노트 표시
 NoteData? check(
   int data,
   List<int> scale,
@@ -15,6 +16,7 @@ NoteData? check(
   return null;
 }
 
+// 한 프렛을 만드는 함수
 List<NoteData?> makeFret(
   int fretNumber,
   List<int> scale,
@@ -28,12 +30,15 @@ List<NoteData?> makeFret(
   });
 }
 
+// 스케일에 맞는 음인지 확인 (음을 숫자로 변형, 12로 나눈 나머지 반환)
+// C->0, E->4 ..
 List<int> scaleCheck(List<int> scale, int chord) {
   return List.generate(scale.length, (index) {
     return (scale[index] + chord) % 12;
   });
 }
 
+// 전체 스케일 프렛을 만드는 함수
 List<List<NoteData?>> makeScaleFret(int chord, ScaleDefinition scale) {
   return List.generate(25, (index) {
     return makeFret(

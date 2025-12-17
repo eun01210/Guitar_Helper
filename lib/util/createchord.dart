@@ -1,6 +1,7 @@
-import 'package:guitar_helper/widgets/note.dart'; // NoteData를 위해 추가
+import 'package:guitar_helper/widgets/note.dart';
 import 'package:guitar_helper/datas/chords.dart';
 
+// 한 프렛을 만드는 함수 (6개의 노트)
 List<NoteData?> makeFret(int fretNumber, ChordDefinition chord, bool finger) {
   return List.generate(6, (index) {
     if (chord.fret[index] == fretNumber) {
@@ -14,11 +15,13 @@ List<NoteData?> makeFret(int fretNumber, ChordDefinition chord, bool finger) {
   });
 }
 
+// 코드 데이터를 가져오는 함수
 List<ChordDefinition> chordCheck(String? chord, int accident, String? ext) {
   String chordName = (chord ?? "") + accident.toString() + (ext ?? "");
   return chords[chordName] ?? [];
 }
 
+// 코드에 맞게 프렛을 만드는 함수 (특정 부분만 잘라서 사용됨)
 List<List<NoteData?>> makeChordFret(
   String? chord, // 코드, C->0, D->1 ... chordMap 참고
   int accident, // 올림 내림 여부, 0->x, 1->#, -1->b

@@ -33,7 +33,7 @@ class SettingsView extends StatelessWidget {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     final Color primaryColor = colorScheme.primary;
-    final Color backgroundDark = colorScheme.tertiary;
+    final Color backgroundColor = colorScheme.tertiary;
     final Color textColor = colorScheme.onSurface;
     final Color subTextColor = colorScheme.onSurfaceVariant;
     final Color subHeaderColor = colorScheme.onPrimaryContainer;
@@ -46,17 +46,18 @@ class SettingsView extends StatelessWidget {
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 1.5);
 
     return Scaffold(
-      backgroundColor: backgroundDark,
+      backgroundColor: backgroundColor,
       appBar: CustomAppBar(
         title: 'Settings',
         onBack: onBack,
+        backgroundColor: backgroundColor,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0 * scaleFactor),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 알림 설정
+            // 알림 설정 (현재 구현 X)
             _buildSectionHeader('Notifications', subHeaderColor, scaleFactor),
             _buildCard(cardBgColor, scaleFactor, [
               _buildSettingsItem(
@@ -74,7 +75,7 @@ class SettingsView extends StatelessWidget {
 
             _buildSectionHeader('General', subHeaderColor, scaleFactor),
             _buildCard(cardBgColor, scaleFactor, [
-              // 프로필 설정
+              // 프로필 설정 (현재 구현 X)
               _buildSettingsItem(
                 icon: Icons.person,
                 text: 'Profile Settings',
@@ -106,7 +107,7 @@ class SettingsView extends StatelessWidget {
                 enabled: true,
               ),
               _Divider(color: dividerColor, scaleFactor: scaleFactor),
-              // 튜너 설정
+              // 튜너 설정 (현재 구현 X)
               _buildSettingsItem(
                 icon: Icons.tune,
                 text: 'Tuner Preferences',
@@ -192,6 +193,7 @@ class SettingsView extends StatelessWidget {
     );
   }
 
+  // 섹션 헤더 (일반, 정보 등)
   Widget _buildSectionHeader(String title, Color color, double scaleFactor) {
     return Padding(
       padding: EdgeInsets.only(left: 16 * scaleFactor, bottom: 8 * scaleFactor),
@@ -206,6 +208,7 @@ class SettingsView extends StatelessWidget {
     );
   }
 
+  // 섹션 카드
   Widget _buildCard(Color bgColor, double scaleFactor, List<Widget> children) {
     return Container(
       decoration: BoxDecoration(
@@ -216,6 +219,7 @@ class SettingsView extends StatelessWidget {
     );
   }
 
+  // 섹션별 메뉴 버튼
   Widget _buildSettingsItem({
     required IconData icon,
     required String text,
@@ -275,6 +279,7 @@ class SettingsView extends StatelessWidget {
     );
   }
 
+  // 다크모드 토글
   Widget _buildToggleSwitch({
     required bool isActive,
     required ValueChanged<bool>? onChanged,
@@ -298,6 +303,7 @@ class SettingsView extends StatelessWidget {
   }
 }
 
+// 디바이더 (구분선)
 class _Divider extends StatelessWidget {
   final Color color;
   final double scaleFactor;

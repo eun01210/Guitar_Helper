@@ -15,17 +15,19 @@ class ScalePage extends StatefulWidget {
 }
 
 class _ScalePageState extends State<ScalePage> {
-  String _selectedRootNote = 'C';
-  String _selectedAccidental = '♮';
-  String _selectedScaleType = scales.keys.first;
-  List<List<NoteData?>> _fretboardData = [];
+  String _selectedRootNote = 'C'; // 선택 코드
+  String _selectedAccidental = '♮'; // 선택 변화표
+  String _selectedScaleType = scales.keys.first; // 선택 스케일
+  List<List<NoteData?>> _fretboardData = []; // 프렛 정보를 담을 리스트
 
+  // 프렛 초기 설정
   @override
   void initState() {
     super.initState();
     _updateFretboardData();
   }
 
+  // 프렛보드 데이터 계산
   void _updateFretboardData() {
     int accidentalOffset = 0;
     if (_selectedAccidental == '#') {

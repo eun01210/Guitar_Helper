@@ -15,27 +15,12 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final String _appVersion = "1.0.0";
 
-  void _onBack() {
-    Navigator.of(context).pop();
+  // 페이지 이동 내비게이션 함수
+  void _navigateTo(Widget page) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => page));
   }
 
-  // ((onBack 콜백을 받는 위젯)을 생성하는 함수)를 인자로 받음
-  void _onNavigate(
-    Widget Function({required VoidCallback onBack}) pageBuilder,
-  ) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        // 페이지 위젯을 생성, onBack 콜백 제공
-        builder: (context) => pageBuilder(
-          onBack: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-    );
-  }
-
+  // 준비 중인 기능 팝업
   void _showComingSoonDialog() {
     showDialog(
       context: context,
@@ -56,33 +41,43 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  // 알림 설정 페이지 구현 하기
   void _onNotificationTap() {
-    // TODO: 알림 설정 페이지 이동 로직 구현
     _showComingSoonDialog();
   }
 
+  // 프로필 설정 페이지 구현 하기
   void _onProfileTap() {
-    // TODO: 프로필 설정 페이지 이동 로직 구현
     _showComingSoonDialog();
   }
 
+  // 튜너 설정 페이지 구현 하기
   void _onTunerPreferencesTap() {
-    // TODO: 튜너 설정 페이지 이동 로직 구현
     _showComingSoonDialog();
   }
 
+  // TOS 페이지 이동
   void _onTermsTap() {
-    _onNavigate(TosView.new);
+    _navigateTo(TosView(
+      onBack: () => Navigator.of(context).pop(),
+    ));
   }
 
+  // PP 페이지 이동
   void _onPrivacyPolicyTap() {
-    _onNavigate(PrivacyPolicyView.new);
+    _navigateTo(PrivacyPolicyView(
+      onBack: () => Navigator.of(context).pop(),
+    ));
   }
 
+  // CU 페이지 이동
   void _onContactTap() {
-    _onNavigate(ContactUsView.new);
+    _navigateTo(ContactUsView(
+      onBack: () => Navigator.of(context).pop(),
+    ));
   }
 
+  // 다크모드 변경
   void _onDarkModeChanged() {
     themeNotifier.value = themeNotifier.value == ThemeMode.dark
         ? ThemeMode.light
@@ -91,11 +86,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // 현재 앱의 테마 상태를 확인하여 스위치 값 결정
+    // 현재 앱의 테마 상태를 확인하여 토글 값 결정
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return SettingsView(
-      onBack: _onBack,
+      onBack: () => Navigator.of(context).pop(),
       onNotificationTap: _onNotificationTap,
       onProfileTap: _onProfileTap,
       onTunerPreferencesTap: _onTunerPreferencesTap,

@@ -15,7 +15,7 @@ class ChordDefinition {
   final List<int> fret; // 해당 줄의 프렛 번호
   final List<String> degrees; // 해당 줄의 도
   final List<int> fingering; // 해당 줄의 손가락 번호
-  final List<int> colors; // 노드의 색
+  final List<int> colors; // 노트의 색
 
   const ChordDefinition({
     required this.fret,
@@ -25,6 +25,10 @@ class ChordDefinition {
   });
 }
 
+// 코드뷰에서 사용하는 셀렉트박스 내용
+final List<String> chordTypes = ['maj', 'm', '7', 'm7', 'M7', '7sus4', 'm7b5'];
+
+// 코드 데이터를 가져올 수 있는 맵
 final Map<String, List<ChordDefinition>> chords = {
   // 메이저
   'C-1maj': b0majs,

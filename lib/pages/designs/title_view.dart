@@ -19,11 +19,11 @@ class TitleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 테마에서 색상 가져오기
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
     final Color mainTextColor = colorScheme.onSurface;
     final Color secondaryTextColor = colorScheme.onSurfaceVariant;
+
     // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.5);
@@ -38,10 +38,11 @@ class TitleView extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            // 웹과 같은 넓은 화면에서 최대 너비 제한
+            // 넓은 화면에서 최대 너비 제한 (etc. 웹)
             constraints: const BoxConstraints(maxWidth: 1000),
             child: Column(
               children: [
+                // 메뉴 및 버튼 표시
                 Expanded(
                   child: _buildGrid(
                     context,
@@ -50,6 +51,7 @@ class TitleView extends StatelessWidget {
                     scaleFactor,
                   ),
                 ),
+                // 푸터 표시
                 _buildFooter(secondaryTextColor, scaleFactor, backgroundColor),
               ],
             ),
@@ -59,7 +61,7 @@ class TitleView extends StatelessWidget {
     );
   }
 
-  // 메뉴 -> 기능이 있는 버튼 표시
+  // 메뉴, 기능이 있는 버튼 표시
   Widget _buildGrid(
     BuildContext context,
     Color mainTextColor,
@@ -112,7 +114,7 @@ class TitleView extends StatelessWidget {
     );
   }
 
-  // 푸터 -> 저작권 표시
+  // 푸터, 저작권 표시
   Widget _buildFooter(
       Color secondaryTextColor, double scaleFactor, Color backgroundColor) {
     return Container(
@@ -150,8 +152,7 @@ class _MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 테마 색상 적용
-    final Color cardColor = Theme.of(context).colorScheme.surface;
+    final Color cardColor = Theme.of(context).colorScheme.secondary;
     final Color primaryColor = Theme.of(context).colorScheme.primary;
 
     return InkWell(

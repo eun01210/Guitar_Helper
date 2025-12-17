@@ -3,6 +3,7 @@ import 'package:guitar_helper/widgets/note.dart';
 import 'package:guitar_helper/widgets/appbar.dart';
 import 'package:guitar_helper/widgets/chordfret.dart';
 import 'package:guitar_helper/widgets/select.dart';
+import 'package:guitar_helper/datas/chords.dart';
 
 class ChordView extends StatelessWidget {
   final String selectedRootNote;
@@ -44,23 +45,13 @@ class ChordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color backgroundColor = colorScheme.tertiary; // ChordView 배경
-    final Color cardBgColor = colorScheme.secondary; // 카드 배경
-    final Color buttonBgColor = colorScheme.secondary; // 버튼 배경
-    final Color buttonTextColor = colorScheme.outline; // 버튼 텍스트
-    final Color textColor = colorScheme.onSurface; // 기본 텍스트
-    final Color subTextColor = colorScheme.onSurfaceVariant; // 보조 텍스트
-    final Color toggleSelectedColor = colorScheme.outlineVariant; // 토글 선택 배경
-
-    final List<String> chordTypes = [
-      'maj',
-      'm',
-      '7',
-      'm7',
-      'M7',
-      '7sus4',
-      'm7b5'
-    ];
+    final Color backgroundColor = colorScheme.tertiary;
+    final Color cardBgColor = colorScheme.secondary;
+    final Color buttonBgColor = colorScheme.secondary;
+    final Color buttonTextColor = colorScheme.outline;
+    final Color textColor = colorScheme.onSurface;
+    final Color subTextColor = colorScheme.onSurfaceVariant;
+    final Color toggleSelectedColor = colorScheme.outlineVariant;
 
     // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -258,6 +249,7 @@ class ChordView extends StatelessWidget {
     );
   }
 
+  // 코드폼 변경 버튼
   Widget _buildSmallButton(
     IconData icon,
     VoidCallback onPressed,
@@ -284,6 +276,7 @@ class ChordView extends StatelessWidget {
     );
   }
 
+  // 토글 버튼
   Widget _buildToggleItem(
     String text,
     bool isSelected,

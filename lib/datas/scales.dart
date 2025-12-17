@@ -1,8 +1,8 @@
 // 스케일의 구성 정보를 담는 클래스
 class ScaleDefinition {
-  final List<int> intervals;
-  final List<String> degrees;
-  final List<int> colors;
+  final List<int> intervals; // 줄 간격 (0->C, 2->D)
+  final List<String> degrees; // 도
+  final List<int> colors; // 색
 
   const ScaleDefinition({
     required this.intervals,

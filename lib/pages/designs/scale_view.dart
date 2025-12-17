@@ -43,6 +43,7 @@ class ScaleView extends StatelessWidget {
     final Color textColor = colorScheme.onSurface;
     final Color subTextColor = colorScheme.onSurfaceVariant;
 
+    // datas/scales에서 스케일 목록 받아오기
     final List<String> scaleTypes = scales.keys.toList();
 
     // 화면 너비에 따른 스케일 팩터 계산
@@ -184,6 +185,7 @@ class ScaleView extends StatelessWidget {
     );
   }
 
+  // 풀스크린 버튼
   Widget _buildFullScreenButton(
     VoidCallback onPressed,
     Color bgColor,

@@ -13,9 +13,9 @@ class ChordPage extends StatefulWidget {
 }
 
 class _ChordPageState extends State<ChordPage> {
-  String? _selChord = 'C'; // 코드 초기값
-  String _selExt = 'maj'; // 코드 초기값
-  int _form = 0; // 손가락 폼
+  String? _selChord = 'C'; // 선택 코드
+  String _selExt = 'maj'; // 선택 코드 타입
+  int _form = 0; // 손가락 폼 번호
   bool _isSharp = false; // # 온오프
   bool _isFlat = false; // b 온오프
   bool _isFinger = true; // 손가락(true) vs 도수(false)

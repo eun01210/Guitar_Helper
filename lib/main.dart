@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       builder: (context, currentMode, child) {
         return MaterialApp(
           title: 'Guitar Helper',
-          themeMode: currentMode, // 현재 테마 모드 적용 (Light/Dark)
+          themeMode: currentMode, // 현재 테마 적용 (light/dark)
           theme: lightColor(),
           darkTheme: darkColor(),
           home: TitleScreen(),

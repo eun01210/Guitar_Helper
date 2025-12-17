@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-// 셀렉트 박스
+// 셀렉트 박스 (코드 타입 / 스케일)
 class ChordSelectBox extends StatelessWidget {
-  final String? value;
-  final ValueChanged<String?> onChanged;
-  final List<String> items;
-  final double scaleFactor;
+  final String? value; // 현재 선택된 값
+  final ValueChanged<String?> onChanged; // 변화 함수
+  final List<String> items; // 선택할 수 있는 값들
+  final double scaleFactor; // 화면 크기에 따른 스케일 팩터
 
   const ChordSelectBox({
     super.key,
@@ -136,7 +136,7 @@ class RootNoteSelector extends StatelessWidget {
   }
 }
 
-// # b 선택 버튼
+// 변화표 선택 버튼
 class AccidentalSelector extends StatelessWidget {
   final String value;
   final ValueChanged<String> onChanged;
@@ -182,6 +182,7 @@ class AccidentalSelector extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 8 * scaleFactor),
               ),
               child: Transform.translate(
+                // 제자리표가 아래로 치우쳐지는 것을 방지하기 위해 보정
                 offset: acc == '♮' ? Offset(0, -5 * scaleFactor) : Offset.zero,
                 child: Text(
                   acc,

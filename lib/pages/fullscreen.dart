@@ -29,13 +29,13 @@ class _FullScreenFretboxPageState extends State<FullScreenFretboxPage> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color backgroundDark = colorScheme.tertiary;
+    final Color backgroundColor = colorScheme.tertiary;
 
     final fullScaleName =
         '${widget.selectedRootNote}${widget.selectedAccidental == '♮' ? '' : widget.selectedAccidental} ${widget.selectedScaleType}';
 
     return Scaffold(
-      backgroundColor: backgroundDark,
+      backgroundColor: backgroundColor,
       appBar: CustomAppBar(
         title: fullScaleName,
         onBack: widget.onBack,

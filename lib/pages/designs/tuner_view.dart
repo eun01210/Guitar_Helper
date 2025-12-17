@@ -28,9 +28,11 @@ class TunerView extends StatelessWidget {
     final Color meterBgColor = colorScheme.surfaceContainer;
     final Color inactiveNoteColor = colorScheme.surfaceContainer;
 
+    // 튜닝 상태 색상
     const yellow500 = Color(0xFFEAB308);
     const success = Color(0xFF34D399);
 
+    // 튜닝 상태 체크 변수
     final bool isTuning = note.isNotEmpty;
     final bool isInTune = status == 'In Tune';
     final Color statusColor = isInTune ? success : yellow500;
@@ -107,13 +109,15 @@ class TunerView extends StatelessWidget {
     );
   }
 
+  // 음정 표시
   Widget _buildNoteDisplay(
     bool isTuning,
     Color activeColor,
     Color inactiveColor,
     double scaleFactor,
   ) {
-    String mainNote = note.isNotEmpty ? note[0] : 'A';
+    // 감지된 노트가 없으면 C를 표시, accidental은 여백
+    String mainNote = note.isNotEmpty ? note[0] : 'C';
     String accidental = note.length > 1 ? note.substring(1) : '';
 
     return Stack(
@@ -125,6 +129,7 @@ class TunerView extends StatelessWidget {
           color: inactiveColor,
           scaleFactor: scaleFactor,
         ),
+        // 감지된 노트가 있으면 accidental 표시
         if (isTuning)
           _NoteText(
             mainNote: mainNote,
@@ -136,6 +141,7 @@ class TunerView extends StatelessWidget {
     );
   }
 
+  // 튜닝 정도 표시
   Widget _buildTuningMeter(
     bool isTuning,
     Color statusColor,
@@ -220,6 +226,7 @@ class TunerView extends StatelessWidget {
   }
 }
 
+// 음정 표시 텍스트
 class _NoteText extends StatelessWidget {
   final String mainNote;
   final String accidental;

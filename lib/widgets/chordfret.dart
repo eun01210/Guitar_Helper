@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guitar_helper/widgets/fret.dart';
 import 'package:guitar_helper/widgets/note.dart';
 
+// 코드 페이지에서 표시할 프렛 부분 추출
 class ChordFret extends StatelessWidget {
   final List<List<NoteData?>> fretboardData;
   final bool showBarreConnections;
@@ -23,7 +24,7 @@ class ChordFret extends StatelessWidget {
         children: [
           // 시작 프렛이 0이 아니면 왼쪽 세로선 표시
           if (startFret > 0) FretNumberIndicator(),
-          // 범위 내의 프렛 생성
+          // 범위 내의 프렛 생성, 데이터가 없는 경우 null로 채움
           ...List.generate(endFret - startFret, (index) {
             final fretNumber = startFret + index;
             final fretData = fretNumber < fretboardData.length
@@ -66,11 +67,12 @@ class ChordFret extends StatelessWidget {
       return (0, 4);
     }
 
-    // 표시 범위가 3보다 작은 경우 3칸, 그 외는 범위 표시
+    // 표시 범위가 3보다 작은 경우 3칸, 그 외는 범위 표시 (maxFret이 3인 경우 4로 리턴해야 3까지 표시됨)
     return (minFret, (maxFret - minFret < 3) ? minFret + 3 : maxFret + 1);
   }
 }
 
+// 세로선 위젯
 class FretNumberIndicator extends StatelessWidget {
   const FretNumberIndicator({super.key});
 
