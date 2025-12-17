@@ -46,7 +46,7 @@ class ChordView extends StatelessWidget {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final Color backgroundColor = colorScheme.tertiary; // ChordView 배경
     final Color cardBgColor = colorScheme.secondary; // 카드 배경
-    final Color buttonBgColor = colorScheme.secondaryContainer; // 버튼 배경
+    final Color buttonBgColor = colorScheme.secondary; // 버튼 배경
     final Color buttonTextColor = colorScheme.outline; // 버튼 텍스트
     final Color textColor = colorScheme.onSurface; // 기본 텍스트
     final Color subTextColor = colorScheme.onSurfaceVariant; // 보조 텍스트
@@ -82,8 +82,6 @@ class ChordView extends StatelessWidget {
         title: 'Chord',
         onBack: onBack,
         onSettings: onSettings,
-        textColor: textColor,
-        backgroundColor: backgroundColor.withAlpha(204),
       ),
       body: SafeArea(
         child: Padding(
@@ -304,7 +302,7 @@ class ChordView extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(99),
           ),
-          padding: EdgeInsets.symmetric(vertical: 8 * scaleFactor),
+          padding: EdgeInsets.symmetric(vertical: 4 * scaleFactor),
         ),
         child: Text(
           text,

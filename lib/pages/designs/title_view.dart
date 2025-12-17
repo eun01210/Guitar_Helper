@@ -33,8 +33,7 @@ class TitleView extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Guitar Helper',
         onSettings: onSettingsTap,
-        textColor: mainTextColor,
-        backgroundColor: Colors.transparent,
+        backgroundColor: backgroundColor,
       ),
       body: SafeArea(
         child: Center(
@@ -51,7 +50,7 @@ class TitleView extends StatelessWidget {
                     scaleFactor,
                   ),
                 ),
-                _buildFooter(secondaryTextColor, scaleFactor),
+                _buildFooter(secondaryTextColor, scaleFactor, backgroundColor),
               ],
             ),
           ),
@@ -114,8 +113,12 @@ class TitleView extends StatelessWidget {
   }
 
   // 푸터 -> 저작권 표시
-  Widget _buildFooter(Color secondaryTextColor, double scaleFactor) {
-    return Padding(
+  Widget _buildFooter(
+      Color secondaryTextColor, double scaleFactor, Color backgroundColor) {
+    return Container(
+      color: backgroundColor,
+      width: double.infinity,
+      alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 16.0 * scaleFactor),
       child: Text(
         '© 2025. Eun, Hwangbo. All Rights Reserved.',

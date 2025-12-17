@@ -28,8 +28,8 @@ class FullScreenFretboxPage extends StatefulWidget {
 class _FullScreenFretboxPageState extends State<FullScreenFretboxPage> {
   @override
   Widget build(BuildContext context) {
-    const Color backgroundDark = Color(0xFF101F22);
-    const Color textColor = Colors.white;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color backgroundDark = colorScheme.tertiary;
 
     final fullScaleName =
         '${widget.selectedRootNote}${widget.selectedAccidental == '♮' ? '' : widget.selectedAccidental} ${widget.selectedScaleType}';
@@ -40,8 +40,6 @@ class _FullScreenFretboxPageState extends State<FullScreenFretboxPage> {
         title: fullScaleName,
         onBack: widget.onBack,
         onSettings: widget.onSettings,
-        textColor: textColor,
-        backgroundColor: const Color(0xCC101F22),
       ),
       body: SafeArea(
         child: Row(

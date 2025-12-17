@@ -18,7 +18,7 @@ class ChordSelectBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color backgroundColor = colorScheme.secondary;
+    final Color backgroundColor = colorScheme.secondaryContainer;
     final Color textColor = colorScheme.onSurface;
 
     return Material(
@@ -101,7 +101,7 @@ class RootNoteSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final Color primaryColor = colorScheme.primary;
-    final Color buttonBgColor = colorScheme.secondary;
+    final Color buttonBgColor = colorScheme.secondaryContainer;
     final Color buttonTextColor = colorScheme.outline;
     final Color textColor = colorScheme.onSurface;
 
@@ -152,7 +152,7 @@ class AccidentalSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color buttonBgColor = colorScheme.secondary;
+    final Color buttonBgColor = colorScheme.secondaryContainer;
     final Color textColor = colorScheme.onSurface;
     final Color subTextColor = colorScheme.onSurfaceVariant;
     final Color toggleSelectedColor = colorScheme.outlineVariant;

@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:guitar_helper/widgets/appbar.dart';
 
 class MetronomeView extends StatelessWidget {
-  static const Color primaryColor = Color(0xFF13C8EC);
-  static const Color backgroundLight = Color(0xFFF6F8F8);
-  static const Color backgroundDark = Color(0xFF101F22);
-
   final double bpm;
   final bool isPlaying;
   final bool isTripletActive;
@@ -39,11 +35,14 @@ class MetronomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const bgColor = backgroundDark;
-    const textColor = Colors.white;
-    const subTextColor = Color(0xFF9CA3AF);
-    const buttonBgColor = Color(0x80374151);
-    const buttonFgColor = Color(0xFFD1D5DB);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color primaryColor = colorScheme.primary;
+    final Color bgColor = colorScheme.tertiary;
+    final Color textColor = colorScheme.onSurface;
+    final Color subTextColor = colorScheme.onSurfaceVariant;
+    final Color buttonBgColor = colorScheme.surfaceContainer;
+    final Color buttonFgColor = colorScheme.outline;
+    final Color containerColor = colorScheme.secondaryContainer;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.0);
@@ -54,8 +53,6 @@ class MetronomeView extends StatelessWidget {
         title: 'Metronome',
         onBack: onBack,
         onSettings: onSettingsTap,
-        textColor: textColor,
-        backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
         child: Padding(
@@ -126,7 +123,7 @@ class MetronomeView extends StatelessWidget {
                               trackHeight: 8.0 * scaleFactor,
                               trackShape: const RoundedRectSliderTrackShape(),
                               activeTrackColor: primaryColor,
-                              inactiveTrackColor: const Color(0xFF4B5563),
+                              inactiveTrackColor: colorScheme.outlineVariant,
                               thumbShape: RoundSliderThumbShape(
                                 enabledThumbRadius: 12.0 * scaleFactor,
                               ),
@@ -149,8 +146,8 @@ class MetronomeView extends StatelessWidget {
                             children: [
                               Expanded(
                                 flex: 2,
-                                child: _buildTimeSignatureButton(
-                                    context, scaleFactor),
+                                child: _buildTimeSignatureButton(context,
+                                    scaleFactor, containerColor, textColor),
                               ),
                               SizedBox(width: 12 * scaleFactor),
                               Expanded(
@@ -159,20 +156,21 @@ class MetronomeView extends StatelessWidget {
                                   scaleFactor,
                                   isTripletActive
                                       ? primaryColor
-                                      : const Color(0xFF27272A),
-                                  Colors.white,
+                                      : containerColor,
+                                  isTripletActive ? Colors.white : textColor,
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(height: 24 * scaleFactor),
-                          _buildTapTempoButton(scaleFactor),
+                          _buildTapTempoButton(scaleFactor, containerColor,
+                              colorScheme.surface, primaryColor),
                         ],
                       ),
                     ),
                     // 재생 버튼
                     SizedBox(height: 24 * scaleFactor),
-                    _buildPlayButton(scaleFactor),
+                    _buildPlayButton(scaleFactor, primaryColor),
                     SizedBox(height: 8 * scaleFactor),
                   ],
                 ),
@@ -206,30 +204,44 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeSignatureButton(BuildContext context, double scaleFactor) {
-    return Material(
-      color: const Color(0xFF27272A),
-      borderRadius: BorderRadius.circular(12 * scaleFactor),
-      child: InkWell(
-        onTap: onTimeSignatureChange,
-        child: Container(
-          width: 360 * scaleFactor,
-          padding: EdgeInsets.symmetric(
-            horizontal: 24 * scaleFactor,
-            vertical: 16 * scaleFactor,
+  Widget _buildTimeSignatureButton(BuildContext context, double scaleFactor,
+      Color bgColor, Color textColor) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12 * scaleFactor),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x33000000),
+            blurRadius: 8 * scaleFactor,
+            offset: Offset(0, 4 * scaleFactor),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                timeSignature,
-                style: TextStyle(
-                  fontSize: 18 * scaleFactor,
-                  color: Colors.white,
+        ],
+      ),
+      child: Material(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(12 * scaleFactor),
+        child: InkWell(
+          onTap: onTimeSignatureChange,
+          borderRadius: BorderRadius.circular(12 * scaleFactor),
+          child: Container(
+            width: 360 * scaleFactor,
+            padding: EdgeInsets.symmetric(
+              horizontal: 24 * scaleFactor,
+              vertical: 16 * scaleFactor,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  timeSignature,
+                  style: TextStyle(
+                    fontSize: 18 * scaleFactor,
+                    color: textColor,
+                  ),
                 ),
-              ),
-              Icon(Icons.expand_more, color: Colors.white),
-            ],
+                Icon(Icons.expand_more, color: textColor),
+              ],
+            ),
           ),
         ),
       ),
@@ -238,23 +250,35 @@ class MetronomeView extends StatelessWidget {
 
   Widget _buildTripletButton(
       double scaleFactor, Color bgColor, Color textColor) {
-    return Material(
-      color: bgColor,
-      borderRadius: BorderRadius.circular(12 * scaleFactor),
-      child: InkWell(
-        onTap: onToggleTriplet,
+    return Container(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12 * scaleFactor),
-        child: Container(
-          height: 54 * scaleFactor,
-          padding: EdgeInsets.symmetric(
-            horizontal: 24 * scaleFactor,
-            vertical: 16 * scaleFactor,
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x33000000),
+            blurRadius: 8 * scaleFactor,
+            offset: Offset(0, 4 * scaleFactor),
           ),
-          child: Center(
-            child: Image.asset(
-              'assets/triplet.png',
-              height: 36 * scaleFactor,
-              color: textColor,
+        ],
+      ),
+      child: Material(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(12 * scaleFactor),
+        child: InkWell(
+          onTap: onToggleTriplet,
+          borderRadius: BorderRadius.circular(12 * scaleFactor),
+          child: Container(
+            height: 54 * scaleFactor,
+            padding: EdgeInsets.symmetric(
+              horizontal: 24 * scaleFactor,
+              vertical: 16 * scaleFactor,
+            ),
+            child: Center(
+              child: Image.asset(
+                'assets/triplet.png',
+                height: 36 * scaleFactor,
+                color: textColor,
+              ),
             ),
           ),
         ),
@@ -262,41 +286,46 @@ class MetronomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildTapTempoButton(double scaleFactor) {
-    return GestureDetector(
-      onTap: onTapTempo,
-      child: Container(
-        width: 360 * scaleFactor,
-        height: 60 * scaleFactor,
-        decoration: BoxDecoration(
+  Widget _buildTapTempoButton(
+      double scaleFactor, Color startColor, Color endColor, Color iconColor) {
+    return Container(
+      width: 360 * scaleFactor,
+      height: 60 * scaleFactor,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16 * scaleFactor),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [startColor, endColor],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x33000000),
+            blurRadius: 8 * scaleFactor,
+            offset: Offset(0, 4 * scaleFactor),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTapTempo,
           borderRadius: BorderRadius.circular(16 * scaleFactor),
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF27272A), Color(0xFF18181B)],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0x33000000),
-              blurRadius: 8 * scaleFactor,
-              offset: Offset(0, 4 * scaleFactor),
+          child: Center(
+            child: Icon(
+              Icons.touch_app,
+              color: iconColor,
+              size: 36 * scaleFactor,
+              weight: 500,
+              fill: 1,
             ),
-          ],
-        ),
-        child: Center(
-          child: Icon(
-            Icons.touch_app,
-            color: primaryColor,
-            size: 36 * scaleFactor,
-            weight: 500,
-            fill: 1,
           ),
         ),
       ),
     );
   }
 
-  Widget _buildPlayButton(double scaleFactor) {
+  Widget _buildPlayButton(double scaleFactor, Color primaryColor) {
     return Container(
       width: 96 * scaleFactor,
       height: 96 * scaleFactor,
@@ -305,7 +334,7 @@ class MetronomeView extends StatelessWidget {
         color: primaryColor,
         boxShadow: [
           BoxShadow(
-            color: const Color(0x4D13C8EC),
+            color: primaryColor.withAlpha(77),
             blurRadius: 16 * scaleFactor,
             spreadRadius: 4 * scaleFactor,
           ),
@@ -316,6 +345,9 @@ class MetronomeView extends StatelessWidget {
         child: InkWell(
           onTap: onTogglePlay,
           customBorder: const CircleBorder(),
+          splashColor: Colors.black.withAlpha(30),
+          highlightColor: Colors.black.withAlpha(20),
+          hoverColor: Colors.black.withAlpha(10),
           child: Icon(
             isPlaying ? Icons.pause : Icons.play_arrow,
             color: Colors.white,

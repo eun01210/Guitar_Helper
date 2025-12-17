@@ -39,7 +39,7 @@ class ScaleView extends StatelessWidget {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final Color backgroundColor = colorScheme.tertiary;
     final Color cardBgColor = colorScheme.secondary;
-    final Color buttonBgColor = colorScheme.secondaryContainer;
+    final Color buttonBgColor = colorScheme.secondary;
     final Color textColor = colorScheme.onSurface;
     final Color subTextColor = colorScheme.onSurfaceVariant;
 
@@ -65,8 +65,6 @@ class ScaleView extends StatelessWidget {
         title: 'Scale',
         onBack: onBack,
         onSettings: onSettings,
-        textColor: textColor,
-        backgroundColor: backgroundColor.withAlpha(204),
       ),
       body: SafeArea(
         child: Padding(

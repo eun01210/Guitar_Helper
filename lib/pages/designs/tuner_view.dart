@@ -22,12 +22,12 @@ class TunerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundDark = Color(0xFF101F22);
-    const textWhite = Colors.white;
-    const textZinc400 = Color(0xFFA1A1AA);
-    const textZinc500 = Color(0xFF71717A);
-    const textZinc600 = Color(0xFF52525B);
-    const bgZinc800 = Color(0xFF27272A);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color backgroundColor = colorScheme.tertiary;
+    final Color subTextColor = colorScheme.onSurfaceVariant;
+    final Color meterBgColor = colorScheme.surfaceContainer;
+    final Color inactiveNoteColor = colorScheme.surfaceContainer;
+
     const yellow500 = Color(0xFFEAB308);
     const success = Color(0xFF34D399);
 
@@ -40,13 +40,11 @@ class TunerView extends StatelessWidget {
     final double scaleFactor = (screenWidth / 360.0).clamp(0.8, 2.0);
 
     return Scaffold(
-      backgroundColor: backgroundDark,
+      backgroundColor: backgroundColor,
       appBar: CustomAppBar(
         title: 'Tuner',
         onBack: onBack,
         onSettings: onSettingsTap,
-        textColor: textWhite,
-        backgroundColor: Colors.transparent,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -63,7 +61,7 @@ class TunerView extends StatelessWidget {
                 Text(
                   isTuning ? '${pitch.toStringAsFixed(1)} Hz' : ' ',
                   style: TextStyle(
-                    color: textZinc400,
+                    color: subTextColor,
                     fontSize: 14 * scaleFactor,
                     fontWeight: FontWeight.w500,
                   ),
@@ -73,7 +71,7 @@ class TunerView extends StatelessWidget {
                 _buildNoteDisplay(
                   isTuning,
                   statusColor,
-                  textZinc600,
+                  inactiveNoteColor,
                   scaleFactor,
                 ),
                 SizedBox(height: 16 * scaleFactor),
@@ -84,7 +82,7 @@ class TunerView extends StatelessWidget {
                     child: Text(
                       isTuning ? status : 'Please make a sound',
                       style: TextStyle(
-                        color: isTuning ? statusColor : textZinc400,
+                        color: isTuning ? statusColor : subTextColor,
                         fontSize: 20 * scaleFactor,
                         fontWeight: FontWeight.w600,
                       ),
@@ -99,8 +97,8 @@ class TunerView extends StatelessWidget {
               isTuning,
               statusColor,
               success,
-              bgZinc800,
-              textZinc500,
+              meterBgColor,
+              subTextColor,
               scaleFactor,
             ),
           ],
@@ -168,6 +166,7 @@ class TunerView extends StatelessWidget {
                     ),
                   ),
                   Positioned(
+                    left: (constraints.maxWidth / 2) - (4 * scaleFactor),
                     child: Container(
                       width: 4 * scaleFactor,
                       height: 16 * scaleFactor,
@@ -179,7 +178,8 @@ class TunerView extends StatelessWidget {
                   ),
                   if (isTuning)
                     Positioned(
-                      left: indicatorPosition * constraints.maxWidth,
+                      left: indicatorPosition * constraints.maxWidth -
+                          (2 * scaleFactor),
                       child: Container(
                         width: 4 * scaleFactor,
                         height: 32 * scaleFactor,

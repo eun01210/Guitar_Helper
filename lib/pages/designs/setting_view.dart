@@ -30,14 +30,16 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF13C8EC);
-    const Color backgroundDark = Color(0xFF101F22);
-    const Color textColor = Color(0xFFE5E7EB);
-    const Color subTextColor = Color(0xFF9CA3AF);
-    const Color subHeaderColor = Color(0xFF6B7280);
-    const Color cardBgColor = Color(0x331F2937);
-    const Color dividerColor = Color(0x80374151);
-    const Color switchBgColor = Color(0xFF374151);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    final Color primaryColor = colorScheme.primary;
+    final Color backgroundDark = colorScheme.tertiary;
+    final Color textColor = colorScheme.onSurface;
+    final Color subTextColor = colorScheme.onSurfaceVariant;
+    final Color subHeaderColor = colorScheme.onPrimaryContainer;
+    final Color cardBgColor = colorScheme.onPrimary;
+    final Color dividerColor = colorScheme.surfaceContainer;
+    final Color switchBgColor = colorScheme.outlineVariant;
 
     // 화면 너비에 따른 스케일 팩터 계산
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -48,8 +50,6 @@ class SettingsView extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Settings',
         onBack: onBack,
-        textColor: textColor,
-        backgroundColor: const Color(0xCC101F22),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0 * scaleFactor),
@@ -291,6 +291,8 @@ class SettingsView extends StatelessWidget {
         activeTrackColor: activeColor,
         inactiveThumbColor: Colors.white,
         inactiveTrackColor: inactiveColor,
+        trackOutlineColor: WidgetStatePropertyAll(Colors.transparent),
+        trackOutlineWidth: WidgetStatePropertyAll(0),
       ),
     );
   }
