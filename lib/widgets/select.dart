@@ -181,7 +181,7 @@ class AccidentalSelector extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(99),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 8 * scaleFactor),
+                padding: EdgeInsets.symmetric(vertical: 6 * scaleFactor),
               ),
               child: Transform.translate(
                 // 제자리표가 아래로 치우쳐지는 것을 방지하기 위해 보정
