@@ -40,7 +40,7 @@ class MetronomeView extends StatelessWidget {
     final Color bgColor = colorScheme.tertiary;
     final Color textColor = colorScheme.onSurface;
     final Color subTextColor = colorScheme.onSurfaceVariant;
-    final Color buttonBgColor = colorScheme.surfaceContainer;
+    final Color buttonBgColor = colorScheme.outlineVariant;
     final Color buttonFgColor = colorScheme.outline;
     final Color containerColor = colorScheme.secondaryContainer;
 

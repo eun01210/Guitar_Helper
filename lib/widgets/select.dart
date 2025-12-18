@@ -29,6 +29,8 @@ class ChordSelectBox extends StatelessWidget {
         height: 40 * scaleFactor,
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
+            focusColor: Colors.transparent,
+            autofocus: false,
             value: value,
             isExpanded: true,
             icon: Padding(

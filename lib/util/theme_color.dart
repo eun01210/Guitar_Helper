@@ -14,11 +14,11 @@ ThemeData darkColor() {
       secondary: Color(0xFF171717), // 코드/스케일 카드, 버튼 컬러
       secondaryContainer: Color(0xFF27272A), // 메트로놈 버튼, 셀렉트 박스 컬러
       onSurface: Color(0xFFE5E5E5), // 기본 텍스트 컬러
-      surfaceContainer: Color(0x80374151), // 세팅 구분선, 튜너/메트로놈 버튼 컬러
+      surfaceContainer: Color(0x80374151), // 세팅 구분선, 튜너 미터기 컬러
       onSurfaceVariant: Color(0xFFA8A29E), // 서브 텍스트 컬러
       tertiary: Color(0xFF101F22), // 기본 배경 컬러
       outline: Color(0xFFD4D4D8), // 버튼 텍스트 컬러
-      outlineVariant: Color(0xFF3F3F46), // 손/도 토글 배경 컬러
+      outlineVariant: Color(0xFF3F3F46), // 손/도 토글 배경, 메트로놈 버튼 컬러
     ),
   );
 }
